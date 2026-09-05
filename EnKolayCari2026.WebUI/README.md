@@ -27,3 +27,9 @@ Web.Common, Language.
 
 ## Ilgili Dokumanlar
 - AIProjeMimari docs/volumes/02-KATMAN-ISIMLERI-VE-PROJE-HARITASI.md
+
+## Styling (Tailwind CSS)
+- Bootstrap kaldirildi. Stil Tailwind CSS ile yazilir.
+- Kaynak: `Styles/app.css`. Uretilen dosya: `wwwroot/css/site.css` (elle duzenlenmez).
+- `.cshtml` degistirdikten sonra: `npm run build:css`
+- Gelistirme sirasinda: `npm run watch:css`
