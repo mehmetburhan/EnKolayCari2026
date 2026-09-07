@@ -37,26 +37,42 @@
 
             <div class="my-1.5 border-t border-[var(--nexora-border)]"></div>
 
-            <div class="px-2.5 py-1.5">
-                <p class="mb-1.5 text-[10px] font-semibold uppercase tracking-wider text-slate-400">Dil</p>
-                <div class="space-y-0.5">
-                    @foreach (var option in _languages)
-                    {
-                        var isSelected = Session.Language == option.Value;
-                        <button type="button"
-                                class="flex w-full items-center justify-between rounded-lg px-2.5 py-2 text-sm hover:bg-slate-100 @(isSelected ? "font-semibold text-[var(--nexora-blue)]" : "text-slate-700")"
-                                @onclick="() => SelectLanguage(option.Value)">
-                            <span class="flex items-center gap-2">
-                                <span class="text-base leading-none">@option.Flag</span>
-                                @option.Label
-                            </span>
-                            @if (isSelected)
-                            {
-                                <svg class="h-4 w-4 text-[var(--nexora-blue)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">@((MarkupString)MenuIcons.Check)</svg>
-                            }
-                        </button>
-                    }
-                </div>
+            <div class="px-1 py-1">
+                <button type="button"
+                        class="flex w-full items-center justify-between rounded-xl px-1.5 py-2 text-sm hover:bg-slate-50"
+                        @onclick="ToggleLanguageList">
+                    <span class="flex items-center gap-2.5 text-slate-700">
+                        <svg class="h-4.5 w-4.5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">@((MarkupString)MenuIcons.Globe)</svg>
+                        <span class="font-medium">Dil</span>
+                    </span>
+                    <span class="flex items-center gap-1.5 rounded-full border border-[var(--nexora-border)] bg-white py-1 pl-1 pr-2">
+                        <span class="grid h-5 w-5 place-items-center overflow-hidden rounded-full bg-slate-100 text-[13px] leading-none ring-1 ring-black/5">@CurrentLanguage.Flag</span>
+                        <span class="text-xs font-semibold text-slate-700">@CurrentLanguage.Label</span>
+                        <svg class="h-3 w-3 shrink-0 text-slate-400 transition-transform @(_languageListOpen ? "rotate-180" : "")" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">@((MarkupString)MenuIcons.ChevronDown)</svg>
+                    </span>
+                </button>
+
+                @if (_languageListOpen)
+                {
+                    <div class="mt-1 space-y-0.5 rounded-xl bg-slate-50 p-1.5">
+                        @foreach (var option in _languages)
+                        {
+                            var isSelected = Session.Language == option.Value;
+                            <button type="button"
+                                    class="flex w-full items-center gap-2.5 rounded-lg px-2 py-2 text-sm transition-colors @(isSelected ? "bg-white font-semibold text-slate-900 shadow-sm" : "text-slate-600 hover:bg-white/70")"
+                                    @onclick="() => SelectLanguage(option.Value)">
+                                <span class="grid h-7 w-7 shrink-0 place-items-center overflow-hidden rounded-full bg-white text-base leading-none ring-1 ring-black/5">@option.Flag</span>
+                                <span class="flex-1 text-left">@option.Label</span>
+                                @if (isSelected)
+                                {
+                                    <span class="grid h-5 w-5 shrink-0 place-items-center rounded-full bg-emerald-500 text-white">
+                                        <svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">@((MarkupString)MenuIcons.Check)</svg>
+                                    </span>
+                                }
+                            </button>
+                        }
+                    </div>
+                }
             </div>
 
             <div class="my-1.5 border-t border-[var(--nexora-border)]"></div>
@@ -71,6 +87,7 @@
 
 @code {
     private bool _open;
+    private bool _languageListOpen;
 
     private readonly (AppLanguage Value, string Label, string Flag)[] _languages =
     [
@@ -79,6 +96,9 @@
         (AppLanguage.German, "Deutsch", "🇩🇪"),
         (AppLanguage.Russian, "Русский", "🇷🇺"),
     ];
+
+    private (AppLanguage Value, string Label, string Flag) CurrentLanguage =>
+        _languages.First(option => option.Value == Session.Language);
 
     private string Initials => string.Concat(
         Session.UserName
@@ -94,12 +114,18 @@
 
     private void Toggle() => _open = !_open;
 
-    private void Close() => _open = false;
+    private void Close()
+    {
+        _open = false;
+        _languageListOpen = false;
+    }
+
+    private void ToggleLanguageList() => _languageListOpen = !_languageListOpen;
 
     private void SelectLanguage(AppLanguage language)
     {
         Session.SetLanguage(language);
-        _open = false;
+        Close();
     }
 
     public void Dispose()
