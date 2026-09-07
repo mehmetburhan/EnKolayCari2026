@@ -16,14 +16,7 @@
     </div>
 
     <div class="mt-4">
-        <LumexDataGrid Data="@_invoices.AsQueryable()" Hoverable Striped>
-            <PropertyColumn Property="@(x => x.InvoiceNo)" Title="Fatura No" />
-            <PropertyColumn Property="@(x => x.Supplier)" Title="Tedarikçi" />
-            <PropertyColumn Property="@(x => x.Date)" Title="Tarih" />
-            <PropertyColumn Property="@(x => x.DueDate)" Title="Vade" />
-            <PropertyColumn Property="@(x => x.AmountLabel)" Title="Tutar" Align="Align.End" />
-            <PropertyColumn Property="@(x => x.Status)" Title="Durum" />
-        </LumexDataGrid>
+        <AppDataGrid TItem="PurchaseInvoice" Items="@_invoices" Columns="@_columns" ExportFileName="alis-faturalari" SheetName="Fatura Listesi" EmptyText="Fatura bulunamadı." />
     </div>
 </div>
 
@@ -36,5 +29,15 @@
         new("ALF-2026-0511", "Kartal Lojistik A.Ş.", "07 Eki 2026", "07 Kas 2026", "₺7.420,50", "Bekleniyor"),
         new("ALF-2026-0510", "Orkide Kırtasiye", "03 Eki 2026", "03 Kas 2026", "₺459,90", "Ödendi"),
         new("ALF-2026-0509", "Elektro Dağıtım A.Ş.", "28 Eyl 2026", "28 Eki 2026", "₺12.680,00", "Vadesi Geçti"),
+    ];
+
+    private readonly List<GridColumn<PurchaseInvoice>> _columns =
+    [
+        new() { Title = "Fatura No", Property = x => x.InvoiceNo, Filterable = false },
+        new() { Title = "Tedarikçi", Property = x => x.Supplier, Filterable = false },
+        new() { Title = "Tarih", Property = x => x.Date, Filterable = false },
+        new() { Title = "Vade", Property = x => x.DueDate, Filterable = false },
+        new() { Title = "Tutar", Property = x => x.AmountLabel, Align = Align.End, Filterable = false },
+        new() { Title = "Durum", Property = x => x.Status },
     ];
 }

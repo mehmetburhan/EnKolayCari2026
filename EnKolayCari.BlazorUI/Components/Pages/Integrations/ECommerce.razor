@@ -16,13 +16,7 @@
     </div>
 
     <div class="mt-4">
-        <LumexDataGrid Data="@_platforms.AsQueryable()" Hoverable Striped>
-            <PropertyColumn Property="@(x => x.Platform)" Title="Platform" />
-            <PropertyColumn Property="@(x => x.StoreName)" Title="Mağaza" />
-            <PropertyColumn Property="@(x => x.LastSync)" Title="Son Senkronizasyon" />
-            <PropertyColumn Property="@(x => x.OrdersToday)" Title="Bugünkü Sipariş" Align="Align.End" />
-            <PropertyColumn Property="@(x => x.Status)" Title="Durum" />
-        </LumexDataGrid>
+        <AppDataGrid TItem="EcommercePlatform" Items="@_platforms" Columns="@_columns" ExportFileName="e-ticaret-entegrasyonlari" SheetName="Bağlı Platformlar" EmptyText="Platform bulunamadı." />
     </div>
 </div>
 
@@ -36,5 +30,14 @@
         new("N11", "EnKolayCari Outlet", "11 Eki 2026 22:40", 0, "Bağlantı Hatası"),
         new("Amazon TR", "EnKolayCari Global", "10 Eki 2026 18:05", 3, "Bağlı"),
         new("Kendi Web Sitem", "enkolaycari.com", "—", 0, "Bağlı Değil"),
+    ];
+
+    private readonly List<GridColumn<EcommercePlatform>> _columns =
+    [
+        new() { Title = "Platform", Property = x => x.Platform },
+        new() { Title = "Mağaza", Property = x => x.StoreName, Filterable = false },
+        new() { Title = "Son Senkronizasyon", Property = x => x.LastSync, Filterable = false },
+        new() { Title = "Bugünkü Sipariş", Property = x => x.OrdersToday.ToString(), Align = Align.End, Filterable = false },
+        new() { Title = "Durum", Property = x => x.Status },
     ];
 }

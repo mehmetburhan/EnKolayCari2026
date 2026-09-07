@@ -16,14 +16,7 @@
     </div>
 
     <div class="mt-4">
-        <LumexDataGrid Data="@_movements.AsQueryable()" Hoverable Striped>
-            <PropertyColumn Property="@(x => x.Date)" Title="Tarih" />
-            <PropertyColumn Property="@(x => x.DocumentNo)" Title="Belge No" />
-            <PropertyColumn Property="@(x => x.Type)" Title="Hareket Türü" />
-            <PropertyColumn Property="@(x => x.Product)" Title="Ürün" />
-            <PropertyColumn Property="@(x => x.Warehouse)" Title="Depo" />
-            <PropertyColumn Property="@(x => x.QuantityLabel)" Title="Miktar" Align="Align.End" />
-        </LumexDataGrid>
+        <AppDataGrid TItem="StockMovement" Items="@_movements" Columns="@_columns" ExportFileName="stok-depo-hareketleri" SheetName="Son Hareketler" EmptyText="Hareket bulunamadı." />
     </div>
 </div>
 
@@ -38,5 +31,15 @@
         new("05 Eki 2026", "SDH-2026-0139", "Çıkış", "USB-C Şarj Kablosu 1m", "Anadolu Yakası Depo", "-25 Adet"),
         new("04 Eki 2026", "SDH-2026-0138", "Giriş", "Ofis Sandalyesi Ergonomik", "Ege Bölge Depo", "+6 Adet"),
         new("03 Eki 2026", "SDH-2026-0137", "Sayım Farkı", "Beyaz Pamuklu Tişört", "Merkez Depo", "-3 Adet"),
+    ];
+
+    private readonly List<GridColumn<StockMovement>> _columns =
+    [
+        new() { Title = "Tarih", Property = x => x.Date, Filterable = false },
+        new() { Title = "Belge No", Property = x => x.DocumentNo, Filterable = false },
+        new() { Title = "Hareket Türü", Property = x => x.Type },
+        new() { Title = "Ürün", Property = x => x.Product, Filterable = false },
+        new() { Title = "Depo", Property = x => x.Warehouse },
+        new() { Title = "Miktar", Property = x => x.QuantityLabel, Align = Align.End, Filterable = false },
     ];
 }

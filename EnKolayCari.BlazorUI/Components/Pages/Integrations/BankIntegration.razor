@@ -16,13 +16,7 @@
     </div>
 
     <div class="mt-4">
-        <LumexDataGrid Data="@_banks.AsQueryable()" Hoverable Striped>
-            <PropertyColumn Property="@(x => x.Bank)" Title="Banka" />
-            <PropertyColumn Property="@(x => x.ConnectionType)" Title="Bağlantı Türü" />
-            <PropertyColumn Property="@(x => x.AccountCount)" Title="Hesap Sayısı" Align="Align.End" />
-            <PropertyColumn Property="@(x => x.LastSync)" Title="Son Senkronizasyon" />
-            <PropertyColumn Property="@(x => x.Status)" Title="Durum" />
-        </LumexDataGrid>
+        <AppDataGrid TItem="BankIntegrationRow" Items="@_banks" Columns="@_columns" ExportFileName="banka-entegrasyonlari" SheetName="Bağlı Bankalar" EmptyText="Banka bağlantısı bulunamadı." />
     </div>
 </div>
 
@@ -35,5 +29,14 @@
         new("İş Bankası", "Açık Bankacılık (API)", 1, "12 Eki 2026 08:31", "Bağlı"),
         new("Akbank", "MT940 Dosya Aktarımı", 1, "11 Eki 2026 20:00", "Bağlı"),
         new("Yapı Kredi", "Açık Bankacılık (API)", 1, "—", "Bağlantı Bekliyor"),
+    ];
+
+    private readonly List<GridColumn<BankIntegrationRow>> _columns =
+    [
+        new() { Title = "Banka", Property = x => x.Bank },
+        new() { Title = "Bağlantı Türü", Property = x => x.ConnectionType },
+        new() { Title = "Hesap Sayısı", Property = x => x.AccountCount.ToString(), Align = Align.End, Filterable = false },
+        new() { Title = "Son Senkronizasyon", Property = x => x.LastSync, Filterable = false },
+        new() { Title = "Durum", Property = x => x.Status },
     ];
 }

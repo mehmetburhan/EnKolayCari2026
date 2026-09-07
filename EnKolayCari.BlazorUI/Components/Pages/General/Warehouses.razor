@@ -16,14 +16,7 @@
     </div>
 
     <div class="mt-4">
-        <LumexDataGrid Data="@_warehouses.AsQueryable()" Hoverable Striped>
-            <PropertyColumn Property="@(x => x.Code)" Title="Kod" />
-            <PropertyColumn Property="@(x => x.Name)" Title="Depo Adı" />
-            <PropertyColumn Property="@(x => x.City)" Title="Şehir" />
-            <PropertyColumn Property="@(x => x.Responsible)" Title="Sorumlu" />
-            <PropertyColumn Property="@(x => x.OccupancyLabel)" Title="Doluluk" Align="Align.End" />
-            <PropertyColumn Property="@(x => x.Status)" Title="Durum" />
-        </LumexDataGrid>
+        <AppDataGrid TItem="Warehouse" Items="@_warehouses" Columns="@_columns" ExportFileName="depolar" SheetName="Depolar" EmptyText="Depo bulunamadı." />
     </div>
 </div>
 
@@ -37,5 +30,15 @@
         new("DPO-03", "Ege Bölge Depo", "İzmir", "Mert Demir", "%34", "Aktif"),
         new("DPO-04", "Marmara Lojistik Merkezi", "Kocaeli", "Selin Arslan", "%91", "Aktif"),
         new("DPO-05", "Yedek Parça Deposu", "Bursa", "Can Öztürk", "%12", "Pasif"),
+    ];
+
+    private readonly List<GridColumn<Warehouse>> _columns =
+    [
+        new() { Title = "Kod", Property = x => x.Code, Filterable = false },
+        new() { Title = "Depo Adı", Property = x => x.Name, Filterable = false },
+        new() { Title = "Şehir", Property = x => x.City },
+        new() { Title = "Sorumlu", Property = x => x.Responsible, Filterable = false },
+        new() { Title = "Doluluk", Property = x => x.OccupancyLabel, Align = Align.End, Filterable = false },
+        new() { Title = "Durum", Property = x => x.Status },
     ];
 }

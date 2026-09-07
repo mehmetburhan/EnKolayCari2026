@@ -1,0 +1,68 @@
+@if (!string.IsNullOrWhiteSpace(Value))
+{
+    <span class="inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-semibold @ToneClasses">
+        <span class="h-1.5 w-1.5 flex-none rounded-full @DotClasses"></span>
+        @Value
+    </span>
+}
+
+@code {
+    [Parameter]
+    public string? Value { get; set; }
+
+    private static readonly HashSet<string> PositiveValues = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "Aktif", "Active", "Bağlı", "Connected", "Onaylandı", "Approved", "Tahsil Edildi", "Ödendi", "Paid",
+        "Tamamlandı", "Completed", "Eşleşti", "Matched", "İletildi", "Delivered", "Teslim Alındı",
+    };
+
+    private static readonly HashSet<string> NegativeValues = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "Pasif", "Inactive", "İptal", "Iptal", "Cancelled", "Reddedildi", "Rejected", "Karşılıksız", "Bounced",
+        "Vadesi Geçti", "Overdue", "Bağlantı Hatası", "Bağlı Değil", "Fark Var", "Tükendi",
+    };
+
+    private StatusTone Tone => Classify(Value);
+
+    private string ToneClasses => Tone switch
+    {
+        StatusTone.Positive => "border-blue-200 bg-blue-50 text-blue-600",
+        StatusTone.Negative => "border-rose-200 bg-rose-50 text-rose-600",
+        _ => "border-slate-200 bg-slate-50 text-slate-600",
+    };
+
+    private string DotClasses => Tone switch
+    {
+        StatusTone.Positive => "bg-blue-600",
+        StatusTone.Negative => "bg-rose-500",
+        _ => "bg-slate-400",
+    };
+
+    private static StatusTone Classify(string? value)
+    {
+        var trimmed = (value ?? "").Trim();
+        if (trimmed.Length == 0)
+        {
+            return StatusTone.Neutral;
+        }
+
+        if (PositiveValues.Contains(trimmed))
+        {
+            return StatusTone.Positive;
+        }
+
+        if (NegativeValues.Contains(trimmed))
+        {
+            return StatusTone.Negative;
+        }
+
+        return StatusTone.Neutral;
+    }
+
+    private enum StatusTone
+    {
+        Positive,
+        Negative,
+        Neutral,
+    }
+}

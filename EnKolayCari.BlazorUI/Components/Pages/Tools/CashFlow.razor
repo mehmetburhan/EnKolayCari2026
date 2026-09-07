@@ -12,13 +12,7 @@
     </div>
 
     <div class="mt-4">
-        <LumexDataGrid Data="@_rows.AsQueryable()" Hoverable Striped>
-            <PropertyColumn Property="@(x => x.Period)" Title="Dönem" />
-            <PropertyColumn Property="@(x => x.Category)" Title="Kategori" />
-            <PropertyColumn Property="@(x => x.InflowLabel)" Title="Giriş" Align="Align.End" />
-            <PropertyColumn Property="@(x => x.OutflowLabel)" Title="Çıkış" Align="Align.End" />
-            <PropertyColumn Property="@(x => x.NetLabel)" Title="Net" Align="Align.End" />
-        </LumexDataGrid>
+        <AppDataGrid TItem="CashFlowRow" Items="@_rows" Columns="@_columns" ExportFileName="nakit-durumu" SheetName="Nakit Akışı Özeti" EmptyText="Nakit akış kaydı bulunamadı." />
     </div>
 </div>
 
@@ -32,5 +26,14 @@
         new("Ekim 2026", "Genel Giderler", "₺0,00", "₺6.890,00", "-₺6.890,00"),
         new("Eylül 2026", "Satış Tahsilatları", "₺49.150,00", "₺0,00", "+₺49.150,00"),
         new("Eylül 2026", "Tedarikçi Ödemeleri", "₺0,00", "₺19.420,00", "-₺19.420,00"),
+    ];
+
+    private readonly List<GridColumn<CashFlowRow>> _columns =
+    [
+        new() { Title = "Dönem", Property = x => x.Period },
+        new() { Title = "Kategori", Property = x => x.Category },
+        new() { Title = "Giriş", Property = x => x.InflowLabel, Align = Align.End, Filterable = false },
+        new() { Title = "Çıkış", Property = x => x.OutflowLabel, Align = Align.End, Filterable = false },
+        new() { Title = "Net", Property = x => x.NetLabel, Align = Align.End, Filterable = false },
     ];
 }
