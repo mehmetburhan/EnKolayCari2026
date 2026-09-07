@@ -193,6 +193,37 @@
   .form-error { margin-top: .375rem; font-size: .75rem; font-weight: 500; color: #ef4444; }
 
   .auth-module-card { border: 1px solid rgba(255, 255, 255, .12); background: rgba(255, 255, 255, .06); border-radius: 14px; padding: 1rem; backdrop-filter: blur(6px); }
+
+  .auth-mockup-neon {
+    border: 1px solid rgba(96, 165, 250, .6);
+    box-shadow:
+      0 0 0 1px rgba(37, 99, 235, .35),
+      0 0 18px rgba(37, 99, 235, .55),
+      0 0 42px rgba(124, 58, 237, .4),
+      0 0 70px rgba(22, 166, 161, .25);
+    animation: auth-mockup-glow 3.5s ease-in-out infinite;
+  }
+}
+
+@keyframes auth-mockup-glow {
+  0%, 100% {
+    box-shadow:
+      0 0 0 1px rgba(37, 99, 235, .35),
+      0 0 18px rgba(37, 99, 235, .55),
+      0 0 42px rgba(124, 58, 237, .4),
+      0 0 70px rgba(22, 166, 161, .25);
+  }
+  50% {
+    box-shadow:
+      0 0 0 1px rgba(124, 58, 237, .5),
+      0 0 26px rgba(37, 99, 235, .7),
+      0 0 55px rgba(124, 58, 237, .55),
+      0 0 90px rgba(22, 166, 161, .35);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .auth-mockup-neon { animation: none; }
 }
 
 @media (max-width: 1023px) {

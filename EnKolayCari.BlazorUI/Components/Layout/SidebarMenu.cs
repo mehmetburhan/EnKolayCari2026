@@ -25,7 +25,7 @@ public static class SidebarMenu
             Label = "GENEL",
             Items =
             [
-                new MenuItem { Label = "Genel Bakış (Panel)", IconSvg = MenuIcons.Home, Href = "", ExactMatch = true },
+                new MenuItem { Label = "Genel Bakış (Panel)", IconSvg = MenuIcons.Home, Href = "dashboard", ExactMatch = true },
                 new MenuItem { Label = "Müşteri & Tedarikçi", IconSvg = MenuIcons.Users, Href = "customers-suppliers" },
                 new MenuItem { Label = "Ürün", IconSvg = MenuIcons.Cube, Href = "products" },
                 new MenuItem { Label = "Hizmet", IconSvg = MenuIcons.Wrench, Href = "services" },
