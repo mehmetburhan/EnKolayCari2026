@@ -1,0 +1,41 @@
+@page "/expenses"
+
+<PageTitle>Giderler - EnKolayCari</PageTitle>
+<PageHeading Title="Giderler" Subtitle="İşletme giderlerinizi kategori bazında takip edin." />
+
+<div class="card p-5">
+    <div class="flex items-center justify-between">
+        <div>
+            <h2 class="text-base font-semibold text-slate-900">Gider Listesi</h2>
+            <p class="text-xs text-slate-500">Mockup veri &middot; @_expenses.Count kayıt</p>
+        </div>
+        <LumexButton Color="ThemeColor.Primary" Size="Size.Small">
+            <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+            Yeni Gider
+        </LumexButton>
+    </div>
+
+    <div class="mt-4">
+        <LumexDataGrid Data="@_expenses.AsQueryable()" Hoverable Striped>
+            <PropertyColumn Property="@(x => x.Date)" Title="Tarih" />
+            <PropertyColumn Property="@(x => x.Category)" Title="Kategori" />
+            <PropertyColumn Property="@(x => x.Description)" Title="Açıklama" />
+            <PropertyColumn Property="@(x => x.PaymentMethod)" Title="Ödeme Yöntemi" />
+            <PropertyColumn Property="@(x => x.AmountLabel)" Title="Tutar" Align="Align.End" />
+            <PropertyColumn Property="@(x => x.Status)" Title="Durum" />
+        </LumexDataGrid>
+    </div>
+</div>
+
+@code {
+    private record Expense(string Date, string Category, string Description, string PaymentMethod, string AmountLabel, string Status);
+
+    private readonly List<Expense> _expenses =
+    [
+        new("11 Eki 2026", "Ofis Kirası", "Ofis Kirası", "Banka Havalesi", "₺890,00", "Ödendi"),
+        new("10 Eki 2026", "Pazarlama", "Reklam Gideri", "Kredi Kartı", "₺3.205,00", "Ödendi"),
+        new("09 Eki 2026", "Ofis Malzemesi", "Kırtasiye Gideri", "Kasa", "₺459,90", "Ödendi"),
+        new("07 Eki 2026", "Ulaşım", "Yakıt Gideri", "Kredi Kartı", "₺620,00", "Bekleniyor"),
+        new("05 Eki 2026", "Fatura", "Elektrik Faturası", "Banka Havalesi", "₺1.140,00", "Bekleniyor"),
+    ];
+}

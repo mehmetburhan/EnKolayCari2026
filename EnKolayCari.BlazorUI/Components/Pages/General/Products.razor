@@ -1,0 +1,45 @@
+@page "/products"
+
+<PageTitle>Ürün - EnKolayCari</PageTitle>
+<PageHeading Title="Ürün" Subtitle="Ürün kartlarınızı ve stok bilgilerini görüntüleyin." />
+
+<div class="card p-5">
+    <div class="flex items-center justify-between">
+        <div>
+            <h2 class="text-base font-semibold text-slate-900">Ürünler</h2>
+            <p class="text-xs text-slate-500">Mockup veri &middot; @_products.Count kayıt</p>
+        </div>
+        <LumexButton Color="ThemeColor.Primary" Size="Size.Small">
+            <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+            Yeni Ürün
+        </LumexButton>
+    </div>
+
+    <div class="mt-4">
+        <LumexDataGrid Data="@_products.AsQueryable()" Hoverable Striped>
+            <PropertyColumn Property="@(x => x.Sku)" Title="Stok Kodu" />
+            <PropertyColumn Property="@(x => x.Name)" Title="Ürün Adı" />
+            <PropertyColumn Property="@(x => x.Category)" Title="Kategori" />
+            <PropertyColumn Property="@(x => x.Unit)" Title="Birim" />
+            <PropertyColumn Property="@(x => x.StockQty)" Title="Stok" Align="Align.End" />
+            <PropertyColumn Property="@(x => x.PriceLabel)" Title="Fiyat" Align="Align.End" />
+            <PropertyColumn Property="@(x => x.Status)" Title="Durum" />
+        </LumexDataGrid>
+    </div>
+</div>
+
+@code {
+    private record Product(string Sku, string Name, string Category, string Unit, int StockQty, string PriceLabel, string Status);
+
+    private readonly List<Product> _products =
+    [
+        new("URN-1001", "A4 Fotokopi Kağıdı 80gr", "Kırtasiye", "Koli", 240, "₺185,00", "Aktif"),
+        new("URN-1002", "Dell 24\" Monitör", "Elektronik", "Adet", 18, "₺4.250,00", "Aktif"),
+        new("URN-1003", "Ofis Sandalyesi Ergonomik", "Mobilya", "Adet", 6, "₺1.890,00", "Aktif"),
+        new("URN-1004", "USB-C Şarj Kablosu 1m", "Elektronik", "Adet", 120, "₺95,00", "Aktif"),
+        new("URN-1005", "Toner HP 26A", "Kırtasiye", "Kutu", 32, "₺620,00", "Aktif"),
+        new("URN-1006", "Beyaz Pamuklu Tişört", "Tekstil", "Adet", 0, "₺79,90", "Tükendi"),
+        new("URN-1007", "Laptop Çantası 15.6\"", "Aksesuar", "Adet", 45, "₺340,00", "Aktif"),
+        new("URN-1008", "Endüstriyel Raf Sistemi", "Depo Ekipmanı", "Set", 4, "₺2.750,00", "Pasif"),
+    ];
+}

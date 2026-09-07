@@ -15,7 +15,7 @@ public class MenuGroup
     public required List<MenuItem> Items { get; set; }
 }
 
-/// <summary>Sidebar menu tree. Only "Genel Bakış" (Panel) has a real route today; the rest are placeholders reserved for future pages.</summary>
+/// <summary>Sidebar menu tree. Every leaf item routes to a mockup index page.</summary>
 public static class SidebarMenu
 {
     public static readonly List<MenuGroup> Groups =
@@ -26,11 +26,11 @@ public static class SidebarMenu
             Items =
             [
                 new MenuItem { Label = "Genel Bakış (Panel)", IconSvg = MenuIcons.Home, Href = "", ExactMatch = true },
-                new MenuItem { Label = "Müşteri & Tedarikçi", IconSvg = MenuIcons.Users },
-                new MenuItem { Label = "Ürün", IconSvg = MenuIcons.Cube },
-                new MenuItem { Label = "Hizmet", IconSvg = MenuIcons.Wrench },
-                new MenuItem { Label = "Depo", IconSvg = MenuIcons.ArchiveBox },
-                new MenuItem { Label = "Stok & Depo Hareketleri", IconSvg = MenuIcons.ArrowsRightLeft },
+                new MenuItem { Label = "Müşteri & Tedarikçi", IconSvg = MenuIcons.Users, Href = "customers-suppliers" },
+                new MenuItem { Label = "Ürün", IconSvg = MenuIcons.Cube, Href = "products" },
+                new MenuItem { Label = "Hizmet", IconSvg = MenuIcons.Wrench, Href = "services" },
+                new MenuItem { Label = "Depo", IconSvg = MenuIcons.ArchiveBox, Href = "warehouses" },
+                new MenuItem { Label = "Stok & Depo Hareketleri", IconSvg = MenuIcons.ArrowsRightLeft, Href = "stock-movements" },
             ],
         },
         new MenuGroup
@@ -44,9 +44,9 @@ public static class SidebarMenu
                     IconSvg = MenuIcons.ShoppingCart,
                     Children =
                     [
-                        new MenuItem { Label = "Teklifler", IconSvg = MenuIcons.DocumentText },
-                        new MenuItem { Label = "Siparişler", IconSvg = MenuIcons.ClipboardList },
-                        new MenuItem { Label = "Satış Faturaları", IconSvg = MenuIcons.DocumentText },
+                        new MenuItem { Label = "Teklifler", IconSvg = MenuIcons.DocumentText, Href = "sales/quotes" },
+                        new MenuItem { Label = "Siparişler", IconSvg = MenuIcons.ClipboardList, Href = "sales/orders" },
+                        new MenuItem { Label = "Satış Faturaları", IconSvg = MenuIcons.DocumentText, Href = "sales/invoices" },
                     ],
                 },
                 new MenuItem
@@ -55,19 +55,19 @@ public static class SidebarMenu
                     IconSvg = MenuIcons.ShoppingBag,
                     Children =
                     [
-                        new MenuItem { Label = "Alış Faturaları", IconSvg = MenuIcons.DocumentText },
-                        new MenuItem { Label = "Alış Siparişleri", IconSvg = MenuIcons.Truck },
+                        new MenuItem { Label = "Alış Faturaları", IconSvg = MenuIcons.DocumentText, Href = "purchases/invoices" },
+                        new MenuItem { Label = "Alış Siparişleri", IconSvg = MenuIcons.Truck, Href = "purchases/orders" },
                     ],
                 },
-                new MenuItem { Label = "Giderler", IconSvg = MenuIcons.CreditCard },
+                new MenuItem { Label = "Giderler", IconSvg = MenuIcons.CreditCard, Href = "expenses" },
                 new MenuItem
                 {
                     Label = "E-Faturalar",
                     IconSvg = MenuIcons.Inbox,
                     Children =
                     [
-                        new MenuItem { Label = "Gelen e-Faturalar", IconSvg = MenuIcons.ArrowDownTray },
-                        new MenuItem { Label = "Giden e-Faturalar", IconSvg = MenuIcons.ArrowUpTray },
+                        new MenuItem { Label = "Gelen e-Faturalar", IconSvg = MenuIcons.ArrowDownTray, Href = "e-invoices/incoming" },
+                        new MenuItem { Label = "Giden e-Faturalar", IconSvg = MenuIcons.ArrowUpTray, Href = "e-invoices/outgoing" },
                     ],
                 },
             ],
@@ -77,11 +77,11 @@ public static class SidebarMenu
             Label = "ARAÇLAR",
             Items =
             [
-                new MenuItem { Label = "Kasa", IconSvg = MenuIcons.Banknotes },
-                new MenuItem { Label = "Banka Hesapları", IconSvg = MenuIcons.BuildingLibrary },
-                new MenuItem { Label = "Çekler", IconSvg = MenuIcons.DocumentText },
-                new MenuItem { Label = "Nakit Durumu", IconSvg = MenuIcons.ChartBar },
-                new MenuItem { Label = "Banka Mutabakatı", IconSvg = MenuIcons.Scale },
+                new MenuItem { Label = "Kasa", IconSvg = MenuIcons.Banknotes, Href = "cashbox" },
+                new MenuItem { Label = "Banka Hesapları", IconSvg = MenuIcons.BuildingLibrary, Href = "bank-accounts" },
+                new MenuItem { Label = "Çekler", IconSvg = MenuIcons.DocumentText, Href = "checks" },
+                new MenuItem { Label = "Nakit Durumu", IconSvg = MenuIcons.ChartBar, Href = "cash-flow" },
+                new MenuItem { Label = "Banka Mutabakatı", IconSvg = MenuIcons.Scale, Href = "bank-reconciliation" },
             ],
         },
         new MenuGroup
@@ -89,8 +89,8 @@ public static class SidebarMenu
             Label = "ENTEGRASYONLAR",
             Items =
             [
-                new MenuItem { Label = "E-Ticaret", IconSvg = MenuIcons.Globe },
-                new MenuItem { Label = "Banka", IconSvg = MenuIcons.BuildingLibrary },
+                new MenuItem { Label = "E-Ticaret", IconSvg = MenuIcons.Globe, Href = "integrations/e-commerce" },
+                new MenuItem { Label = "Banka", IconSvg = MenuIcons.BuildingLibrary, Href = "integrations/bank" },
             ],
         },
         new MenuGroup
@@ -98,20 +98,20 @@ public static class SidebarMenu
             Label = "TANIMLAR & AYARLAR",
             Items =
             [
-                new MenuItem { Label = "Kullanıcılar", IconSvg = MenuIcons.UserCircle },
-                new MenuItem { Label = "Firma Ayarları", IconSvg = MenuIcons.Cog },
-                new MenuItem { Label = "Etiket Tasarımı", IconSvg = MenuIcons.Tag },
+                new MenuItem { Label = "Kullanıcılar", IconSvg = MenuIcons.UserCircle, Href = "users" },
+                new MenuItem { Label = "Firma Ayarları", IconSvg = MenuIcons.Cog, Href = "company-settings" },
+                new MenuItem { Label = "Etiket Tasarımı", IconSvg = MenuIcons.Tag, Href = "label-design" },
                 new MenuItem
                 {
                     Label = "Belge Tasarımları",
                     IconSvg = MenuIcons.DocumentDuplicate,
                     Children =
                     [
-                        new MenuItem { Label = "Fatura", IconSvg = MenuIcons.DocumentText },
-                        new MenuItem { Label = "İrsaliye", IconSvg = MenuIcons.Truck },
-                        new MenuItem { Label = "Satış Formu", IconSvg = MenuIcons.DocumentText },
-                        new MenuItem { Label = "Teklif Formu", IconSvg = MenuIcons.DocumentText },
-                        new MenuItem { Label = "Kargo Etiket", IconSvg = MenuIcons.Tag },
+                        new MenuItem { Label = "Fatura", IconSvg = MenuIcons.DocumentText, Href = "document-designs/invoice" },
+                        new MenuItem { Label = "İrsaliye", IconSvg = MenuIcons.Truck, Href = "document-designs/waybill" },
+                        new MenuItem { Label = "Satış Formu", IconSvg = MenuIcons.DocumentText, Href = "document-designs/sales-form" },
+                        new MenuItem { Label = "Teklif Formu", IconSvg = MenuIcons.DocumentText, Href = "document-designs/quote-form" },
+                        new MenuItem { Label = "Kargo Etiket", IconSvg = MenuIcons.Tag, Href = "document-designs/shipping-label" },
                     ],
                 },
             ],

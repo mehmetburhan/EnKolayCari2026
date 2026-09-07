@@ -1,0 +1,40 @@
+@page "/checks"
+
+<PageTitle>Çekler - EnKolayCari</PageTitle>
+<PageHeading Title="Çekler" Subtitle="Alınan ve verilen çeklerin vade takibini yapın." />
+
+<div class="card p-5">
+    <div class="flex items-center justify-between">
+        <div>
+            <h2 class="text-base font-semibold text-slate-900">Çek Listesi</h2>
+            <p class="text-xs text-slate-500">Mockup veri &middot; @_checks.Count kayıt</p>
+        </div>
+        <LumexButton Color="ThemeColor.Primary" Size="Size.Small">
+            <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+            Yeni Çek
+        </LumexButton>
+    </div>
+
+    <div class="mt-4">
+        <LumexDataGrid Data="@_checks.AsQueryable()" Hoverable Striped>
+            <PropertyColumn Property="@(x => x.CheckNo)" Title="Çek No" />
+            <PropertyColumn Property="@(x => x.Bank)" Title="Banka" />
+            <PropertyColumn Property="@(x => x.Type)" Title="Tür" />
+            <PropertyColumn Property="@(x => x.DueDate)" Title="Vade Tarihi" />
+            <PropertyColumn Property="@(x => x.AmountLabel)" Title="Tutar" Align="Align.End" />
+            <PropertyColumn Property="@(x => x.Status)" Title="Durum" />
+        </LumexDataGrid>
+    </div>
+</div>
+
+@code {
+    private record Check(string CheckNo, string Bank, string Type, string DueDate, string AmountLabel, string Status);
+
+    private readonly List<Check> _checks =
+    [
+        new("CEK-778401", "Garanti BBVA", "Alınan", "25 Eki 2026", "₺15.000,00", "Portföyde"),
+        new("CEK-778355", "İş Bankası", "Verilen", "01 Kas 2026", "₺8.400,00", "Portföyde"),
+        new("CEK-778290", "Akbank", "Alınan", "10 Eki 2026", "₺22.750,00", "Tahsil Edildi"),
+        new("CEK-778211", "Yapı Kredi", "Verilen", "18 Eyl 2026", "₺5.600,00", "Karşılıksız"),
+    ];
+}

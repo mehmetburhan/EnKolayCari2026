@@ -1,0 +1,41 @@
+@page "/warehouses"
+
+<PageTitle>Depo - EnKolayCari</PageTitle>
+<PageHeading Title="Depo" Subtitle="Depo konumlarınızı ve doluluk oranlarını izleyin." />
+
+<div class="card p-5">
+    <div class="flex items-center justify-between">
+        <div>
+            <h2 class="text-base font-semibold text-slate-900">Depolar</h2>
+            <p class="text-xs text-slate-500">Mockup veri &middot; @_warehouses.Count kayıt</p>
+        </div>
+        <LumexButton Color="ThemeColor.Primary" Size="Size.Small">
+            <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+            Yeni Depo
+        </LumexButton>
+    </div>
+
+    <div class="mt-4">
+        <LumexDataGrid Data="@_warehouses.AsQueryable()" Hoverable Striped>
+            <PropertyColumn Property="@(x => x.Code)" Title="Kod" />
+            <PropertyColumn Property="@(x => x.Name)" Title="Depo Adı" />
+            <PropertyColumn Property="@(x => x.City)" Title="Şehir" />
+            <PropertyColumn Property="@(x => x.Responsible)" Title="Sorumlu" />
+            <PropertyColumn Property="@(x => x.OccupancyLabel)" Title="Doluluk" Align="Align.End" />
+            <PropertyColumn Property="@(x => x.Status)" Title="Durum" />
+        </LumexDataGrid>
+    </div>
+</div>
+
+@code {
+    private record Warehouse(string Code, string Name, string City, string Responsible, string OccupancyLabel, string Status);
+
+    private readonly List<Warehouse> _warehouses =
+    [
+        new("DPO-01", "Merkez Depo", "İstanbul", "Ahmet Yılmaz", "%78", "Aktif"),
+        new("DPO-02", "Anadolu Yakası Depo", "İstanbul", "Elif Kaya", "%52", "Aktif"),
+        new("DPO-03", "Ege Bölge Depo", "İzmir", "Mert Demir", "%34", "Aktif"),
+        new("DPO-04", "Marmara Lojistik Merkezi", "Kocaeli", "Selin Arslan", "%91", "Aktif"),
+        new("DPO-05", "Yedek Parça Deposu", "Bursa", "Can Öztürk", "%12", "Pasif"),
+    ];
+}

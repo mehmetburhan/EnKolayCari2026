@@ -1,0 +1,36 @@
+@page "/cash-flow"
+
+<PageTitle>Nakit Durumu - EnKolayCari</PageTitle>
+<PageHeading Title="Nakit Durumu" Subtitle="Dönemsel nakit giriş ve çıkışlarınızı karşılaştırın." />
+
+<div class="card p-5">
+    <div class="flex items-center justify-between">
+        <div>
+            <h2 class="text-base font-semibold text-slate-900">Nakit Akışı Özeti</h2>
+            <p class="text-xs text-slate-500">Mockup veri &middot; @_rows.Count kayıt</p>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <LumexDataGrid Data="@_rows.AsQueryable()" Hoverable Striped>
+            <PropertyColumn Property="@(x => x.Period)" Title="Dönem" />
+            <PropertyColumn Property="@(x => x.Category)" Title="Kategori" />
+            <PropertyColumn Property="@(x => x.InflowLabel)" Title="Giriş" Align="Align.End" />
+            <PropertyColumn Property="@(x => x.OutflowLabel)" Title="Çıkış" Align="Align.End" />
+            <PropertyColumn Property="@(x => x.NetLabel)" Title="Net" Align="Align.End" />
+        </LumexDataGrid>
+    </div>
+</div>
+
+@code {
+    private record CashFlowRow(string Period, string Category, string InflowLabel, string OutflowLabel, string NetLabel);
+
+    private readonly List<CashFlowRow> _rows =
+    [
+        new("Ekim 2026", "Satış Tahsilatları", "₺58.420,50", "₺0,00", "+₺58.420,50"),
+        new("Ekim 2026", "Tedarikçi Ödemeleri", "₺0,00", "₺23.760,40", "-₺23.760,40"),
+        new("Ekim 2026", "Genel Giderler", "₺0,00", "₺6.890,00", "-₺6.890,00"),
+        new("Eylül 2026", "Satış Tahsilatları", "₺49.150,00", "₺0,00", "+₺49.150,00"),
+        new("Eylül 2026", "Tedarikçi Ödemeleri", "₺0,00", "₺19.420,00", "-₺19.420,00"),
+    ];
+}

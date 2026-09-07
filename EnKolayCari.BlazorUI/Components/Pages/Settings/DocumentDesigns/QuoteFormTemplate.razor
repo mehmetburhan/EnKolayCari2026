@@ -1,0 +1,39 @@
+@page "/document-designs/quote-form"
+
+<PageTitle>Teklif Formu Tasarımı - EnKolayCari</PageTitle>
+<PageHeading Title="Teklif Formu Tasarımı" Subtitle="Teklif formu belge şablonlarınızı yönetin." />
+
+<div class="card p-5">
+    <div class="flex items-center justify-between">
+        <div>
+            <h2 class="text-base font-semibold text-slate-900">Teklif Formu Şablonları</h2>
+            <p class="text-xs text-slate-500">Mockup veri &middot; @_templates.Count kayıt</p>
+        </div>
+        <LumexButton Color="ThemeColor.Primary" Size="Size.Small">
+            <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+            Yeni Şablon
+        </LumexButton>
+    </div>
+
+    <div class="mt-4">
+        <LumexDataGrid Data="@_templates.AsQueryable()" Hoverable Striped>
+            <PropertyColumn Property="@(x => x.Name)" Title="Şablon Adı" />
+            <PropertyColumn Property="@(x => x.PaperSize)" Title="Kağıt Boyutu" />
+            <PropertyColumn Property="@(x => x.Language)" Title="Dil" />
+            <PropertyColumn Property="@(x => x.LastUpdated)" Title="Son Güncelleme" />
+            <PropertyColumn Property="@(x => x.IsDefaultLabel)" Title="Varsayılan" />
+            <PropertyColumn Property="@(x => x.Status)" Title="Durum" />
+        </LumexDataGrid>
+    </div>
+</div>
+
+@code {
+    private record DocumentTemplate(string Name, string PaperSize, string Language, string LastUpdated, string IsDefaultLabel, string Status);
+
+    private readonly List<DocumentTemplate> _templates =
+    [
+        new("Standart Teklif Formu", "A4", "Türkçe", "24 Eyl 2026", "Evet", "Aktif"),
+        new("Kurumsal Teklif Formu", "A4", "İngilizce", "08 Eyl 2026", "Hayır", "Aktif"),
+        new("Hizmet Teklif Formu", "A4", "Türkçe", "15 Ağu 2026", "Hayır", "Pasif"),
+    ];
+}

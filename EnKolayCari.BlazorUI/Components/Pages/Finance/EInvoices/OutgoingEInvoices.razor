@@ -1,0 +1,40 @@
+@page "/e-invoices/outgoing"
+
+<PageTitle>Giden e-Faturalar - EnKolayCari</PageTitle>
+<PageHeading Title="Giden e-Faturalar" Subtitle="Müşterilerinize kestiğiniz e-faturaların GİB durumunu izleyin." />
+
+<div class="card p-5">
+    <div class="flex items-center justify-between">
+        <div>
+            <h2 class="text-base font-semibold text-slate-900">Giden e-Fatura Listesi</h2>
+            <p class="text-xs text-slate-500">Mockup veri &middot; @_invoices.Count kayıt</p>
+        </div>
+        <LumexButton Color="ThemeColor.Primary" Size="Size.Small">
+            <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+            Yeni e-Fatura
+        </LumexButton>
+    </div>
+
+    <div class="mt-4">
+        <LumexDataGrid Data="@_invoices.AsQueryable()" Hoverable Striped>
+            <PropertyColumn Property="@(x => x.InvoiceNo)" Title="Fatura No" />
+            <PropertyColumn Property="@(x => x.Receiver)" Title="Alıcı" />
+            <PropertyColumn Property="@(x => x.GibNo)" Title="GİB No" />
+            <PropertyColumn Property="@(x => x.Date)" Title="Tarih" />
+            <PropertyColumn Property="@(x => x.AmountLabel)" Title="Tutar" Align="Align.End" />
+            <PropertyColumn Property="@(x => x.Status)" Title="Durum" />
+        </LumexDataGrid>
+    </div>
+</div>
+
+@code {
+    private record OutgoingEInvoice(string InvoiceNo, string Receiver, string GibNo, string Date, string AmountLabel, string Status);
+
+    private readonly List<OutgoingEInvoice> _invoices =
+    [
+        new("EFT-2026-5541", "ABC Ticaret Ltd. Şti.", "GIB2026000121455", "12 Eki 2026", "₺2.450,00", "İletildi"),
+        new("EFT-2026-5540", "XYZ Sanayi A.Ş.", "GIB2026000121109", "09 Eki 2026", "₺11.500,00", "İletildi"),
+        new("EFT-2026-5539", "Deniz Yapı Market", "GIB2026000120987", "05 Eki 2026", "₺890,00", "İşleniyor"),
+        new("EFT-2026-5538", "Yıldız Elektronik", "GIB2026000120754", "01 Eki 2026", "₺6.250,00", "İletildi"),
+    ];
+}
