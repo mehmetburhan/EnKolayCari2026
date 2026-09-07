@@ -1,0 +1,44 @@
+@inherits LayoutComponentBase
+
+<div class="flex min-h-screen">
+    <aside class="desktop-sidebar sticky top-0 hidden h-screen w-64 shrink-0 lg:block">
+        <Sidebar />
+    </aside>
+
+    @if (_mobileMenuOpen)
+    {
+        <div class="fixed inset-0 z-50 lg:hidden">
+            <div class="absolute inset-0 bg-slate-900/50" @onclick="CloseMobileMenu"></div>
+            <aside class="relative h-full w-64 max-w-[80%]">
+                <Sidebar />
+            </aside>
+        </div>
+    }
+
+    <div class="flex min-h-screen min-w-0 flex-1 flex-col">
+        <TopHeader IsMenuOpen="_mobileMenuOpen" OnMenuToggle="ToggleMobileMenu" />
+
+        <main class="flex-1 px-4 py-6 sm:px-6 lg:px-8">
+            @Body
+        </main>
+
+        <footer class="border-t border-[var(--nexora-border)] px-4 py-4 text-sm text-slate-500 sm:px-6 lg:px-8">
+            &copy; 2026 - EnKolayCari2026 -
+            <NavLink href="gizlilik" class="text-[var(--nexora-blue)] hover:underline">Gizlilik</NavLink>
+        </footer>
+    </div>
+</div>
+
+<div id="blazor-error-ui" data-nosnippet>
+    An unhandled error has occurred.
+    <a href="." class="reload">Reload</a>
+    <span class="dismiss">🗙</span>
+</div>
+
+@code {
+    private bool _mobileMenuOpen;
+
+    private void ToggleMobileMenu() => _mobileMenuOpen = !_mobileMenuOpen;
+
+    private void CloseMobileMenu() => _mobileMenuOpen = false;
+}
