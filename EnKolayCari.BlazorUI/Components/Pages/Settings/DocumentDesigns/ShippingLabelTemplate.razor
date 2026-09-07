@@ -16,14 +16,7 @@
     </div>
 
     <div class="mt-4">
-        <LumexDataGrid Data="@_templates.AsQueryable()" Hoverable Striped>
-            <PropertyColumn Property="@(x => x.Name)" Title="Şablon Adı" />
-            <PropertyColumn Property="@(x => x.PaperSize)" Title="Ölçü" />
-            <PropertyColumn Property="@(x => x.Carrier)" Title="Kargo Firması" />
-            <PropertyColumn Property="@(x => x.LastUpdated)" Title="Son Güncelleme" />
-            <PropertyColumn Property="@(x => x.IsDefaultLabel)" Title="Varsayılan" />
-            <PropertyColumn Property="@(x => x.Status)" Title="Durum" />
-        </LumexDataGrid>
+        <AppDataGrid TItem="ShippingLabelRow" Items="@_templates" Columns="@_columns" ExportFileName="kargo-etiket-tasarimi" SheetName="Kargo Etiket Şablonları" EmptyText="Şablon bulunamadı." />
     </div>
 </div>
 
@@ -36,5 +29,15 @@
         new("Aras Kargo Etiketi", "10x15cm", "Aras Kargo", "14 Eyl 2026", "Hayır", "Aktif"),
         new("MNG Kargo Etiketi", "10x15cm", "MNG Kargo", "02 Eyl 2026", "Hayır", "Aktif"),
         new("Sürat Kargo Etiketi", "10x15cm", "Sürat Kargo", "18 Ağu 2026", "Hayır", "Pasif"),
+    ];
+
+    private readonly List<GridColumn<ShippingLabelRow>> _columns =
+    [
+        new() { Title = "Şablon Adı", Property = x => x.Name, Filterable = false },
+        new() { Title = "Ölçü", Property = x => x.PaperSize },
+        new() { Title = "Kargo Firması", Property = x => x.Carrier },
+        new() { Title = "Son Güncelleme", Property = x => x.LastUpdated, Filterable = false },
+        new() { Title = "Varsayılan", Property = x => x.IsDefaultLabel },
+        new() { Title = "Durum", Property = x => x.Status },
     ];
 }

@@ -1,0 +1,320 @@
+@typeparam TItem
+@inject ExcelExportService ExcelExport
+@inject IJSRuntime JS
+
+<div class="space-y-3">
+    <div class="flex flex-wrap items-center gap-2">
+        <div class="relative w-full min-w-[220px] flex-1 sm:w-auto sm:max-w-xs">
+            <svg class="pointer-events-none absolute inset-y-0 left-3 my-auto h-4 w-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">@((MarkupString)MenuIcons.MagnifyingGlass)</svg>
+            <input type="text"
+                   class="form-input pl-9 @(string.IsNullOrEmpty(_search) ? "" : "pr-8")"
+                   placeholder="@SearchPlaceholder"
+                   value="@_search"
+                   @oninput="OnSearchInput" />
+            @if (!string.IsNullOrEmpty(_search))
+            {
+                <button type="button" class="absolute inset-y-0 right-0 flex w-8 items-center justify-center text-slate-400 hover:text-slate-600" aria-label="Aramayı temizle" @onclick="ClearSearch">
+                    <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">@((MarkupString)MenuIcons.XMark)</svg>
+                </button>
+            }
+        </div>
+
+        @foreach (var column in FilterableColumns)
+        {
+            var distinctValues = GetDistinctValues(column);
+            if (distinctValues.Count < 2)
+            {
+                continue;
+            }
+
+            var activeCount = _activeFilters.TryGetValue(column.Title, out var selected) ? selected.Count : 0;
+
+            <div class="relative">
+                <button type="button"
+                        class="button-secondary @(activeCount > 0 ? "!border-[var(--nexora-blue)] !bg-blue-50" : "")"
+                        @onclick="() => ToggleFilterPanel(column.Title)">
+                    <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">@((MarkupString)MenuIcons.Funnel)</svg>
+                    @column.Title
+                    @if (activeCount > 0)
+                    {
+                        <span class="grid h-4 min-w-4 place-items-center rounded-full bg-[var(--nexora-blue)] px-1 text-[10px] font-bold text-white">@activeCount</span>
+                    }
+                </button>
+
+                @if (_openFilterColumn == column.Title)
+                {
+                    <div class="fixed inset-0 z-40" @onclick="CloseFilterPanel"></div>
+                    <div class="absolute left-0 top-full z-50 mt-2 w-60 rounded-2xl border border-[var(--nexora-border)] bg-white p-2 shadow-[0_16px_40px_rgba(15,23,42,.12)]" @onclick:stopPropagation="true">
+                        <div class="flex items-center justify-between px-1.5 pb-1.5">
+                            <span class="text-xs font-semibold text-slate-500">@column.Title</span>
+                            @if (activeCount > 0)
+                            {
+                                <button type="button" class="text-xs font-semibold text-[var(--nexora-blue)] hover:underline" @onclick="() => ClearColumnFilter(column.Title)">Temizle</button>
+                            }
+                        </div>
+                        <div class="max-h-60 space-y-0.5 overflow-y-auto">
+                            @foreach (var value in distinctValues)
+                            {
+                                var isChecked = _activeFilters.TryGetValue(column.Title, out var set) && set.Contains(value);
+                                <label class="flex cursor-pointer items-center gap-2 rounded-lg px-2 py-1.5 text-sm text-slate-700 hover:bg-slate-50">
+                                    <input type="checkbox" class="h-3.5 w-3.5 rounded border-[var(--nexora-border)] text-[var(--nexora-blue)]" checked="@isChecked" @onchange="@(e => ToggleFilterValue(column.Title, value, (bool)e.Value!))" />
+                                    <span class="truncate">@value</span>
+                                </label>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+
+        <div class="ms-auto flex items-center gap-2">
+            @if (HasActiveFilters)
+            {
+                <button type="button" class="button-secondary" @onclick="ClearAllFilters">Filtreleri Temizle</button>
+            }
+            <button type="button" class="button-secondary" disabled="@_exporting" @onclick="ExportToExcelAsync">
+                <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">@((MarkupString)MenuIcons.ArrowDownTray)</svg>
+                @(_exporting ? "Aktarılıyor..." : "Excel'e Aktar")
+            </button>
+        </div>
+    </div>
+
+    @{ var viewData = ViewData; }
+    @if (viewData.Any())
+    {
+        <LumexDataGrid Data="@viewData" Hoverable Striped>
+            @foreach (var column in Columns)
+            {
+                var getValue = GetCompiled(column);
+                <PropertyColumn TItem="TItem" TProp="string" Property="@column.Property" Title="@column.Title" Align="@column.Align" Sortable="@column.Sortable">
+                    <Content Context="item">
+                        @if (IsStatusColumn(column))
+                        {
+                            <StatusBadge Value="@getValue(item)" />
+                        }
+                        else
+                        {
+                            @getValue(item)
+                        }
+                    </Content>
+                </PropertyColumn>
+            }
+            <TemplateColumn TItem="TItem" Title="" Align="Align.End" Sortable="false" Context="item">
+                <div class="flex items-center justify-end gap-1">
+                    <button type="button" class="grid h-8 w-8 cursor-pointer place-items-center rounded-lg text-slate-400 hover:bg-slate-100 hover:text-[var(--nexora-blue)]" title="Düzenle" aria-label="Düzenle" @onclick="() => OnEdit.InvokeAsync(item)">
+                        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">@((MarkupString)MenuIcons.PencilSquare)</svg>
+                    </button>
+                    <button type="button" class="grid h-8 w-8 cursor-pointer place-items-center rounded-lg text-slate-400 hover:bg-danger hover:text-danger-foreground" title="Sil" aria-label="Sil" @onclick="() => RequestDelete(item)">
+                        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">@((MarkupString)MenuIcons.Trash)</svg>
+                    </button>
+                </div>
+            </TemplateColumn>
+        </LumexDataGrid>
+    }
+    else
+    {
+        <p class="card py-10 text-center text-sm text-slate-500">@EmptyText</p>
+    }
+</div>
+
+<LumexModal Open="@DeleteModalOpen" OpenChanged="@OnDeleteModalOpenChanged" Size="ModalSize.Small">
+    <LumexModalContent>
+        <LumexModalHeader>Kaydı sil</LumexModalHeader>
+        <LumexModalBody>
+            <div class="flex items-start gap-3">
+                <span class="grid h-10 w-10 flex-none place-items-center rounded-full bg-red-50 text-red-600">
+                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">@((MarkupString)MenuIcons.ExclamationTriangle)</svg>
+                </span>
+                <p class="text-sm text-slate-500">Bu kaydı silmek istediğinize emin misiniz? Bu işlem geri alınamaz.</p>
+            </div>
+        </LumexModalBody>
+        <LumexModalFooter>
+            <LumexButton Variant="Variant.Flat" OnClick="CancelDelete">Vazgeç</LumexButton>
+            <LumexButton Color="ThemeColor.Danger" OnClick="ConfirmDelete">Sil</LumexButton>
+        </LumexModalFooter>
+    </LumexModalContent>
+</LumexModal>
+
+@code {
+    [Parameter, EditorRequired]
+    public IList<TItem> Items { get; set; } = [];
+
+    [Parameter, EditorRequired]
+    public IReadOnlyList<GridColumn<TItem>> Columns { get; set; } = [];
+
+    [Parameter]
+    public EventCallback<TItem> OnEdit { get; set; }
+
+    [Parameter, EditorRequired]
+    public string ExportFileName { get; set; } = "veri";
+
+    [Parameter]
+    public string SheetName { get; set; } = "Sayfa1";
+
+    [Parameter]
+    public string EmptyText { get; set; } = "Kayıt bulunamadı.";
+
+    [Parameter]
+    public string SearchPlaceholder { get; set; } = "Ara...";
+
+    private string _search = "";
+    private readonly Dictionary<string, HashSet<string>> _activeFilters = new();
+    private string? _openFilterColumn;
+    private bool _exporting;
+    private TItem? _pendingDelete;
+    private List<(GridColumn<TItem> Column, Func<TItem, string?> Value)> _compiled = [];
+
+    private IEnumerable<GridColumn<TItem>> FilterableColumns => Columns.Where(c => c.Filterable);
+
+    private Func<TItem, string?> GetCompiled(GridColumn<TItem> column) =>
+        _compiled.First(c => c.Column == column).Value;
+
+    private static bool IsStatusColumn(GridColumn<TItem> column) =>
+        column.Title.Equals("Durum", StringComparison.OrdinalIgnoreCase) ||
+        column.Title.Equals("Status", StringComparison.OrdinalIgnoreCase);
+
+    private bool HasActiveFilters => _activeFilters.Any(kv => kv.Value.Count > 0);
+
+    protected override void OnParametersSet()
+    {
+        _compiled = Columns.Select(c => (c, c.Property.Compile())).ToList();
+    }
+
+    private IEnumerable<TItem> FilteredItems
+    {
+        get
+        {
+            IEnumerable<TItem> query = Items;
+
+            if (!string.IsNullOrWhiteSpace(_search))
+            {
+                var term = _search.Trim();
+                query = query.Where(item => _compiled.Any(c => (c.Value(item) ?? "").Contains(term, StringComparison.OrdinalIgnoreCase)));
+            }
+
+            foreach (var (columnTitle, selectedValues) in _activeFilters)
+            {
+                if (selectedValues.Count == 0)
+                {
+                    continue;
+                }
+
+                var compiled = _compiled.FirstOrDefault(c => c.Column.Title == columnTitle).Value;
+                if (compiled is null)
+                {
+                    continue;
+                }
+
+                query = query.Where(item => selectedValues.Contains(compiled(item) ?? ""));
+            }
+
+            return query;
+        }
+    }
+
+    private IQueryable<TItem> ViewData => FilteredItems.AsQueryable();
+
+    private List<string> GetDistinctValues(GridColumn<TItem> column)
+    {
+        var compiled = _compiled.FirstOrDefault(c => c.Column.Title == column.Title).Value;
+        if (compiled is null)
+        {
+            return [];
+        }
+
+        return Items
+            .Select(compiled)
+            .Select(v => (v ?? "").Trim())
+            .Where(v => v.Length > 0)
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .OrderBy(v => v, StringComparer.OrdinalIgnoreCase)
+            .ToList();
+    }
+
+    private void OnSearchInput(ChangeEventArgs e) => _search = e.Value?.ToString() ?? "";
+
+    private void ClearSearch() => _search = "";
+
+    private void ToggleFilterPanel(string columnTitle) => _openFilterColumn = _openFilterColumn == columnTitle ? null : columnTitle;
+
+    private void CloseFilterPanel() => _openFilterColumn = null;
+
+    private void ToggleFilterValue(string columnTitle, string value, bool selected)
+    {
+        if (!_activeFilters.TryGetValue(columnTitle, out var set))
+        {
+            set = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            _activeFilters[columnTitle] = set;
+        }
+
+        if (selected)
+        {
+            set.Add(value);
+        }
+        else
+        {
+            set.Remove(value);
+        }
+    }
+
+    private void ClearColumnFilter(string columnTitle)
+    {
+        _activeFilters.Remove(columnTitle);
+    }
+
+    private void ClearAllFilters()
+    {
+        _activeFilters.Clear();
+    }
+
+    private bool DeleteModalOpen => _pendingDelete is not null;
+
+    private void OnDeleteModalOpenChanged(bool open)
+    {
+        if (!open)
+        {
+            _pendingDelete = default;
+        }
+    }
+
+    private void RequestDelete(TItem item) => _pendingDelete = item;
+
+    private void CancelDelete() => _pendingDelete = default;
+
+    private void ConfirmDelete()
+    {
+        if (_pendingDelete is not null)
+        {
+            Items.Remove(_pendingDelete);
+        }
+
+        _pendingDelete = default;
+    }
+
+    private async Task ExportToExcelAsync()
+    {
+        _exporting = true;
+        try
+        {
+            var headers = Columns.Select(c => c.Title).ToList();
+            var rows = FilteredItems
+                .Select(item => (IReadOnlyList<string?>)_compiled.Select(c => c.Value(item)).ToList())
+                .ToList();
+
+            var bytes = ExcelExport.Export(SheetName, headers, rows);
+
+            using var stream = new MemoryStream(bytes);
+            using var streamRef = new DotNetStreamReference(stream);
+            var fileName = $"{ExportFileName}-{DateTime.Now:yyyyMMdd-HHmm}.xlsx";
+            await JS.InvokeVoidAsync(
+                "enKolayCari.downloadFileFromStream",
+                fileName,
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                streamRef);
+        }
+        finally
+        {
+            _exporting = false;
+        }
+    }
+}

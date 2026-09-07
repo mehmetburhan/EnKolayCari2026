@@ -16,14 +16,7 @@
     </div>
 
     <div class="mt-4">
-        <LumexDataGrid Data="@_accounts.AsQueryable()" Hoverable Striped>
-            <PropertyColumn Property="@(x => x.Bank)" Title="Banka" />
-            <PropertyColumn Property="@(x => x.Branch)" Title="Şube" />
-            <PropertyColumn Property="@(x => x.Iban)" Title="IBAN" />
-            <PropertyColumn Property="@(x => x.Currency)" Title="Para Birimi" />
-            <PropertyColumn Property="@(x => x.BalanceLabel)" Title="Bakiye" Align="Align.End" />
-            <PropertyColumn Property="@(x => x.Status)" Title="Durum" />
-        </LumexDataGrid>
+        <AppDataGrid TItem="BankAccount" Items="@_accounts" Columns="@_columns" ExportFileName="banka-hesaplari" SheetName="Hesap Listesi" EmptyText="Hesap bulunamadı." />
     </div>
 </div>
 
@@ -37,5 +30,15 @@
         new("Akbank", "Maslak Şubesi", "TR** **** **** **** **** 55 76", "USD", "$4.620,15", "Aktif"),
         new("Yapı Kredi", "Kadıköy Şubesi", "TR** **** **** **** **** 61 04", "GBP", "£1.670,10", "Aktif"),
         new("QNB Finansbank", "Bakırköy Şubesi", "TR** **** **** **** **** 09 87", "TRY", "₺0,00", "Pasif"),
+    ];
+
+    private readonly List<GridColumn<BankAccount>> _columns =
+    [
+        new() { Title = "Banka", Property = x => x.Bank },
+        new() { Title = "Şube", Property = x => x.Branch, Filterable = false },
+        new() { Title = "IBAN", Property = x => x.Iban, Filterable = false },
+        new() { Title = "Para Birimi", Property = x => x.Currency },
+        new() { Title = "Bakiye", Property = x => x.BalanceLabel, Align = Align.End, Filterable = false },
+        new() { Title = "Durum", Property = x => x.Status },
     ];
 }

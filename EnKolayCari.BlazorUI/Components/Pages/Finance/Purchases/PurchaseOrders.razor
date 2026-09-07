@@ -16,14 +16,7 @@
     </div>
 
     <div class="mt-4">
-        <LumexDataGrid Data="@_orders.AsQueryable()" Hoverable Striped>
-            <PropertyColumn Property="@(x => x.OrderNo)" Title="Sipariş No" />
-            <PropertyColumn Property="@(x => x.Supplier)" Title="Tedarikçi" />
-            <PropertyColumn Property="@(x => x.OrderDate)" Title="Sipariş Tarihi" />
-            <PropertyColumn Property="@(x => x.ExpectedDate)" Title="Beklenen Teslim" />
-            <PropertyColumn Property="@(x => x.AmountLabel)" Title="Tutar" Align="Align.End" />
-            <PropertyColumn Property="@(x => x.Status)" Title="Durum" />
-        </LumexDataGrid>
+        <AppDataGrid TItem="PurchaseOrder" Items="@_orders" Columns="@_columns" ExportFileName="alis-siparisleri" SheetName="Sipariş Listesi" EmptyText="Sipariş bulunamadı." />
     </div>
 </div>
 
@@ -36,5 +29,15 @@
         new("ALS-2026-0175", "Elektro Dağıtım A.Ş.", "05 Eki 2026", "15 Eki 2026", "₺15.200,00", "Beklemede"),
         new("ALS-2026-0174", "Orkide Kırtasiye", "01 Eki 2026", "08 Eki 2026", "₺1.340,00", "Teslim Alındı"),
         new("ALS-2026-0173", "Kartal Lojistik A.Ş.", "27 Eyl 2026", "04 Eki 2026", "₺6.780,00", "Teslim Alındı"),
+    ];
+
+    private readonly List<GridColumn<PurchaseOrder>> _columns =
+    [
+        new() { Title = "Sipariş No", Property = x => x.OrderNo, Filterable = false },
+        new() { Title = "Tedarikçi", Property = x => x.Supplier, Filterable = false },
+        new() { Title = "Sipariş Tarihi", Property = x => x.OrderDate, Filterable = false },
+        new() { Title = "Beklenen Teslim", Property = x => x.ExpectedDate, Filterable = false },
+        new() { Title = "Tutar", Property = x => x.AmountLabel, Align = Align.End, Filterable = false },
+        new() { Title = "Durum", Property = x => x.Status },
     ];
 }

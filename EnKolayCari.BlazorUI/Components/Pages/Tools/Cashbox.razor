@@ -16,14 +16,7 @@
     </div>
 
     <div class="mt-4">
-        <LumexDataGrid Data="@_movements.AsQueryable()" Hoverable Striped>
-            <PropertyColumn Property="@(x => x.Date)" Title="Tarih" />
-            <PropertyColumn Property="@(x => x.DocumentNo)" Title="Belge No" />
-            <PropertyColumn Property="@(x => x.Type)" Title="Tür" />
-            <PropertyColumn Property="@(x => x.Description)" Title="Açıklama" />
-            <PropertyColumn Property="@(x => x.AmountLabel)" Title="Tutar" Align="Align.End" />
-            <PropertyColumn Property="@(x => x.BalanceLabel)" Title="Bakiye" Align="Align.End" />
-        </LumexDataGrid>
+        <AppDataGrid TItem="CashMovement" Items="@_movements" Columns="@_columns" ExportFileName="kasa-hareketleri" SheetName="Kasa Hareketleri" EmptyText="Hareket bulunamadı." />
     </div>
 </div>
 
@@ -37,5 +30,15 @@
         new("10 Eki 2026", "KSA-2026-0339", "Ödeme", "Reklam Gideri", "-₺3.205,00", "₺23.000,75"),
         new("09 Eki 2026", "KSA-2026-0338", "Tahsilat", "XYZ Sanayi A.Ş. - Nakit Tahsilat", "+₺11.500,00", "₺26.205,75"),
         new("09 Eki 2026", "KSA-2026-0337", "Ödeme", "Kırtasiye Gideri", "-₺459,90", "₺14.705,75"),
+    ];
+
+    private readonly List<GridColumn<CashMovement>> _columns =
+    [
+        new() { Title = "Tarih", Property = x => x.Date, Filterable = false },
+        new() { Title = "Belge No", Property = x => x.DocumentNo, Filterable = false },
+        new() { Title = "Tür", Property = x => x.Type },
+        new() { Title = "Açıklama", Property = x => x.Description, Filterable = false },
+        new() { Title = "Tutar", Property = x => x.AmountLabel, Align = Align.End, Filterable = false },
+        new() { Title = "Bakiye", Property = x => x.BalanceLabel, Align = Align.End, Filterable = false },
     ];
 }

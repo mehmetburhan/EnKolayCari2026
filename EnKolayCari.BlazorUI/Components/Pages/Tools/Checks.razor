@@ -16,14 +16,7 @@
     </div>
 
     <div class="mt-4">
-        <LumexDataGrid Data="@_checks.AsQueryable()" Hoverable Striped>
-            <PropertyColumn Property="@(x => x.CheckNo)" Title="Çek No" />
-            <PropertyColumn Property="@(x => x.Bank)" Title="Banka" />
-            <PropertyColumn Property="@(x => x.Type)" Title="Tür" />
-            <PropertyColumn Property="@(x => x.DueDate)" Title="Vade Tarihi" />
-            <PropertyColumn Property="@(x => x.AmountLabel)" Title="Tutar" Align="Align.End" />
-            <PropertyColumn Property="@(x => x.Status)" Title="Durum" />
-        </LumexDataGrid>
+        <AppDataGrid TItem="Check" Items="@_checks" Columns="@_columns" ExportFileName="cekler" SheetName="Çek Listesi" EmptyText="Çek bulunamadı." />
     </div>
 </div>
 
@@ -36,5 +29,15 @@
         new("CEK-778355", "İş Bankası", "Verilen", "01 Kas 2026", "₺8.400,00", "Portföyde"),
         new("CEK-778290", "Akbank", "Alınan", "10 Eki 2026", "₺22.750,00", "Tahsil Edildi"),
         new("CEK-778211", "Yapı Kredi", "Verilen", "18 Eyl 2026", "₺5.600,00", "Karşılıksız"),
+    ];
+
+    private readonly List<GridColumn<Check>> _columns =
+    [
+        new() { Title = "Çek No", Property = x => x.CheckNo, Filterable = false },
+        new() { Title = "Banka", Property = x => x.Bank },
+        new() { Title = "Tür", Property = x => x.Type },
+        new() { Title = "Vade Tarihi", Property = x => x.DueDate, Filterable = false },
+        new() { Title = "Tutar", Property = x => x.AmountLabel, Align = Align.End, Filterable = false },
+        new() { Title = "Durum", Property = x => x.Status },
     ];
 }

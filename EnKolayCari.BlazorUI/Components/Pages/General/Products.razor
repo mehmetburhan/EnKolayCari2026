@@ -16,15 +16,7 @@
     </div>
 
     <div class="mt-4">
-        <LumexDataGrid Data="@_products.AsQueryable()" Hoverable Striped>
-            <PropertyColumn Property="@(x => x.Sku)" Title="Stok Kodu" />
-            <PropertyColumn Property="@(x => x.Name)" Title="Ürün Adı" />
-            <PropertyColumn Property="@(x => x.Category)" Title="Kategori" />
-            <PropertyColumn Property="@(x => x.Unit)" Title="Birim" />
-            <PropertyColumn Property="@(x => x.StockQty)" Title="Stok" Align="Align.End" />
-            <PropertyColumn Property="@(x => x.PriceLabel)" Title="Fiyat" Align="Align.End" />
-            <PropertyColumn Property="@(x => x.Status)" Title="Durum" />
-        </LumexDataGrid>
+        <AppDataGrid TItem="Product" Items="@_products" Columns="@_columns" ExportFileName="urunler" SheetName="Ürünler" EmptyText="Ürün bulunamadı." />
     </div>
 </div>
 
@@ -41,5 +33,16 @@
         new("URN-1006", "Beyaz Pamuklu Tişört", "Tekstil", "Adet", 0, "₺79,90", "Tükendi"),
         new("URN-1007", "Laptop Çantası 15.6\"", "Aksesuar", "Adet", 45, "₺340,00", "Aktif"),
         new("URN-1008", "Endüstriyel Raf Sistemi", "Depo Ekipmanı", "Set", 4, "₺2.750,00", "Pasif"),
+    ];
+
+    private readonly List<GridColumn<Product>> _columns =
+    [
+        new() { Title = "Stok Kodu", Property = x => x.Sku, Filterable = false },
+        new() { Title = "Ürün Adı", Property = x => x.Name, Filterable = false },
+        new() { Title = "Kategori", Property = x => x.Category },
+        new() { Title = "Birim", Property = x => x.Unit },
+        new() { Title = "Stok", Property = x => x.StockQty.ToString(), Align = Align.End, Filterable = false },
+        new() { Title = "Fiyat", Property = x => x.PriceLabel, Align = Align.End, Filterable = false },
+        new() { Title = "Durum", Property = x => x.Status },
     ];
 }

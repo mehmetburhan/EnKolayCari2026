@@ -16,14 +16,7 @@
     </div>
 
     <div class="mt-4">
-        <LumexDataGrid Data="@_rows.AsQueryable()" Hoverable Striped>
-            <PropertyColumn Property="@(x => x.Account)" Title="Banka Hesabı" />
-            <PropertyColumn Property="@(x => x.StatementDate)" Title="Ekstre Tarihi" />
-            <PropertyColumn Property="@(x => x.BookBalanceLabel)" Title="Defter Bakiyesi" Align="Align.End" />
-            <PropertyColumn Property="@(x => x.BankBalanceLabel)" Title="Banka Bakiyesi" Align="Align.End" />
-            <PropertyColumn Property="@(x => x.DifferenceLabel)" Title="Fark" Align="Align.End" />
-            <PropertyColumn Property="@(x => x.Status)" Title="Durum" />
-        </LumexDataGrid>
+        <AppDataGrid TItem="ReconciliationRow" Items="@_rows" Columns="@_columns" ExportFileName="banka-mutabakati" SheetName="Mutabakat Listesi" EmptyText="Mutabakat kaydı bulunamadı." />
     </div>
 </div>
 
@@ -36,5 +29,15 @@
         new("İş Bankası - Merkez Şubesi", "10 Eki 2026", "€7.850,20", "€7.720,20", "€130,00", "Fark Var"),
         new("Akbank - Maslak Şubesi", "09 Eki 2026", "$4.620,15", "$4.620,15", "$0,00", "Eşleşti"),
         new("Yapı Kredi - Kadıköy Şubesi", "08 Eki 2026", "£1.670,10", "£1.640,10", "£30,00", "Fark Var"),
+    ];
+
+    private readonly List<GridColumn<ReconciliationRow>> _columns =
+    [
+        new() { Title = "Banka Hesabı", Property = x => x.Account, Filterable = false },
+        new() { Title = "Ekstre Tarihi", Property = x => x.StatementDate, Filterable = false },
+        new() { Title = "Defter Bakiyesi", Property = x => x.BookBalanceLabel, Align = Align.End, Filterable = false },
+        new() { Title = "Banka Bakiyesi", Property = x => x.BankBalanceLabel, Align = Align.End, Filterable = false },
+        new() { Title = "Fark", Property = x => x.DifferenceLabel, Align = Align.End, Filterable = false },
+        new() { Title = "Durum", Property = x => x.Status },
     ];
 }

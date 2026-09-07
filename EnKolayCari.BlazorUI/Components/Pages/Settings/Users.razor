@@ -16,14 +16,7 @@
     </div>
 
     <div class="mt-4">
-        <LumexDataGrid Data="@_users.AsQueryable()" Hoverable Striped>
-            <PropertyColumn Property="@(x => x.Name)" Title="Ad Soyad" />
-            <PropertyColumn Property="@(x => x.Email)" Title="E-posta" />
-            <PropertyColumn Property="@(x => x.Role)" Title="Rol" />
-            <PropertyColumn Property="@(x => x.Department)" Title="Departman" />
-            <PropertyColumn Property="@(x => x.LastLogin)" Title="Son Giriş" />
-            <PropertyColumn Property="@(x => x.Status)" Title="Durum" />
-        </LumexDataGrid>
+        <AppDataGrid TItem="UserRow" Items="@_users" Columns="@_columns" ExportFileName="kullanicilar" SheetName="Kullanıcı Listesi" EmptyText="Kullanıcı bulunamadı." />
     </div>
 </div>
 
@@ -37,5 +30,15 @@
         new("Elif Kaya", "elif.kaya@enkolaycari.com", "Muhasebe", "Finans", "11 Eki 2026 16:20", "Aktif"),
         new("Mert Demir", "mert.demir@enkolaycari.com", "Satış Temsilcisi", "Satış", "10 Eki 2026 14:05", "Aktif"),
         new("Selin Arslan", "selin.arslan@enkolaycari.com", "Depo Sorumlusu", "Depo", "02 Eyl 2026 11:30", "Pasif"),
+    ];
+
+    private readonly List<GridColumn<UserRow>> _columns =
+    [
+        new() { Title = "Ad Soyad", Property = x => x.Name, Filterable = false },
+        new() { Title = "E-posta", Property = x => x.Email, Filterable = false },
+        new() { Title = "Rol", Property = x => x.Role },
+        new() { Title = "Departman", Property = x => x.Department },
+        new() { Title = "Son Giriş", Property = x => x.LastLogin, Filterable = false },
+        new() { Title = "Durum", Property = x => x.Status },
     ];
 }

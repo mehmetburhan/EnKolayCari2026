@@ -16,14 +16,7 @@
     </div>
 
     <div class="mt-4">
-        <LumexDataGrid Data="@_quotes.AsQueryable()" Hoverable Striped>
-            <PropertyColumn Property="@(x => x.QuoteNo)" Title="Teklif No" />
-            <PropertyColumn Property="@(x => x.Customer)" Title="Müşteri" />
-            <PropertyColumn Property="@(x => x.Date)" Title="Tarih" />
-            <PropertyColumn Property="@(x => x.ValidUntil)" Title="Geçerlilik" />
-            <PropertyColumn Property="@(x => x.AmountLabel)" Title="Tutar" Align="Align.End" />
-            <PropertyColumn Property="@(x => x.Status)" Title="Durum" />
-        </LumexDataGrid>
+        <AppDataGrid TItem="Quote" Items="@_quotes" Columns="@_columns" ExportFileName="teklifler" SheetName="Teklif Listesi" EmptyText="Teklif bulunamadı." />
     </div>
 </div>
 
@@ -37,5 +30,15 @@
         new("TKL-2026-0086", "Deniz Yapı Market", "01 Eki 2026", "15 Eki 2026", "₺2.980,00", "Reddedildi"),
         new("TKL-2026-0085", "Güneş Tekstil San.", "28 Eyl 2026", "12 Eki 2026", "₺11.760,00", "Onaylandı"),
         new("TKL-2026-0084", "XYZ Sanayi A.Ş.", "25 Eyl 2026", "09 Eki 2026", "₺34.500,00", "Beklemede"),
+    ];
+
+    private readonly List<GridColumn<Quote>> _columns =
+    [
+        new() { Title = "Teklif No", Property = x => x.QuoteNo, Filterable = false },
+        new() { Title = "Müşteri", Property = x => x.Customer, Filterable = false },
+        new() { Title = "Tarih", Property = x => x.Date, Filterable = false },
+        new() { Title = "Geçerlilik", Property = x => x.ValidUntil, Filterable = false },
+        new() { Title = "Tutar", Property = x => x.AmountLabel, Align = Align.End, Filterable = false },
+        new() { Title = "Durum", Property = x => x.Status },
     ];
 }

@@ -16,14 +16,7 @@
     </div>
 
     <div class="mt-4">
-        <LumexDataGrid Data="@_templates.AsQueryable()" Hoverable Striped>
-            <PropertyColumn Property="@(x => x.Name)" Title="Şablon Adı" />
-            <PropertyColumn Property="@(x => x.PaperSize)" Title="Kağıt Boyutu" />
-            <PropertyColumn Property="@(x => x.Language)" Title="Dil" />
-            <PropertyColumn Property="@(x => x.LastUpdated)" Title="Son Güncelleme" />
-            <PropertyColumn Property="@(x => x.IsDefaultLabel)" Title="Varsayılan" />
-            <PropertyColumn Property="@(x => x.Status)" Title="Durum" />
-        </LumexDataGrid>
+        <AppDataGrid TItem="DocumentTemplate" Items="@_templates" Columns="@_columns" ExportFileName="irsaliye-tasarimi" SheetName="İrsaliye Şablonları" EmptyText="Şablon bulunamadı." />
     </div>
 </div>
 
@@ -35,5 +28,15 @@
         new("Standart İrsaliye Şablonu", "A4", "Türkçe", "28 Eyl 2026", "Evet", "Aktif"),
         new("Sevk İrsaliyesi Şablonu", "A4", "Türkçe", "10 Eyl 2026", "Hayır", "Aktif"),
         new("Konsinye İrsaliye Şablonu", "A4", "Türkçe", "30 Ağu 2026", "Hayır", "Pasif"),
+    ];
+
+    private readonly List<GridColumn<DocumentTemplate>> _columns =
+    [
+        new() { Title = "Şablon Adı", Property = x => x.Name, Filterable = false },
+        new() { Title = "Kağıt Boyutu", Property = x => x.PaperSize },
+        new() { Title = "Dil", Property = x => x.Language },
+        new() { Title = "Son Güncelleme", Property = x => x.LastUpdated, Filterable = false },
+        new() { Title = "Varsayılan", Property = x => x.IsDefaultLabel },
+        new() { Title = "Durum", Property = x => x.Status },
     ];
 }

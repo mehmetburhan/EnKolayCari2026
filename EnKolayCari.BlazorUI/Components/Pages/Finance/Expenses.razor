@@ -16,14 +16,7 @@
     </div>
 
     <div class="mt-4">
-        <LumexDataGrid Data="@_expenses.AsQueryable()" Hoverable Striped>
-            <PropertyColumn Property="@(x => x.Date)" Title="Tarih" />
-            <PropertyColumn Property="@(x => x.Category)" Title="Kategori" />
-            <PropertyColumn Property="@(x => x.Description)" Title="Açıklama" />
-            <PropertyColumn Property="@(x => x.PaymentMethod)" Title="Ödeme Yöntemi" />
-            <PropertyColumn Property="@(x => x.AmountLabel)" Title="Tutar" Align="Align.End" />
-            <PropertyColumn Property="@(x => x.Status)" Title="Durum" />
-        </LumexDataGrid>
+        <AppDataGrid TItem="Expense" Items="@_expenses" Columns="@_columns" ExportFileName="giderler" SheetName="Gider Listesi" EmptyText="Gider bulunamadı." />
     </div>
 </div>
 
@@ -37,5 +30,15 @@
         new("09 Eki 2026", "Ofis Malzemesi", "Kırtasiye Gideri", "Kasa", "₺459,90", "Ödendi"),
         new("07 Eki 2026", "Ulaşım", "Yakıt Gideri", "Kredi Kartı", "₺620,00", "Bekleniyor"),
         new("05 Eki 2026", "Fatura", "Elektrik Faturası", "Banka Havalesi", "₺1.140,00", "Bekleniyor"),
+    ];
+
+    private readonly List<GridColumn<Expense>> _columns =
+    [
+        new() { Title = "Tarih", Property = x => x.Date, Filterable = false },
+        new() { Title = "Kategori", Property = x => x.Category },
+        new() { Title = "Açıklama", Property = x => x.Description, Filterable = false },
+        new() { Title = "Ödeme Yöntemi", Property = x => x.PaymentMethod },
+        new() { Title = "Tutar", Property = x => x.AmountLabel, Align = Align.End, Filterable = false },
+        new() { Title = "Durum", Property = x => x.Status },
     ];
 }

@@ -16,14 +16,7 @@
     </div>
 
     <div class="mt-4">
-        <LumexDataGrid Data="@_templates.AsQueryable()" Hoverable Striped>
-            <PropertyColumn Property="@(x => x.Name)" Title="Şablon Adı" />
-            <PropertyColumn Property="@(x => x.Size)" Title="Ölçü" />
-            <PropertyColumn Property="@(x => x.Type)" Title="Tür" />
-            <PropertyColumn Property="@(x => x.LastUpdated)" Title="Son Güncelleme" />
-            <PropertyColumn Property="@(x => x.IsDefaultLabel)" Title="Varsayılan" />
-            <PropertyColumn Property="@(x => x.Status)" Title="Durum" />
-        </LumexDataGrid>
+        <AppDataGrid TItem="LabelTemplate" Items="@_templates" Columns="@_columns" ExportFileName="etiket-tasarimi" SheetName="Etiket Şablonları" EmptyText="Şablon bulunamadı." />
     </div>
 </div>
 
@@ -36,5 +29,15 @@
         new("Barkodlu Raf Etiketi", "50x25mm", "Raf", "15 Eyl 2026", "Hayır", "Aktif"),
         new("Fiyat Etiketi (Büyük)", "70x40mm", "Ürün", "02 Eyl 2026", "Hayır", "Aktif"),
         new("Kampanya Etiketi", "60x40mm", "Ürün", "20 Ağu 2026", "Hayır", "Pasif"),
+    ];
+
+    private readonly List<GridColumn<LabelTemplate>> _columns =
+    [
+        new() { Title = "Şablon Adı", Property = x => x.Name, Filterable = false },
+        new() { Title = "Ölçü", Property = x => x.Size },
+        new() { Title = "Tür", Property = x => x.Type },
+        new() { Title = "Son Güncelleme", Property = x => x.LastUpdated, Filterable = false },
+        new() { Title = "Varsayılan", Property = x => x.IsDefaultLabel },
+        new() { Title = "Durum", Property = x => x.Status },
     ];
 }

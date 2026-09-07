@@ -16,14 +16,7 @@
     </div>
 
     <div class="mt-4">
-        <LumexDataGrid Data="@_branches.AsQueryable()" Hoverable Striped>
-            <PropertyColumn Property="@(x => x.Code)" Title="Şube Kodu" />
-            <PropertyColumn Property="@(x => x.Name)" Title="Şube Adı" />
-            <PropertyColumn Property="@(x => x.City)" Title="Şehir" />
-            <PropertyColumn Property="@(x => x.TaxOffice)" Title="Vergi Dairesi" />
-            <PropertyColumn Property="@(x => x.Manager)" Title="Sorumlu" />
-            <PropertyColumn Property="@(x => x.Status)" Title="Durum" />
-        </LumexDataGrid>
+        <AppDataGrid TItem="Branch" Items="@_branches" Columns="@_columns" ExportFileName="subeler" SheetName="Şubeler" EmptyText="Şube bulunamadı." />
     </div>
 </div>
 
@@ -36,5 +29,15 @@
         new("SB-02", "Anadolu Yakası Şube", "İstanbul", "Kadıköy V.D.", "Elif Kaya", "Aktif"),
         new("SB-03", "Ege Bölge Şube", "İzmir", "Konak V.D.", "Mert Demir", "Aktif"),
         new("SB-04", "Marmara Şube", "Kocaeli", "İzmit V.D.", "Selin Arslan", "Pasif"),
+    ];
+
+    private readonly List<GridColumn<Branch>> _columns =
+    [
+        new() { Title = "Şube Kodu", Property = x => x.Code, Filterable = false },
+        new() { Title = "Şube Adı", Property = x => x.Name, Filterable = false },
+        new() { Title = "Şehir", Property = x => x.City },
+        new() { Title = "Vergi Dairesi", Property = x => x.TaxOffice, Filterable = false },
+        new() { Title = "Sorumlu", Property = x => x.Manager, Filterable = false },
+        new() { Title = "Durum", Property = x => x.Status },
     ];
 }
