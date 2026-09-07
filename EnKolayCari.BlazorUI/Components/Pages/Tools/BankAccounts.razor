@@ -1,0 +1,41 @@
+@page "/bank-accounts"
+
+<PageTitle>Banka Hesapları - EnKolayCari</PageTitle>
+<PageHeading Title="Banka Hesapları" Subtitle="İşletmenize ait banka hesaplarını ve bakiyelerini görüntüleyin." />
+
+<div class="card p-5">
+    <div class="flex items-center justify-between">
+        <div>
+            <h2 class="text-base font-semibold text-slate-900">Hesap Listesi</h2>
+            <p class="text-xs text-slate-500">Mockup veri &middot; @_accounts.Count kayıt</p>
+        </div>
+        <button type="button" class="dashboard-button-primary">
+            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+            Yeni Hesap
+        </button>
+    </div>
+
+    <div class="mt-4">
+        <LumexDataGrid Data="@_accounts.AsQueryable()" Hoverable Striped>
+            <PropertyColumn Property="@(x => x.Bank)" Title="Banka" />
+            <PropertyColumn Property="@(x => x.Branch)" Title="Şube" />
+            <PropertyColumn Property="@(x => x.Iban)" Title="IBAN" />
+            <PropertyColumn Property="@(x => x.Currency)" Title="Para Birimi" />
+            <PropertyColumn Property="@(x => x.BalanceLabel)" Title="Bakiye" Align="Align.End" />
+            <PropertyColumn Property="@(x => x.Status)" Title="Durum" />
+        </LumexDataGrid>
+    </div>
+</div>
+
+@code {
+    private record BankAccount(string Bank, string Branch, string Iban, string Currency, string BalanceLabel, string Status);
+
+    private readonly List<BankAccount> _accounts =
+    [
+        new("Garanti BBVA", "Levent Şubesi", "TR** **** **** **** **** 30 01", "TRY", "₺10.420,30", "Aktif"),
+        new("İş Bankası", "Merkez Şubesi", "TR** **** **** **** **** 42 18", "EUR", "€7.850,20", "Aktif"),
+        new("Akbank", "Maslak Şubesi", "TR** **** **** **** **** 55 76", "USD", "$4.620,15", "Aktif"),
+        new("Yapı Kredi", "Kadıköy Şubesi", "TR** **** **** **** **** 61 04", "GBP", "£1.670,10", "Aktif"),
+        new("QNB Finansbank", "Bakırköy Şubesi", "TR** **** **** **** **** 09 87", "TRY", "₺0,00", "Pasif"),
+    ];
+}

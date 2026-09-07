@@ -1,0 +1,42 @@
+@page "/stock-movements"
+
+<PageTitle>Stok & Depo Hareketleri - EnKolayCari</PageTitle>
+<PageHeading Title="Stok & Depo Hareketleri" Subtitle="Giriş, çıkış ve transfer hareketlerini takip edin." />
+
+<div class="card p-5">
+    <div class="flex items-center justify-between">
+        <div>
+            <h2 class="text-base font-semibold text-slate-900">Son Hareketler</h2>
+            <p class="text-xs text-slate-500">Mockup veri &middot; @_movements.Count kayıt</p>
+        </div>
+        <button type="button" class="dashboard-button-primary">
+            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+            Yeni Hareket
+        </button>
+    </div>
+
+    <div class="mt-4">
+        <LumexDataGrid Data="@_movements.AsQueryable()" Hoverable Striped>
+            <PropertyColumn Property="@(x => x.Date)" Title="Tarih" />
+            <PropertyColumn Property="@(x => x.DocumentNo)" Title="Belge No" />
+            <PropertyColumn Property="@(x => x.Type)" Title="Hareket Türü" />
+            <PropertyColumn Property="@(x => x.Product)" Title="Ürün" />
+            <PropertyColumn Property="@(x => x.Warehouse)" Title="Depo" />
+            <PropertyColumn Property="@(x => x.QuantityLabel)" Title="Miktar" Align="Align.End" />
+        </LumexDataGrid>
+    </div>
+</div>
+
+@code {
+    private record StockMovement(string Date, string DocumentNo, string Type, string Product, string Warehouse, string QuantityLabel);
+
+    private readonly List<StockMovement> _movements =
+    [
+        new("07 Eki 2026", "SDH-2026-0142", "Giriş", "A4 Fotokopi Kağıdı 80gr", "Merkez Depo", "+120 Koli"),
+        new("06 Eki 2026", "SDH-2026-0141", "Çıkış", "Dell 24\" Monitör", "Merkez Depo", "-4 Adet"),
+        new("06 Eki 2026", "SDH-2026-0140", "Transfer", "Toner HP 26A", "Merkez Depo → Anadolu Yakası Depo", "10 Kutu"),
+        new("05 Eki 2026", "SDH-2026-0139", "Çıkış", "USB-C Şarj Kablosu 1m", "Anadolu Yakası Depo", "-25 Adet"),
+        new("04 Eki 2026", "SDH-2026-0138", "Giriş", "Ofis Sandalyesi Ergonomik", "Ege Bölge Depo", "+6 Adet"),
+        new("03 Eki 2026", "SDH-2026-0137", "Sayım Farkı", "Beyaz Pamuklu Tişört", "Merkez Depo", "-3 Adet"),
+    ];
+}

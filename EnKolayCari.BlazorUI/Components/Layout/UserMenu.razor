@@ -1,0 +1,205 @@
+@inject SessionState Session
+@implements IDisposable
+
+<div class="relative">
+    <button type="button"
+            class="flex items-center gap-2 rounded-full border border-[var(--nexora-border)] bg-white py-1 pl-1 pr-1.5 sm:pr-3 hover:border-[var(--nexora-blue)]/40"
+            aria-haspopup="true"
+            aria-expanded="@(_open ? "true" : "false")"
+            @onclick="Toggle">
+        <span class="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-gradient-to-br from-brand to-violet text-xs font-bold text-white">@Initials</span>
+        <span class="hidden text-left sm:block">
+            <span class="block max-w-[120px] truncate text-xs font-semibold text-slate-900">@Session.UserName</span>
+            <span class="block max-w-[120px] truncate text-[11px] text-slate-500">@Session.CompanyName</span>
+        </span>
+        <svg class="hidden h-3.5 w-3.5 shrink-0 text-slate-400 transition-transform sm:block @(_open ? "rotate-180" : "")" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">@((MarkupString)MenuIcons.ChevronDown)</svg>
+    </button>
+
+    @if (_open)
+    {
+        <div class="fixed inset-0 z-40" @onclick="Close"></div>
+
+        <div class="absolute right-0 top-full z-50 mt-2 w-72 rounded-2xl border border-[var(--nexora-border)] bg-white p-2 shadow-[0_16px_40px_rgba(15,23,42,.12)]" @onclick:stopPropagation="true">
+            <div class="flex items-center gap-3 rounded-xl p-2.5">
+                <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-gradient-to-br from-brand to-violet text-sm font-bold text-white">@Initials</span>
+                <div class="min-w-0">
+                    <p class="truncate text-sm font-semibold text-slate-900">@Session.UserName</p>
+                    <p class="truncate text-xs text-slate-500">@Session.UserEmail</p>
+                </div>
+            </div>
+
+            <div class="my-1.5 border-t border-[var(--nexora-border)]"></div>
+
+            <a href="#" class="flex items-center gap-2.5 rounded-xl px-2.5 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-100">
+                <svg class="h-4.5 w-4.5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">@((MarkupString)MenuIcons.UserCircle)</svg>
+                Profilim
+            </a>
+
+            <div class="my-1.5 border-t border-[var(--nexora-border)]"></div>
+
+            <div class="px-1 py-1">
+                <button type="button"
+                        class="flex w-full items-center justify-between rounded-xl px-1.5 py-2 text-sm hover:bg-slate-50"
+                        @onclick="ToggleCompanyList">
+                    <span class="flex items-center gap-2.5 text-slate-700">
+                        <svg class="h-4.5 w-4.5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">@((MarkupString)MenuIcons.BuildingLibrary)</svg>
+                        <span class="font-medium">Firma</span>
+                    </span>
+                    <span class="flex max-w-[160px] items-center gap-1.5 rounded-full border border-[var(--nexora-border)] bg-white py-1 pl-1 pr-2">
+                        <span class="grid h-5 w-5 shrink-0 place-items-center overflow-hidden rounded-full bg-slate-100 text-[9px] font-bold leading-none text-slate-600 ring-1 ring-black/5">@GetInitials(Session.CompanyName)</span>
+                        <span class="truncate text-xs font-semibold text-slate-700">@Session.CompanyName</span>
+                        <svg class="h-3 w-3 shrink-0 text-slate-400 transition-transform @(_companyListOpen ? "rotate-180" : "")" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">@((MarkupString)MenuIcons.ChevronDown)</svg>
+                    </span>
+                </button>
+
+                @if (_companyListOpen)
+                {
+                    <div class="mt-1 space-y-0.5 rounded-xl bg-slate-50 p-1.5">
+                        @foreach (var company in DemoCompanies.All)
+                        {
+                            var isSelected = Session.CompanyName == company.Name;
+                            <button type="button"
+                                    class="flex w-full items-center gap-2.5 rounded-lg px-2 py-2 text-sm transition-colors @(isSelected ? "bg-white font-semibold text-slate-900 shadow-sm" : "text-slate-600 hover:bg-white/70")"
+                                    @onclick="() => SelectCompany(company.Name)">
+                                <span class="grid h-7 w-7 shrink-0 place-items-center overflow-hidden rounded-full bg-white text-[11px] font-bold leading-none text-slate-600 ring-1 ring-black/5">@GetInitials(company.Name)</span>
+                                <span class="flex-1 truncate text-left">@company.Name</span>
+                                @if (isSelected)
+                                {
+                                    <span class="grid h-5 w-5 shrink-0 place-items-center rounded-full bg-emerald-500 text-white">
+                                        <svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">@((MarkupString)MenuIcons.Check)</svg>
+                                    </span>
+                                }
+                            </button>
+                        }
+                    </div>
+                }
+            </div>
+
+            <div class="my-1.5 border-t border-[var(--nexora-border)]"></div>
+
+            <div class="px-1 py-1">
+                <button type="button"
+                        class="flex w-full items-center justify-between rounded-xl px-1.5 py-2 text-sm hover:bg-slate-50"
+                        @onclick="ToggleLanguageList">
+                    <span class="flex items-center gap-2.5 text-slate-700">
+                        <svg class="h-4.5 w-4.5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">@((MarkupString)MenuIcons.Globe)</svg>
+                        <span class="font-medium">Dil</span>
+                    </span>
+                    <span class="flex items-center gap-1.5 rounded-full border border-[var(--nexora-border)] bg-white py-1 pl-1 pr-2">
+                        <span class="grid h-5 w-5 place-items-center overflow-hidden rounded-full bg-slate-100 text-[13px] leading-none ring-1 ring-black/5">@CurrentLanguage.Flag</span>
+                        <span class="text-xs font-semibold text-slate-700">@CurrentLanguage.Label</span>
+                        <svg class="h-3 w-3 shrink-0 text-slate-400 transition-transform @(_languageListOpen ? "rotate-180" : "")" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">@((MarkupString)MenuIcons.ChevronDown)</svg>
+                    </span>
+                </button>
+
+                @if (_languageListOpen)
+                {
+                    <div class="mt-1 space-y-0.5 rounded-xl bg-slate-50 p-1.5">
+                        @foreach (var option in _languages)
+                        {
+                            var isSelected = Session.Language == option.Value;
+                            <button type="button"
+                                    class="flex w-full items-center gap-2.5 rounded-lg px-2 py-2 text-sm transition-colors @(isSelected ? "bg-white font-semibold text-slate-900 shadow-sm" : "text-slate-600 hover:bg-white/70")"
+                                    @onclick="() => SelectLanguage(option.Value)">
+                                <span class="grid h-7 w-7 shrink-0 place-items-center overflow-hidden rounded-full bg-white text-base leading-none ring-1 ring-black/5">@option.Flag</span>
+                                <span class="flex-1 text-left">@option.Label</span>
+                                @if (isSelected)
+                                {
+                                    <span class="grid h-5 w-5 shrink-0 place-items-center rounded-full bg-emerald-500 text-white">
+                                        <svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">@((MarkupString)MenuIcons.Check)</svg>
+                                    </span>
+                                }
+                            </button>
+                        }
+                    </div>
+                }
+            </div>
+
+            <div class="my-1.5 border-t border-[var(--nexora-border)]"></div>
+
+            <button type="button"
+                    class="flex w-full items-center justify-between rounded-xl px-2.5 py-2.5 text-sm text-slate-700 hover:bg-slate-100"
+                    role="switch"
+                    aria-checked="@(Session.IsDarkMode ? "true" : "false")"
+                    @onclick="ToggleDarkMode">
+                <span class="flex items-center gap-2.5">
+                    <svg class="h-4.5 w-4.5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">@((MarkupString)MenuIcons.Moon)</svg>
+                    <span class="font-medium">Karanlık Mod</span>
+                </span>
+                <span class="relative inline-flex h-6 w-11 shrink-0 items-center rounded-full transition-colors @(Session.IsDarkMode ? "bg-[var(--nexora-blue)]" : "bg-slate-200")">
+                    <span class="inline-block h-4.5 w-4.5 transform rounded-full bg-white shadow transition-transform @(Session.IsDarkMode ? "translate-x-[22px]" : "translate-x-[3px]")"></span>
+                </span>
+            </button>
+
+            <div class="my-1.5 border-t border-[var(--nexora-border)]"></div>
+
+            <NavLink href="auth" class="flex items-center gap-2.5 rounded-xl px-2.5 py-2.5 text-sm font-medium text-red-600 hover:bg-red-50">
+                <svg class="h-4.5 w-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">@((MarkupString)MenuIcons.ArrowRightOnRectangle)</svg>
+                Oturumu Kapat
+            </NavLink>
+        </div>
+    }
+</div>
+
+@code {
+    private bool _open;
+    private bool _companyListOpen;
+    private bool _languageListOpen;
+
+    private readonly (AppLanguage Value, string Label, string Flag)[] _languages =
+    [
+        (AppLanguage.Turkish, "Türkçe", "🇹🇷"),
+        (AppLanguage.English, "English", "🇬🇧"),
+        (AppLanguage.German, "Deutsch", "🇩🇪"),
+        (AppLanguage.Russian, "Русский", "🇷🇺"),
+    ];
+
+    private (AppLanguage Value, string Label, string Flag) CurrentLanguage =>
+        _languages.First(option => option.Value == Session.Language);
+
+    private string Initials => GetInitials(Session.UserName);
+
+    private static string GetInitials(string name) => string.Concat(
+        name
+            .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+            .Where(part => part.Length > 0)
+            .Take(2)
+            .Select(part => char.ToUpperInvariant(part[0])));
+
+    protected override void OnInitialized()
+    {
+        Session.Changed += StateHasChanged;
+    }
+
+    private void Toggle() => _open = !_open;
+
+    private void Close()
+    {
+        _open = false;
+        _companyListOpen = false;
+        _languageListOpen = false;
+    }
+
+    private void ToggleCompanyList() => _companyListOpen = !_companyListOpen;
+
+    private void SelectCompany(string companyName)
+    {
+        Session.SetCompany(companyName);
+        Close();
+    }
+
+    private void ToggleLanguageList() => _languageListOpen = !_languageListOpen;
+
+    private void SelectLanguage(AppLanguage language)
+    {
+        Session.SetLanguage(language);
+        Close();
+    }
+
+    private void ToggleDarkMode() => Session.ToggleDarkMode();
+
+    public void Dispose()
+    {
+        Session.Changed -= StateHasChanged;
+    }
+}

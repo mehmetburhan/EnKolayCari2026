@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EnKolayCari.Language\EnKolayCari.Language.csproj" />
+    <ProjectReference Include="..\EnKolayCari.Web.Common\EnKolayCari.Web.Common.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="LumexUI" Version="2.4.0" />
+  </ItemGroup>
+
+</Project>

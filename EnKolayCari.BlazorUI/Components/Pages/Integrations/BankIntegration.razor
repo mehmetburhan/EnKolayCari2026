@@ -1,0 +1,39 @@
+@page "/integrations/bank"
+
+<PageTitle>Banka Entegrasyonu - EnKolayCari</PageTitle>
+<PageHeading Title="Banka Entegrasyonları" Subtitle="Otomatik ekstre çekimi için banka bağlantılarınızı yönetin." />
+
+<div class="card p-5">
+    <div class="flex items-center justify-between">
+        <div>
+            <h2 class="text-base font-semibold text-slate-900">Bağlı Bankalar</h2>
+            <p class="text-xs text-slate-500">Mockup veri &middot; @_banks.Count kayıt</p>
+        </div>
+        <button type="button" class="dashboard-button-primary">
+            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+            Yeni Bağlantı
+        </button>
+    </div>
+
+    <div class="mt-4">
+        <LumexDataGrid Data="@_banks.AsQueryable()" Hoverable Striped>
+            <PropertyColumn Property="@(x => x.Bank)" Title="Banka" />
+            <PropertyColumn Property="@(x => x.ConnectionType)" Title="Bağlantı Türü" />
+            <PropertyColumn Property="@(x => x.AccountCount)" Title="Hesap Sayısı" Align="Align.End" />
+            <PropertyColumn Property="@(x => x.LastSync)" Title="Son Senkronizasyon" />
+            <PropertyColumn Property="@(x => x.Status)" Title="Durum" />
+        </LumexDataGrid>
+    </div>
+</div>
+
+@code {
+    private record BankIntegrationRow(string Bank, string ConnectionType, int AccountCount, string LastSync, string Status);
+
+    private readonly List<BankIntegrationRow> _banks =
+    [
+        new("Garanti BBVA", "Açık Bankacılık (API)", 1, "12 Eki 2026 08:30", "Bağlı"),
+        new("İş Bankası", "Açık Bankacılık (API)", 1, "12 Eki 2026 08:31", "Bağlı"),
+        new("Akbank", "MT940 Dosya Aktarımı", 1, "11 Eki 2026 20:00", "Bağlı"),
+        new("Yapı Kredi", "Açık Bankacılık (API)", 1, "—", "Bağlantı Bekliyor"),
+    ];
+}

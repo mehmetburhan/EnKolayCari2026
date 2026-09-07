@@ -1,0 +1,40 @@
+@page "/integrations/e-commerce"
+
+<PageTitle>E-Ticaret - EnKolayCari</PageTitle>
+<PageHeading Title="E-Ticaret Entegrasyonları" Subtitle="Bağlı pazaryeri ve e-ticaret mağazalarınızı yönetin." />
+
+<div class="card p-5">
+    <div class="flex items-center justify-between">
+        <div>
+            <h2 class="text-base font-semibold text-slate-900">Bağlı Platformlar</h2>
+            <p class="text-xs text-slate-500">Mockup veri &middot; @_platforms.Count kayıt</p>
+        </div>
+        <button type="button" class="dashboard-button-primary">
+            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+            Yeni Bağlantı
+        </button>
+    </div>
+
+    <div class="mt-4">
+        <LumexDataGrid Data="@_platforms.AsQueryable()" Hoverable Striped>
+            <PropertyColumn Property="@(x => x.Platform)" Title="Platform" />
+            <PropertyColumn Property="@(x => x.StoreName)" Title="Mağaza" />
+            <PropertyColumn Property="@(x => x.LastSync)" Title="Son Senkronizasyon" />
+            <PropertyColumn Property="@(x => x.OrdersToday)" Title="Bugünkü Sipariş" Align="Align.End" />
+            <PropertyColumn Property="@(x => x.Status)" Title="Durum" />
+        </LumexDataGrid>
+    </div>
+</div>
+
+@code {
+    private record EcommercePlatform(string Platform, string StoreName, string LastSync, int OrdersToday, string Status);
+
+    private readonly List<EcommercePlatform> _platforms =
+    [
+        new("Trendyol", "EnKolayCari Mağaza", "12 Eki 2026 09:14", 18, "Bağlı"),
+        new("Hepsiburada", "EnKolayCari Mağaza", "12 Eki 2026 09:10", 7, "Bağlı"),
+        new("N11", "EnKolayCari Outlet", "11 Eki 2026 22:40", 0, "Bağlantı Hatası"),
+        new("Amazon TR", "EnKolayCari Global", "10 Eki 2026 18:05", 3, "Bağlı"),
+        new("Kendi Web Sitem", "enkolaycari.com", "—", 0, "Bağlı Değil"),
+    ];
+}

@@ -1,0 +1,41 @@
+@page "/sales/invoices"
+
+<PageTitle>Satış Faturaları - EnKolayCari</PageTitle>
+<PageHeading Title="Satış Faturaları" Subtitle="Kesilen satış faturalarını ve tahsilat durumlarını görüntüleyin." />
+
+<div class="card p-5">
+    <div class="flex items-center justify-between">
+        <div>
+            <h2 class="text-base font-semibold text-slate-900">Fatura Listesi</h2>
+            <p class="text-xs text-slate-500">Mockup veri &middot; @_invoices.Count kayıt</p>
+        </div>
+        <button type="button" class="dashboard-button-primary">
+            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+            Yeni Fatura
+        </button>
+    </div>
+
+    <div class="mt-4">
+        <LumexDataGrid Data="@_invoices.AsQueryable()" Hoverable Striped>
+            <PropertyColumn Property="@(x => x.InvoiceNo)" Title="Fatura No" />
+            <PropertyColumn Property="@(x => x.Customer)" Title="Müşteri" />
+            <PropertyColumn Property="@(x => x.Date)" Title="Tarih" />
+            <PropertyColumn Property="@(x => x.DueDate)" Title="Vade" />
+            <PropertyColumn Property="@(x => x.AmountLabel)" Title="Tutar" Align="Align.End" />
+            <PropertyColumn Property="@(x => x.Status)" Title="Durum" />
+        </LumexDataGrid>
+    </div>
+</div>
+
+@code {
+    private record SalesInvoice(string InvoiceNo, string Customer, string Date, string DueDate, string AmountLabel, string Status);
+
+    private readonly List<SalesInvoice> _invoices =
+    [
+        new("FAT-2026-1042", "ABC Ticaret Ltd. Şti.", "12 Eki 2026", "12 Kas 2026", "₺2.450,00", "Tahsil Edildi"),
+        new("FAT-2026-1041", "XYZ Sanayi A.Ş.", "09 Eki 2026", "09 Kas 2026", "₺11.500,00", "Tahsil Edildi"),
+        new("FAT-2026-1040", "Deniz Yapı Market", "05 Eki 2026", "05 Kas 2026", "₺890,00", "Vadesi Geçti"),
+        new("FAT-2026-1039", "Yıldız Elektronik", "01 Eki 2026", "01 Kas 2026", "₺6.250,00", "Bekleniyor"),
+        new("FAT-2026-1038", "Güneş Tekstil San.", "28 Eyl 2026", "28 Eki 2026", "₺11.760,00", "Bekleniyor"),
+    ];
+}

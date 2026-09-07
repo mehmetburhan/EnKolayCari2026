@@ -1,0 +1,50 @@
+@inherits LayoutComponentBase
+@inject SessionState Session
+@implements IDisposable
+
+<div class="app-shell flex min-h-screen @(Session.IsDarkMode ? "dark" : "")">
+    <aside class="desktop-sidebar sticky top-0 hidden h-screen w-64 shrink-0 lg:block">
+        <Sidebar />
+    </aside>
+
+    @if (_mobileMenuOpen)
+    {
+        <div class="fixed inset-0 z-50 lg:hidden">
+            <div class="absolute inset-0 bg-slate-900/50" @onclick="CloseMobileMenu"></div>
+            <aside class="relative h-full w-64 max-w-[80%]">
+                <Sidebar />
+            </aside>
+        </div>
+    }
+
+    <div class="flex min-h-screen min-w-0 flex-1 flex-col">
+        <TopHeader IsMenuOpen="_mobileMenuOpen" OnMenuToggle="ToggleMobileMenu" />
+
+        <main class="flex-1 px-4 py-6 sm:px-6 lg:px-8">
+            @Body
+        </main>
+
+        <footer class="border-t border-[var(--nexora-border)] px-4 py-4 text-sm text-slate-500 sm:px-6 lg:px-8">
+            &copy; 2026 - EnKolayCari -
+            <NavLink href="gizlilik" class="text-[var(--nexora-blue)] hover:underline">Gizlilik</NavLink>
+        </footer>
+    </div>
+</div>
+
+@code {
+    private bool _mobileMenuOpen;
+
+    private void ToggleMobileMenu() => _mobileMenuOpen = !_mobileMenuOpen;
+
+    private void CloseMobileMenu() => _mobileMenuOpen = false;
+
+    protected override void OnInitialized()
+    {
+        Session.Changed += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        Session.Changed -= StateHasChanged;
+    }
+}

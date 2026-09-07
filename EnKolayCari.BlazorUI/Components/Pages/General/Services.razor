@@ -1,0 +1,42 @@
+@page "/services"
+
+<PageTitle>Hizmet - EnKolayCari</PageTitle>
+<PageHeading Title="Hizmet" Subtitle="Faturalandırılabilir hizmet kalemlerinizi yönetin." />
+
+<div class="card p-5">
+    <div class="flex items-center justify-between">
+        <div>
+            <h2 class="text-base font-semibold text-slate-900">Hizmetler</h2>
+            <p class="text-xs text-slate-500">Mockup veri &middot; @_services.Count kayıt</p>
+        </div>
+        <button type="button" class="dashboard-button-primary">
+            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+            Yeni Hizmet
+        </button>
+    </div>
+
+    <div class="mt-4">
+        <LumexDataGrid Data="@_services.AsQueryable()" Hoverable Striped>
+            <PropertyColumn Property="@(x => x.Code)" Title="Kod" />
+            <PropertyColumn Property="@(x => x.Name)" Title="Hizmet Adı" />
+            <PropertyColumn Property="@(x => x.Category)" Title="Kategori" />
+            <PropertyColumn Property="@(x => x.Unit)" Title="Birim" />
+            <PropertyColumn Property="@(x => x.PriceLabel)" Title="Birim Fiyat" Align="Align.End" />
+            <PropertyColumn Property="@(x => x.Status)" Title="Durum" />
+        </LumexDataGrid>
+    </div>
+</div>
+
+@code {
+    private record Service(string Code, string Name, string Category, string Unit, string PriceLabel, string Status);
+
+    private readonly List<Service> _services =
+    [
+        new("HZM-001", "Web Sitesi Bakım Hizmeti", "Danışmanlık", "Ay", "₺2.500,00", "Aktif"),
+        new("HZM-002", "Muhasebe Danışmanlığı", "Danışmanlık", "Saat", "₺450,00", "Aktif"),
+        new("HZM-003", "Kurulum & Montaj", "Teknik Servis", "Adet", "₺750,00", "Aktif"),
+        new("HZM-004", "Yazılım Lisans Desteği", "Yazılım", "Yıl", "₺6.000,00", "Aktif"),
+        new("HZM-005", "Nakliye Hizmeti", "Lojistik", "Sefer", "₺1.200,00", "Aktif"),
+        new("HZM-006", "Eğitim & Seminer", "Danışmanlık", "Gün", "₺3.800,00", "Pasif"),
+    ];
+}

@@ -1,0 +1,40 @@
+@page "/purchases/orders"
+
+<PageTitle>Alış Siparişleri - EnKolayCari</PageTitle>
+<PageHeading Title="Alış Siparişleri" Subtitle="Tedarikçilere verilen satın alma siparişlerini izleyin." />
+
+<div class="card p-5">
+    <div class="flex items-center justify-between">
+        <div>
+            <h2 class="text-base font-semibold text-slate-900">Sipariş Listesi</h2>
+            <p class="text-xs text-slate-500">Mockup veri &middot; @_orders.Count kayıt</p>
+        </div>
+        <button type="button" class="dashboard-button-primary">
+            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+            Yeni Sipariş
+        </button>
+    </div>
+
+    <div class="mt-4">
+        <LumexDataGrid Data="@_orders.AsQueryable()" Hoverable Striped>
+            <PropertyColumn Property="@(x => x.OrderNo)" Title="Sipariş No" />
+            <PropertyColumn Property="@(x => x.Supplier)" Title="Tedarikçi" />
+            <PropertyColumn Property="@(x => x.OrderDate)" Title="Sipariş Tarihi" />
+            <PropertyColumn Property="@(x => x.ExpectedDate)" Title="Beklenen Teslim" />
+            <PropertyColumn Property="@(x => x.AmountLabel)" Title="Tutar" Align="Align.End" />
+            <PropertyColumn Property="@(x => x.Status)" Title="Durum" />
+        </LumexDataGrid>
+    </div>
+</div>
+
+@code {
+    private record PurchaseOrder(string OrderNo, string Supplier, string OrderDate, string ExpectedDate, string AmountLabel, string Status);
+
+    private readonly List<PurchaseOrder> _orders =
+    [
+        new("ALS-2026-0176", "Mavi Tedarik Ltd.", "08 Eki 2026", "18 Eki 2026", "₺9.640,00", "Onaylandı"),
+        new("ALS-2026-0175", "Elektro Dağıtım A.Ş.", "05 Eki 2026", "15 Eki 2026", "₺15.200,00", "Beklemede"),
+        new("ALS-2026-0174", "Orkide Kırtasiye", "01 Eki 2026", "08 Eki 2026", "₺1.340,00", "Teslim Alındı"),
+        new("ALS-2026-0173", "Kartal Lojistik A.Ş.", "27 Eyl 2026", "04 Eki 2026", "₺6.780,00", "Teslim Alındı"),
+    ];
+}

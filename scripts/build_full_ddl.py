@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 """
-Build EnKolayCari2026_FullSchema.sql — clean install (DROP + CREATE).
+Build EnKolayCari_FullSchema.sql — clean install (DROP + CREATE).
 
 Fixes prior run failures:
 - UTF-8 BOM for SSMS
@@ -15,8 +15,8 @@ import re
 from pathlib import Path
 
 AI_SOURCE = Path(r"C:\Dev\GitHub\AIProjeMimari\docs\examples\sql\00-AILE-BOS-VERITABANI-BASLANGIC.sql")
-PRODUCT_SOURCE = Path(r"C:\Dev\GitHub\EnKolayCari\EnkolayCari2026\database\EnKolayCari2026_CreateDatabase.sql")
-OUTPUT = Path(r"C:\Dev\GitHub\EnKolayCari\EnkolayCari2026\database\EnKolayCari2026_FullSchema.sql")
+PRODUCT_SOURCE = Path(r"C:\Dev\GitHub\EnKolayCari\EnkolayCari2026\database\EnKolayCari_CreateDatabase.sql")
+OUTPUT = Path(r"C:\Dev\GitHub\EnKolayCari\EnkolayCari2026\database\EnKolayCari_FullSchema.sql")
 DB_NAME = "EKCN2026"
 
 AI_TABLES = {
@@ -194,7 +194,7 @@ def strip_product_header(product: str) -> str:
 
 HEADER = f"""-- SQL Manager Lite style export
 -- ---------------------------------------
--- Project   : EnKolayCari2026 (Unified DB) — CLEAN INSTALL
+-- Project   : EnKolayCari (Unified DB) — CLEAN INSTALL
 -- Database  : {DB_NAME}
 -- Source    : TICARI_MASTER + TICARI_SLAVE1 + AIProjeMimari platform
 -- Generated : scripts/build_full_ddl.py

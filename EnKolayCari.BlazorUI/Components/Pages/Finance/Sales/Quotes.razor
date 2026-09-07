@@ -1,0 +1,41 @@
+@page "/sales/quotes"
+
+<PageTitle>Teklifler - EnKolayCari</PageTitle>
+<PageHeading Title="Teklifler" Subtitle="Müşterilerinize gönderdiğiniz satış tekliflerini yönetin." />
+
+<div class="card p-5">
+    <div class="flex items-center justify-between">
+        <div>
+            <h2 class="text-base font-semibold text-slate-900">Teklif Listesi</h2>
+            <p class="text-xs text-slate-500">Mockup veri &middot; @_quotes.Count kayıt</p>
+        </div>
+        <button type="button" class="dashboard-button-primary">
+            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+            Yeni Teklif
+        </button>
+    </div>
+
+    <div class="mt-4">
+        <LumexDataGrid Data="@_quotes.AsQueryable()" Hoverable Striped>
+            <PropertyColumn Property="@(x => x.QuoteNo)" Title="Teklif No" />
+            <PropertyColumn Property="@(x => x.Customer)" Title="Müşteri" />
+            <PropertyColumn Property="@(x => x.Date)" Title="Tarih" />
+            <PropertyColumn Property="@(x => x.ValidUntil)" Title="Geçerlilik" />
+            <PropertyColumn Property="@(x => x.AmountLabel)" Title="Tutar" Align="Align.End" />
+            <PropertyColumn Property="@(x => x.Status)" Title="Durum" />
+        </LumexDataGrid>
+    </div>
+</div>
+
+@code {
+    private record Quote(string QuoteNo, string Customer, string Date, string ValidUntil, string AmountLabel, string Status);
+
+    private readonly List<Quote> _quotes =
+    [
+        new("TKL-2026-0088", "ABC Ticaret Ltd. Şti.", "05 Eki 2026", "20 Eki 2026", "₺18.400,00", "Beklemede"),
+        new("TKL-2026-0087", "Yıldız Elektronik", "03 Eki 2026", "17 Eki 2026", "₺6.250,00", "Onaylandı"),
+        new("TKL-2026-0086", "Deniz Yapı Market", "01 Eki 2026", "15 Eki 2026", "₺2.980,00", "Reddedildi"),
+        new("TKL-2026-0085", "Güneş Tekstil San.", "28 Eyl 2026", "12 Eki 2026", "₺11.760,00", "Onaylandı"),
+        new("TKL-2026-0084", "XYZ Sanayi A.Ş.", "25 Eyl 2026", "09 Eki 2026", "₺34.500,00", "Beklemede"),
+    ];
+}

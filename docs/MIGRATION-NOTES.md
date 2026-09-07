@@ -1,4 +1,4 @@
-# Migration Notes — EnKolayCari2026
+# Migration Notes — EnKolayCari
 
 ## Kararlar
 
@@ -66,7 +66,7 @@ Bkz. `docs/CONNECTION.md`
 
 ## Migration sırası (önerilen)
 
-1. `EnKolayCari2026_FullSchema.sql` çalıştır (DB: **EKCN2026**, DROP+CREATE)  
+1. `EnKolayCari_FullSchema.sql` çalıştır (DB: **EKCN2026**, DROP+CREATE)  
    *veya* mevcut DB'ye patch: `database/patches/001_LegacyTransferMap.sql`
 2. MASTER referans tablolarını kopyala; her aktarılan satır için `LegacyTransferMap` doldur
 3. SLAVE iş tablolarını kopyala (`CompanyId` = eski `SirketTanimId`); eşlemeyi yaz

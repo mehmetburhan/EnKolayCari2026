@@ -1,0 +1,41 @@
+@page "/users"
+
+<PageTitle>Kullanıcılar - EnKolayCari</PageTitle>
+<PageHeading Title="Kullanıcılar" Subtitle="Sisteme erişimi olan kullanıcıları ve rollerini yönetin." />
+
+<div class="card p-5">
+    <div class="flex items-center justify-between">
+        <div>
+            <h2 class="text-base font-semibold text-slate-900">Kullanıcı Listesi</h2>
+            <p class="text-xs text-slate-500">Mockup veri &middot; @_users.Count kayıt</p>
+        </div>
+        <button type="button" class="dashboard-button-primary">
+            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+            Yeni Kullanıcı
+        </button>
+    </div>
+
+    <div class="mt-4">
+        <LumexDataGrid Data="@_users.AsQueryable()" Hoverable Striped>
+            <PropertyColumn Property="@(x => x.Name)" Title="Ad Soyad" />
+            <PropertyColumn Property="@(x => x.Email)" Title="E-posta" />
+            <PropertyColumn Property="@(x => x.Role)" Title="Rol" />
+            <PropertyColumn Property="@(x => x.Department)" Title="Departman" />
+            <PropertyColumn Property="@(x => x.LastLogin)" Title="Son Giriş" />
+            <PropertyColumn Property="@(x => x.Status)" Title="Durum" />
+        </LumexDataGrid>
+    </div>
+</div>
+
+@code {
+    private record UserRow(string Name, string Email, string Role, string Department, string LastLogin, string Status);
+
+    private readonly List<UserRow> _users =
+    [
+        new("Celal Dağdeviren", "celal@enkolaycari.com", "Yönetici", "Yönetim", "12 Eki 2026 09:02", "Aktif"),
+        new("Ahmet Yılmaz", "ahmet.yilmaz@enkolaycari.com", "Depo Sorumlusu", "Depo", "11 Eki 2026 17:45", "Aktif"),
+        new("Elif Kaya", "elif.kaya@enkolaycari.com", "Muhasebe", "Finans", "11 Eki 2026 16:20", "Aktif"),
+        new("Mert Demir", "mert.demir@enkolaycari.com", "Satış Temsilcisi", "Satış", "10 Eki 2026 14:05", "Aktif"),
+        new("Selin Arslan", "selin.arslan@enkolaycari.com", "Depo Sorumlusu", "Depo", "02 Eyl 2026 11:30", "Pasif"),
+    ];
+}

@@ -1,0 +1,40 @@
+@page "/document-designs/shipping-label"
+
+<PageTitle>Kargo Etiket Tasarımı - EnKolayCari</PageTitle>
+<PageHeading Title="Kargo Etiket Tasarımı" Subtitle="Kargo etiket belge şablonlarınızı yönetin." />
+
+<div class="card p-5">
+    <div class="flex items-center justify-between">
+        <div>
+            <h2 class="text-base font-semibold text-slate-900">Kargo Etiket Şablonları</h2>
+            <p class="text-xs text-slate-500">Mockup veri &middot; @_templates.Count kayıt</p>
+        </div>
+        <button type="button" class="dashboard-button-primary">
+            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+            Yeni Şablon
+        </button>
+    </div>
+
+    <div class="mt-4">
+        <LumexDataGrid Data="@_templates.AsQueryable()" Hoverable Striped>
+            <PropertyColumn Property="@(x => x.Name)" Title="Şablon Adı" />
+            <PropertyColumn Property="@(x => x.PaperSize)" Title="Ölçü" />
+            <PropertyColumn Property="@(x => x.Carrier)" Title="Kargo Firması" />
+            <PropertyColumn Property="@(x => x.LastUpdated)" Title="Son Güncelleme" />
+            <PropertyColumn Property="@(x => x.IsDefaultLabel)" Title="Varsayılan" />
+            <PropertyColumn Property="@(x => x.Status)" Title="Durum" />
+        </LumexDataGrid>
+    </div>
+</div>
+
+@code {
+    private record ShippingLabelRow(string Name, string PaperSize, string Carrier, string LastUpdated, string IsDefaultLabel, string Status);
+
+    private readonly List<ShippingLabelRow> _templates =
+    [
+        new("Yurtiçi Kargo Etiketi", "10x15cm", "Yurtiçi Kargo", "20 Eyl 2026", "Evet", "Aktif"),
+        new("Aras Kargo Etiketi", "10x15cm", "Aras Kargo", "14 Eyl 2026", "Hayır", "Aktif"),
+        new("MNG Kargo Etiketi", "10x15cm", "MNG Kargo", "02 Eyl 2026", "Hayır", "Aktif"),
+        new("Sürat Kargo Etiketi", "10x15cm", "Sürat Kargo", "18 Ağu 2026", "Hayır", "Pasif"),
+    ];
+}
