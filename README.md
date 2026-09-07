@@ -1,4 +1,4 @@
-# EnKolayCari2026 — Unified Database
+# EnKolayCari — Unified Database
 
 Master (`TICARI_MASTER`) ve Slave (`TICARI_SLAVE1`) veritabanlarının tek SQL Server DB'de birleştirilmiş hali.
 
@@ -34,8 +34,8 @@ EnkolayCari2026/
 │   ├── MIGRATION-NOTES.md
 │   └── COLUMN-NAMING.md
 ├── database/
-│   ├── EnKolayCari2026_CreateDatabase.sql
-│   ├── EnKolayCari2026_FullSchema.sql   # Tam DDL (DROP+CREATE EKCN2026)
+│   ├── EnKolayCari_CreateDatabase.sql
+│   ├── EnKolayCari_FullSchema.sql   # Tam DDL (DROP+CREATE EKCN2026)
 │   ├── patches/
 │   │   └── 001_LegacyTransferMap.sql   # Mevcut DB'ye incremental
 │   └── mappings/tables.json
@@ -50,7 +50,7 @@ EnkolayCari2026/
 cd C:\Dev\GitHub\EnKolayCari\EnkolayCari2026
 python scripts/generate_ddl.py
 python scripts/build_full_ddl.py
-sqlcmd -S uygulama.enkolaycari.com -U memosa -P "sql123admin" -C -f 65001 -i database\EnKolayCari2026_FullSchema.sql
+sqlcmd -S uygulama.enkolaycari.com -U memosa -P "sql123admin" -C -f 65001 -i database\EnKolayCari_FullSchema.sql
 ```
 
 ## Schema özeti (aktif)

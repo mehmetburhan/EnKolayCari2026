@@ -1,4 +1,4 @@
-# Schema Plan — EnKolayCari2026
+# Schema Plan — EnKolayCari
 
 ## Tasarım prensipleri
 

@@ -1,4 +1,4 @@
-# Column Naming Rules — EnKolayCari2026
+# Column Naming Rules — EnKolayCari
 
 ## Genel kurallar
 
