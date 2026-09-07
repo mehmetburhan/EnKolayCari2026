@@ -11,6 +11,7 @@ builder.Services.AddRazorComponents()
 builder.Services.AddLumexServices();
 
 builder.Services.AddScoped<PageHeadingState>();
+builder.Services.AddScoped<SessionState>();
 
 var app = builder.Build();
 

@@ -56,4 +56,8 @@ public static class MenuIcons
     public const string QuestionMarkCircle = "<path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z\" /><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M12 17.25h.008v.008H12v-.008Z\" />";
 
     public const string Sparkles = "<path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"m11.48 3.499 1.626 3.03a1.5 1.5 0 0 0 1.148.799l3.362.489a1.5 1.5 0 0 1 .833 2.559l-2.432 2.37a1.5 1.5 0 0 0-.432 1.328l.574 3.35a1.5 1.5 0 0 1-2.176 1.58l-3.008-1.581a1.5 1.5 0 0 0-1.396 0l-3.008 1.581a1.5 1.5 0 0 1-2.176-1.58l.574-3.35a1.5 1.5 0 0 0-.432-1.328l-2.432-2.37a1.5 1.5 0 0 1 .833-2.56l3.362-.488a1.5 1.5 0 0 0 1.148-.8l1.626-3.029a1.5 1.5 0 0 1 2.4 0Z\" />";
+
+    public const string ArrowRightOnRectangle = "<path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75\" />";
+
+    public const string Check = "<path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"m4.5 12.75 6 6 9-13.5\" />";
 }
