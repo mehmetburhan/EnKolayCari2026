@@ -39,5 +39,5 @@ Web.Common, Language.
 - **Karanlık mod**: JS/localStorage yok. `MainLayout.razor` kök `<div class="app-shell ...">`'ine `Session.IsDarkMode` durumuna göre `dark` class'ı ekleniyor; `AuthLayout` bu wrapper'ı kullanmadığı için giriş sayfaları her zaman açık temada kalıyor. Karşılık gelen `.dark ...` override'ları `Styles/app.css`'in sonunda **layer'sız (unlayered)** olarak tanımlı — Tailwind'in `@layer utilities`'i `@layer components`'ten önceliklidir, bu yüzden layer içine yazılan bir override Tailwind'in kendi utility'sini geçemez; unlayered kural her zaman kazanır. Yeni bir sayfa/renk eklerken o class'ı burada da (aynı desenle: `.dark .text-slate-XXX { color: ... }`) karşılıksız bırakma, yoksa o metin karanlık modda okunaksız kalır.
 
 ## Kimlik Doğrulama (UI)
-- `/auth`, `/sifremi-unuttum`, `/sifre-sifirla` sayfaları `AuthLayout` (sidebar'sız) kullanır, `Components/Auth/AuthShell.razor` ortak iki kolonlu kabuğu sağlar.
+- `/` (`/auth`), `/forgot-password`, `/reset-password` sayfaları `AuthLayout` (sidebar'sız) kullanır, `Components/Auth/AuthShell.razor` ortak iki kolonlu kabuğu sağlar.
 - Şu an yalnızca arayüz: gerçek kimlik doğrulama/backend bağlantısı yok, route guard yok.

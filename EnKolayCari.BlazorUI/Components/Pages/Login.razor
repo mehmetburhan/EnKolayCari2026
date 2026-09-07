@@ -1,34 +1,42 @@
+@page "/"
 @page "/auth"
 @layout AuthLayout
 
 <PageTitle>Giriş Yap - EnKolayCari</PageTitle>
 
-<AuthShell Title="Hoş Geldiniz" Subtitle="Devam etmek için hesabınıza giriş yapın.">
+<AuthShell Title="Hesabınıza giriş yapın" Subtitle="EnKolayCari ile işletmenizi tek yerden yönetin. Daha verimli, daha kolay.">
     <EditForm Model="_model" OnValidSubmit="HandleValidSubmit" class="space-y-5">
         <DataAnnotationsValidator />
 
         <div>
             <label class="form-label" for="company">Firma</label>
-            <InputSelect id="company" class="form-input" @bind-Value="_model.CompanyId">
-                <option value="">Firma seçiniz</option>
-                @foreach (var company in DemoCompanies.All)
-                {
-                    <option value="@company.Id">@company.Name</option>
-                }
-            </InputSelect>
+            <div class="relative">
+                <svg class="pointer-events-none absolute inset-y-0 left-3 my-auto h-4.5 w-4.5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">@((MarkupString)MenuIcons.BuildingOffice)</svg>
+                <InputSelect id="company" class="form-input pl-10" @bind-Value="_model.CompanyId">
+                    <option value="">Firma seçiniz</option>
+                    @foreach (var company in DemoCompanies.All)
+                    {
+                        <option value="@company.Id">@company.Name</option>
+                    }
+                </InputSelect>
+            </div>
             <ValidationMessage For="() => _model.CompanyId" class="form-error" />
         </div>
 
         <div>
-            <label class="form-label" for="username">Kullanıcı Adı</label>
-            <InputText id="username" class="form-input" placeholder="ornek.kullanici" @bind-Value="_model.Username" />
+            <label class="form-label" for="username">E-posta adresi</label>
+            <div class="relative">
+                <svg class="pointer-events-none absolute inset-y-0 left-3 my-auto h-4.5 w-4.5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">@((MarkupString)MenuIcons.Envelope)</svg>
+                <InputText id="username" class="form-input pl-10" placeholder="ornek@firma.com" @bind-Value="_model.Username" />
+            </div>
             <ValidationMessage For="() => _model.Username" class="form-error" />
         </div>
 
         <div>
             <label class="form-label" for="password">Şifre</label>
             <div class="relative">
-                <InputText id="password" type="@(_showPassword ? "text" : "password")" class="form-input pr-10" placeholder="********" @bind-Value="_model.Password" />
+                <svg class="pointer-events-none absolute inset-y-0 left-3 my-auto h-4.5 w-4.5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">@((MarkupString)MenuIcons.LockClosed)</svg>
+                <InputText id="password" type="@(_showPassword ? "text" : "password")" class="form-input pl-10 pr-10" placeholder="Şifrenizi girin" @bind-Value="_model.Password" />
                 <button type="button" class="absolute inset-y-0 right-0 flex w-10 items-center justify-center text-slate-400 hover:text-slate-600" @onclick="() => _showPassword = !_showPassword" aria-label="@(_showPassword ? "Şifreyi gizle" : "Şifreyi göster")">
                     @if (_showPassword)
                     {
@@ -48,7 +56,7 @@
                 <InputCheckbox class="h-4 w-4 rounded border-[var(--nexora-border)] text-[var(--nexora-blue)]" @bind-Value="_model.RememberMe" />
                 Beni hatırla
             </label>
-            <NavLink href="sifremi-unuttum" class="text-sm font-semibold text-[var(--nexora-blue)] hover:underline">Şifremi unuttum?</NavLink>
+            <NavLink href="forgot-password" class="text-sm font-semibold text-[var(--nexora-blue)] hover:underline">Şifremi unuttum?</NavLink>
         </div>
 
         @if (_showSuccess)
@@ -58,7 +66,31 @@
             </div>
         }
 
-        <button type="submit" class="dashboard-button-primary w-full">Giriş Yap</button>
+        <button type="submit" class="dashboard-button-primary w-full">
+            Giriş Yap
+            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">@((MarkupString)MenuIcons.ArrowRight)</svg>
+        </button>
+
+        <div class="flex items-center gap-3">
+            <span class="h-px flex-1 bg-[var(--nexora-border)]"></span>
+            <span class="text-xs font-medium text-slate-400">veya</span>
+            <span class="h-px flex-1 bg-[var(--nexora-border)]"></span>
+        </div>
+
+        <button type="button" class="button-light border border-[var(--nexora-border)]">
+            <svg class="h-4 w-4" viewBox="0 0 21 21">
+                <rect x="1" y="1" width="9" height="9" fill="#F25022" />
+                <rect x="11" y="1" width="9" height="9" fill="#7FBA00" />
+                <rect x="1" y="11" width="9" height="9" fill="#00A4EF" />
+                <rect x="11" y="11" width="9" height="9" fill="#FFB900" />
+            </svg>
+            Microsoft ile giriş yap
+        </button>
+
+        <p class="flex items-center justify-center gap-1.5 text-xs text-slate-400">
+            <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">@((MarkupString)MenuIcons.ShieldCheck)</svg>
+            Güvenliğiniz bizim için önemli.
+        </p>
     </EditForm>
 </AuthShell>
 
@@ -75,6 +107,6 @@
         _showSuccess = true;
         StateHasChanged();
         await Task.Delay(700);
-        Navigation.NavigateTo("/");
+        Navigation.NavigateTo("/dashboard");
     }
 }
