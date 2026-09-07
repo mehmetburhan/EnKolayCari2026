@@ -19,6 +19,18 @@ Web.Common, Language.
 - Kaynak: `Styles/app.css`. Üretilen dosya: `wwwroot/app.css` (elle düzenlenmez).
 - `.razor` değiştirdikten sonra: `npm run build:css`
 - Geliştirme sırasında: `npm run watch:css`
+- Sayfa iskeleti (layout, sidebar, header, card, kpi) mevcut Tailwind utility class'ları ve `@layer components` sınıflarıyla kurulur; bu desen korunur.
+
+## Component Kütüphanesi (LumexUI)
+- Yeni sayfalarda input, form, buton, data grid gibi bileşenler için [LumexUI](https://lumexui.org) kullanılır (`LumexButton`, `LumexInput`, `LumexCard`, `LumexDataGrid` vb.). LumexUI, MudBlazor'un aksine kendi başına bir CSS framework'ü getirmez; bileşenleri doğrudan Tailwind utility class'larıyla oluşturur ve **derleme sırasında Tailwind'in kendisine eklenir**, bu yüzden mevcut Nexora/Tailwind tasarımıyla çakışmaz.
+- Kurulum:
+  - `Program.cs`: `builder.Services.AddLumexServices();`
+  - `Components/_Imports.razor`: `@using LumexUI`
+  - `Components/App.razor`: `<script src="_content/LumexUI/js/LumexUI.js" type="module"></script>`
+  - `Styles/app.css`: `@import "../bin/lumexui/theme.css";` (Tailwind'in `@import "tailwindcss";` satırından hemen sonra) ve `@source "../bin/lumexui/*.cs";` — LumexUI paketinin derleme sırasında `bin/lumexui/` altına çıkardığı tema dosyasını ve bileşenlerin kullandığı sınıfları Tailwind'e tanıtır. Bu klasör `bin/` altında olduğu için build'e bağımlıdır, elle düzenlenmez.
+- Tema: LumexUI'nin `--lumex-primary/secondary/focus/success/warning` token'ları `Styles/app.css` içindeki `:root` bloğunda Nexora paletiyle (`--nexora-blue/violet/teal/orange`) eşleştirildi, böylece LumexUI bileşenleri de marka renkleriyle render olur. `--default-transition-duration` LumexUI'nin değiştirdiği değerden (250ms) Tailwind'in orijinal 150ms değerine geri alındı ki mevcut `transition-*` utility'leri (ör. sidebar chevron) etkilenmesin.
+- `.razor`/bileşen değişikliklerinden sonra `npm run build:css` her zaman gerekli — LumexUI de dahil tüm sınıflar bu adımda üretiliyor.
+- Yeni bir LumexUI bileşeni entegre edildiğinde, `npm run build:css` sonrası `wwwroot/app.css`'te var olan (LumexUI öncesi) sınıfların değerlerinin **değişmediğini** doğrulamadan commit atma — MudBlazor denemesinde tüm tasarımı bozan `!important` çakışması bu kontrolün eksikliğinden kaynaklanmıştı.
 
 ## Etkileşim
 - Sidebar/mobil menü, açılır alt menüler ve tab geçişleri (Son İşlemler/Bekleyen/Başarısız) vanilla JS yerine Blazor'un C# durum yönetimi (interactivity) ile çalışır, sayfa yenilenmeden güncellenir.

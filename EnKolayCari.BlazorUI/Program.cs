@@ -1,11 +1,14 @@
 using EnKolayCari.BlazorUI.Components;
 using EnKolayCari.BlazorUI.Services;
+using LumexUI.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+builder.Services.AddLumexServices();
 
 builder.Services.AddScoped<PageHeadingState>();
 
