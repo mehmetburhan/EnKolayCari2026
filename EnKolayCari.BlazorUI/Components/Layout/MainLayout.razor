@@ -1,6 +1,8 @@
 @inherits LayoutComponentBase
+@inject SessionState Session
+@implements IDisposable
 
-<div class="flex min-h-screen">
+<div class="app-shell flex min-h-screen @(Session.IsDarkMode ? "dark" : "")">
     <aside class="desktop-sidebar sticky top-0 hidden h-screen w-64 shrink-0 lg:block">
         <Sidebar />
     </aside>
@@ -35,4 +37,14 @@
     private void ToggleMobileMenu() => _mobileMenuOpen = !_mobileMenuOpen;
 
     private void CloseMobileMenu() => _mobileMenuOpen = false;
+
+    protected override void OnInitialized()
+    {
+        Session.Changed += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        Session.Changed -= StateHasChanged;
+    }
 }

@@ -198,3 +198,44 @@
 @media (max-width: 1023px) {
   .desktop-sidebar { display: none; }
 }
+
+/*
+  Dark mode: MainLayout toggles a "dark" class on its own root wrapper
+  (.app-shell) based on SessionState.IsDarkMode, no JS needed. Scoped to
+  .app-shell so the auth pages (which never render that class) stay light.
+  Unlayered on purpose so these beat Tailwind's own utility layer regardless
+  of specificity ties (see BlazorUI/README.md).
+*/
+.app-shell.dark { background: #0a0f1c; }
+
+.dark .card,
+.dark .currency-card { background: #101828; border-color: #1e293b; box-shadow: 0 5px 18px rgba(0, 0, 0, .35); }
+
+.dark header { background-color: rgba(10, 15, 28, .9); }
+
+.dark .icon-button,
+.dark .button-secondary,
+.dark .button-light,
+.dark .form-input { background: #101828; border-color: #1e293b; color: #e2e8f0; }
+.dark .icon-button:hover,
+.dark .button-secondary:hover,
+.dark .button-light:hover { background: #16213a; border-color: #2b3b5c; }
+.dark .button-secondary { color: #93c5fd; }
+.dark .form-input::placeholder { color: #64748b; }
+.dark .form-label { color: #cbd5e1; }
+
+.dark .kpi-icon--teal { background: rgba(22, 166, 161, .18); }
+.dark .kpi-icon--violet { background: rgba(124, 58, 237, .2); }
+.dark .kpi-icon--orange { background: rgba(245, 158, 11, .18); }
+.dark .kpi-icon--blue { background: rgba(37, 99, 235, .22); }
+
+.dark .text-slate-900 { color: #f1f5f9; }
+.dark .text-slate-700 { color: #e2e8f0; }
+.dark .text-slate-600 { color: #cbd5e1; }
+.dark .text-slate-500 { color: #94a3b8; }
+.dark .text-slate-400 { color: #64748b; }
+.dark .bg-white { background-color: #101828; }
+.dark .bg-slate-50 { background-color: #0d1424; }
+.dark .bg-slate-100 { background-color: #16213a; }
+
+.app-shell.dark { --nexora-border: #1e293b; }

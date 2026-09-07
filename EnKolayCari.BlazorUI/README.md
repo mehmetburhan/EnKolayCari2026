@@ -35,6 +35,8 @@ Web.Common, Language.
 ## Etkileşim
 - Sidebar/mobil menü, açılır alt menüler ve tab geçişleri (Son İşlemler/Bekleyen/Başarısız) vanilla JS yerine Blazor'un C# durum yönetimi (interactivity) ile çalışır, sayfa yenilenmeden güncellenir.
 - Aktif menü vurgusu `NavLink` bileşeni ile otomatik yapılır.
+- Kullanıcı menüsü (`Components/Layout/UserMenu.razor`, TopHeader'da) profil, firma değiştirme, dil değiştirme ve karanlık mod içerir; hepsi `Services/SessionState.cs` (bir `Changed` event'i olan scoped servis, `PageHeadingState` ile aynı desen) üzerinden yönetilir.
+- **Karanlık mod**: JS/localStorage yok. `MainLayout.razor` kök `<div class="app-shell ...">`'ine `Session.IsDarkMode` durumuna göre `dark` class'ı ekleniyor; `AuthLayout` bu wrapper'ı kullanmadığı için giriş sayfaları her zaman açık temada kalıyor. Karşılık gelen `.dark ...` override'ları `Styles/app.css`'in sonunda **layer'sız (unlayered)** olarak tanımlı — Tailwind'in `@layer utilities`'i `@layer components`'ten önceliklidir, bu yüzden layer içine yazılan bir override Tailwind'in kendi utility'sini geçemez; unlayered kural her zaman kazanır. Yeni bir sayfa/renk eklerken o class'ı burada da (aynı desenle: `.dark .text-slate-XXX { color: ... }`) karşılıksız bırakma, yoksa o metin karanlık modda okunaksız kalır.
 
 ## Kimlik Doğrulama (UI)
 - `/auth`, `/sifremi-unuttum`, `/sifre-sifirla` sayfaları `AuthLayout` (sidebar'sız) kullanır, `Components/Auth/AuthShell.razor` ortak iki kolonlu kabuğu sağlar.
