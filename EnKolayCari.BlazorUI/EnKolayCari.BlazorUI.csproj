@@ -11,4 +11,8 @@
     <ProjectReference Include="..\EnKolayCari.Web.Common\EnKolayCari.Web.Common.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="LumexUI" Version="2.4.0" />
+  </ItemGroup>
+
 </Project>
