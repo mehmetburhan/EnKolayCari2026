@@ -157,6 +157,27 @@
 
   .sidebar-scroll { scrollbar-width: none; }
   .sidebar-scroll::-webkit-scrollbar { display: none; }
+
+  .form-label { display: block; margin-bottom: .375rem; font-size: .8125rem; font-weight: 600; color: #334155; }
+
+  .form-input {
+    width: 100%;
+    border: 1px solid var(--nexora-border);
+    border-radius: 10px;
+    padding: .625rem .875rem;
+    font-size: .875rem;
+    color: #0f172a;
+    background: #fff;
+    transition: border-color .2s ease, box-shadow .2s ease;
+  }
+  .form-input::placeholder { color: var(--nexora-muted); }
+  .form-input:focus { outline: none; border-color: var(--nexora-blue); box-shadow: 0 0 0 3px rgba(37, 99, 235, .15); }
+  .form-input.invalid { border-color: #ef4444; }
+  .form-input.invalid:focus { box-shadow: 0 0 0 3px rgba(239, 68, 68, .15); }
+
+  .form-error { margin-top: .375rem; font-size: .75rem; font-weight: 500; color: #ef4444; }
+
+  .auth-module-card { border: 1px solid rgba(255, 255, 255, .12); background: rgba(255, 255, 255, .06); border-radius: 14px; padding: 1rem; backdrop-filter: blur(6px); }
 }
 
 @media (max-width: 1023px) {

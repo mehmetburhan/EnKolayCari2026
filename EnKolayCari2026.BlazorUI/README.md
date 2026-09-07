@@ -1,25 +1,29 @@
 # EnKolayCari2026.BlazorUI
 
-## Amac
-`EnKolayCari2026.WebUI` (Metronic MVC) icin alternatif bir sunum katmani. Blazor Web App, Interactive Server render modu ile calisir. HTTP sadece Web.Common uzerinden.
+## Amaç
+Projenin sunum katmanı. Blazor Web App, Interactive Server render modu ile çalışır. HTTP sadece Web.Common üzerinden.
 
-## Bagimliliklar
+## Bağımlılıklar
 Web.Common, Language.
 
 ## DO
-- Katman amacina uygun kod yaz
+- Katman amacına uygun kod yaz
 - Namespace: `EnKolayCari2026.BlazorUI.*`
-- Sayfa basligi/alt basligi icin `<PageHeading Title="..." Subtitle="..." />` bileseni kullan (Components/Layout/PageHeading.razor)
+- Sayfa başlığı/alt başlığı için `<PageHeading Title="..." Subtitle="..." />` bileşeni kullan (Components/Layout/PageHeading.razor)
 
 ## DON'T
-- Domain/Persistence referansi
+- Domain/Persistence referansı
 
 ## Styling (Tailwind CSS)
-- WebUI ile ayni tasarim dili (nexora tema): sidebar + header dashboard layout.
-- Kaynak: `Styles/app.css`. Uretilen dosya: `wwwroot/app.css` (elle duzenlenmez).
-- `.razor` degistirdikten sonra: `npm run build:css`
-- Gelistirme sirasinda: `npm run watch:css`
+- Nexora tema: sidebar + header dashboard layout, ayrı bir auth (giriş/şifre) shell.
+- Kaynak: `Styles/app.css`. Üretilen dosya: `wwwroot/app.css` (elle düzenlenmez).
+- `.razor` değiştirdikten sonra: `npm run build:css`
+- Geliştirme sırasında: `npm run watch:css`
 
-## WebUI'den Farklar
-- Sidebar/mobil menu ve tab gecisleri (Son Islemler/Bekleyen/Basarisiz) vanilla JS yerine Blazor'un C# durum yonetimi (interactivity) ile calisir, sayfa yenilenmeden guncellenir.
-- Aktif menu vurgusu `NavLink` bileseni ile otomatik yapilir.
+## Etkileşim
+- Sidebar/mobil menü, açılır alt menüler ve tab geçişleri (Son İşlemler/Bekleyen/Başarısız) vanilla JS yerine Blazor'un C# durum yönetimi (interactivity) ile çalışır, sayfa yenilenmeden güncellenir.
+- Aktif menü vurgusu `NavLink` bileşeni ile otomatik yapılır.
+
+## Kimlik Doğrulama (UI)
+- `/auth`, `/sifremi-unuttum`, `/sifre-sifirla` sayfaları `AuthLayout` (sidebar'sız) kullanır, `Components/Auth/AuthShell.razor` ortak iki kolonlu kabuğu sağlar.
+- Şu an yalnızca arayüz: gerçek kimlik doğrulama/backend bağlantısı yok, route guard yok.
