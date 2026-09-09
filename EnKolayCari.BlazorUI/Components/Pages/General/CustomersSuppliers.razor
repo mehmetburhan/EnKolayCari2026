@@ -1,0 +1,152 @@
+@page "/customers-suppliers"
+
+<PageTitle>Müşteri & Tedarikçi - EnKolayCari</PageTitle>
+<PageHeading Title="Müşteri & Tedarikçi" Subtitle="Cari hesap kartlarınızı görüntüleyin ve yönetin." />
+
+<div class="card p-5">
+    <div class="flex items-center justify-between">
+        <div>
+            <h2 class="text-base font-semibold text-slate-900">Cari Hesaplar</h2>
+            <p class="text-xs text-slate-500">Mockup veri &middot; @_accounts.Count kayıt</p>
+        </div>
+        <button type="button" class="dashboard-button-primary" @onclick="OpenCreateModal">
+            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+            Yeni Cari
+        </button>
+    </div>
+
+    <div class="mt-4">
+        <AppDataGrid TItem="CustomerSupplier" Items="@_accounts" Columns="@_columns" ExportFileName="musteri-tedarikci" SheetName="Cari Hesaplar" EmptyText="Cari hesap bulunamadı." />
+    </div>
+</div>
+
+<LumexModal Open="@_showCreateModal" OpenChanged="@OnCreateModalOpenChanged" Size="ModalSize.Medium">
+    <LumexModalContent>
+        <LumexModalHeader>Yeni Cari</LumexModalHeader>
+        <LumexModalBody>
+            <div>
+                <span class="form-label">Müşteri Tipi</span>
+                <div class="grid grid-cols-2 gap-1 rounded-xl bg-slate-100 p-1">
+                    <button type="button"
+                            class="cursor-pointer rounded-lg px-3 py-2 text-sm font-semibold transition @(_form.Type == CustomerType.Individual ? "bg-white text-[var(--nexora-blue)] shadow-sm" : "text-slate-500 hover:text-slate-700")"
+                            @onclick="() => _form.Type = CustomerType.Individual">
+                        Bireysel
+                    </button>
+                    <button type="button"
+                            class="cursor-pointer rounded-lg px-3 py-2 text-sm font-semibold transition @(_form.Type == CustomerType.Corporate ? "bg-white text-[var(--nexora-blue)] shadow-sm" : "text-slate-500 hover:text-slate-700")"
+                            @onclick="() => _form.Type = CustomerType.Corporate">
+                        Kurumsal
+                    </button>
+                </div>
+            </div>
+
+            @if (_form.Type == CustomerType.Individual)
+            {
+                <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                    <div>
+                        <label class="form-label" for="new-cari-tckn">T.C. Kimlik No</label>
+                        <input id="new-cari-tckn" type="text" inputmode="numeric" maxlength="11" class="form-input" placeholder="12345678901" @bind="_form.NationalId" @bind:event="oninput" />
+                    </div>
+                    <div>
+                        <label class="form-label" for="new-cari-adsoyad">Ad Soyad</label>
+                        <input id="new-cari-adsoyad" type="text" class="form-input" placeholder="Ad Soyad" @bind="_form.FullName" @bind:event="oninput" />
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                    <div class="sm:col-span-2">
+                        <label class="form-label" for="new-cari-firma">Firma Adı</label>
+                        <input id="new-cari-firma" type="text" class="form-input" placeholder="Firma Ünvanı" @bind="_form.CompanyName" @bind:event="oninput" />
+                    </div>
+                    <div>
+                        <label class="form-label" for="new-cari-vergino">Vergi No</label>
+                        <input id="new-cari-vergino" type="text" inputmode="numeric" maxlength="10" class="form-input" placeholder="1234567890" @bind="_form.TaxNumber" @bind:event="oninput" />
+                    </div>
+                    <div>
+                        <label class="form-label" for="new-cari-vergidairesi">Vergi Dairesi</label>
+                        <input id="new-cari-vergidairesi" type="text" class="form-input" placeholder="Vergi Dairesi" @bind="_form.TaxOffice" @bind:event="oninput" />
+                    </div>
+                </div>
+            }
+        </LumexModalBody>
+        <LumexModalFooter>
+            <LumexButton Variant="Variant.Flat" OnClick="CloseCreateModal">Vazgeç</LumexButton>
+            <LumexButton Color="ThemeColor.Primary" Disabled="@(!_form.IsValid)" OnClick="SaveNewAccount">Kaydet</LumexButton>
+        </LumexModalFooter>
+    </LumexModalContent>
+</LumexModal>
+
+@code {
+    private record CustomerSupplier(string Code, string Name, string Type, string City, string BalanceLabel, string Status);
+
+    private readonly List<CustomerSupplier> _accounts =
+    [
+        new("120.001", "ABC Ticaret Ltd. Şti.", "Müşteri", "İstanbul", "₺24.560,75", "Aktif"),
+        new("120.002", "XYZ Sanayi A.Ş.", "Müşteri", "Bursa", "₺11.500,00", "Aktif"),
+        new("320.001", "Mavi Tedarik Ltd.", "Tedarikçi", "Ankara", "-₺3.205,00", "Aktif"),
+        new("120.003", "Deniz Yapı Market", "Müşteri", "İzmir", "₺890,00", "Pasif"),
+        new("320.002", "Kartal Lojistik A.Ş.", "Tedarikçi", "Kocaeli", "-₺7.420,50", "Aktif"),
+        new("120.004", "Yıldız Elektronik", "Müşteri", "Antalya", "₺15.230,00", "Aktif"),
+        new("320.003", "Orkide Kırtasiye", "Tedarikçi", "İstanbul", "-₺459,90", "Aktif"),
+        new("120.005", "Güneş Tekstil San.", "Müşteri", "Denizli", "₺6.780,40", "Pasif"),
+    ];
+
+    private readonly List<GridColumn<CustomerSupplier>> _columns =
+    [
+        new() { Title = "Kod", Property = x => x.Code, Filterable = false },
+        new() { Title = "Ünvan", Property = x => x.Name, Filterable = false },
+        new() { Title = "Tür", Property = x => x.Type },
+        new() { Title = "Şehir", Property = x => x.City },
+        new() { Title = "Bakiye", Property = x => x.BalanceLabel, Align = Align.End, Filterable = false },
+        new() { Title = "Durum", Property = x => x.Status },
+    ];
+
+    private enum CustomerType
+    {
+        Individual,
+        Corporate,
+    }
+
+    private sealed class NewAccountForm
+    {
+        public CustomerType Type { get; set; } = CustomerType.Individual;
+        public string NationalId { get; set; } = "";
+        public string FullName { get; set; } = "";
+        public string CompanyName { get; set; } = "";
+        public string TaxNumber { get; set; } = "";
+        public string TaxOffice { get; set; } = "";
+
+        public bool IsValid => Type == CustomerType.Individual
+            ? !string.IsNullOrWhiteSpace(NationalId) && !string.IsNullOrWhiteSpace(FullName)
+            : !string.IsNullOrWhiteSpace(CompanyName) && !string.IsNullOrWhiteSpace(TaxNumber) && !string.IsNullOrWhiteSpace(TaxOffice);
+    }
+
+    private bool _showCreateModal;
+    private NewAccountForm _form = new();
+
+    private void OpenCreateModal()
+    {
+        _form = new NewAccountForm();
+        _showCreateModal = true;
+    }
+
+    private void CloseCreateModal() => _showCreateModal = false;
+
+    private void OnCreateModalOpenChanged(bool open) => _showCreateModal = open;
+
+    private void SaveNewAccount()
+    {
+        if (!_form.IsValid)
+        {
+            return;
+        }
+
+        var name = _form.Type == CustomerType.Individual ? _form.FullName.Trim() : _form.CompanyName.Trim();
+        var nextCode = $"120.{_accounts.Count + 1:000}";
+
+        _accounts.Insert(0, new CustomerSupplier(nextCode, name, "Müşteri", "-", "₺0,00", "Aktif"));
+        _showCreateModal = false;
+    }
+}

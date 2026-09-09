@@ -1,0 +1,45 @@
+@page "/stock-movements"
+
+<PageTitle>Stok & Depo Hareketleri - EnKolayCari</PageTitle>
+<PageHeading Title="Stok & Depo Hareketleri" Subtitle="Giriş, çıkış ve transfer hareketlerini takip edin." />
+
+<div class="card p-5">
+    <div class="flex items-center justify-between">
+        <div>
+            <h2 class="text-base font-semibold text-slate-900">Son Hareketler</h2>
+            <p class="text-xs text-slate-500">Mockup veri &middot; @_movements.Count kayıt</p>
+        </div>
+        <button type="button" class="dashboard-button-primary">
+            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+            Yeni Hareket
+        </button>
+    </div>
+
+    <div class="mt-4">
+        <AppDataGrid TItem="StockMovement" Items="@_movements" Columns="@_columns" ExportFileName="stok-depo-hareketleri" SheetName="Son Hareketler" EmptyText="Hareket bulunamadı." />
+    </div>
+</div>
+
+@code {
+    private record StockMovement(string Date, string DocumentNo, string Type, string Product, string Warehouse, string QuantityLabel);
+
+    private readonly List<StockMovement> _movements =
+    [
+        new("07 Eki 2026", "SDH-2026-0142", "Giriş", "A4 Fotokopi Kağıdı 80gr", "Merkez Depo", "+120 Koli"),
+        new("06 Eki 2026", "SDH-2026-0141", "Çıkış", "Dell 24\" Monitör", "Merkez Depo", "-4 Adet"),
+        new("06 Eki 2026", "SDH-2026-0140", "Transfer", "Toner HP 26A", "Merkez Depo → Anadolu Yakası Depo", "10 Kutu"),
+        new("05 Eki 2026", "SDH-2026-0139", "Çıkış", "USB-C Şarj Kablosu 1m", "Anadolu Yakası Depo", "-25 Adet"),
+        new("04 Eki 2026", "SDH-2026-0138", "Giriş", "Ofis Sandalyesi Ergonomik", "Ege Bölge Depo", "+6 Adet"),
+        new("03 Eki 2026", "SDH-2026-0137", "Sayım Farkı", "Beyaz Pamuklu Tişört", "Merkez Depo", "-3 Adet"),
+    ];
+
+    private readonly List<GridColumn<StockMovement>> _columns =
+    [
+        new() { Title = "Tarih", Property = x => x.Date, Filterable = false },
+        new() { Title = "Belge No", Property = x => x.DocumentNo, Filterable = false },
+        new() { Title = "Hareket Türü", Property = x => x.Type },
+        new() { Title = "Ürün", Property = x => x.Product, Filterable = false },
+        new() { Title = "Depo", Property = x => x.Warehouse },
+        new() { Title = "Miktar", Property = x => x.QuantityLabel, Align = Align.End, Filterable = false },
+    ];
+}

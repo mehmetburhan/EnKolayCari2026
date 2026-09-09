@@ -1,0 +1,44 @@
+@page "/cashbox"
+
+<PageTitle>Kasa - EnKolayCari</PageTitle>
+<PageHeading Title="Kasa" Subtitle="Nakit tahsilat ve ödeme hareketlerinizi görüntüleyin." />
+
+<div class="card p-5">
+    <div class="flex items-center justify-between">
+        <div>
+            <h2 class="text-base font-semibold text-slate-900">Kasa Hareketleri</h2>
+            <p class="text-xs text-slate-500">Mockup veri &middot; @_movements.Count kayıt</p>
+        </div>
+        <button type="button" class="dashboard-button-primary">
+            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+            Yeni Hareket
+        </button>
+    </div>
+
+    <div class="mt-4">
+        <AppDataGrid TItem="CashMovement" Items="@_movements" Columns="@_columns" ExportFileName="kasa-hareketleri" SheetName="Kasa Hareketleri" EmptyText="Hareket bulunamadı." />
+    </div>
+</div>
+
+@code {
+    private record CashMovement(string Date, string DocumentNo, string Type, string Description, string AmountLabel, string BalanceLabel);
+
+    private readonly List<CashMovement> _movements =
+    [
+        new("12 Eki 2026", "KSA-2026-0341", "Tahsilat", "ABC Ticaret Ltd. Şti. - Nakit Tahsilat", "+₺2.450,00", "₺24.560,75"),
+        new("11 Eki 2026", "KSA-2026-0340", "Ödeme", "Ofis Kirası", "-₺890,00", "₺22.110,75"),
+        new("10 Eki 2026", "KSA-2026-0339", "Ödeme", "Reklam Gideri", "-₺3.205,00", "₺23.000,75"),
+        new("09 Eki 2026", "KSA-2026-0338", "Tahsilat", "XYZ Sanayi A.Ş. - Nakit Tahsilat", "+₺11.500,00", "₺26.205,75"),
+        new("09 Eki 2026", "KSA-2026-0337", "Ödeme", "Kırtasiye Gideri", "-₺459,90", "₺14.705,75"),
+    ];
+
+    private readonly List<GridColumn<CashMovement>> _columns =
+    [
+        new() { Title = "Tarih", Property = x => x.Date, Filterable = false },
+        new() { Title = "Belge No", Property = x => x.DocumentNo, Filterable = false },
+        new() { Title = "Tür", Property = x => x.Type },
+        new() { Title = "Açıklama", Property = x => x.Description, Filterable = false },
+        new() { Title = "Tutar", Property = x => x.AmountLabel, Align = Align.End, Filterable = false },
+        new() { Title = "Bakiye", Property = x => x.BalanceLabel, Align = Align.End, Filterable = false },
+    ];
+}

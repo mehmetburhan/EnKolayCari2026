@@ -1,0 +1,44 @@
+@page "/warehouses"
+
+<PageTitle>Depo - EnKolayCari</PageTitle>
+<PageHeading Title="Depo" Subtitle="Depo konumlarınızı ve doluluk oranlarını izleyin." />
+
+<div class="card p-5">
+    <div class="flex items-center justify-between">
+        <div>
+            <h2 class="text-base font-semibold text-slate-900">Depolar</h2>
+            <p class="text-xs text-slate-500">Mockup veri &middot; @_warehouses.Count kayıt</p>
+        </div>
+        <button type="button" class="dashboard-button-primary">
+            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+            Yeni Depo
+        </button>
+    </div>
+
+    <div class="mt-4">
+        <AppDataGrid TItem="Warehouse" Items="@_warehouses" Columns="@_columns" ExportFileName="depolar" SheetName="Depolar" EmptyText="Depo bulunamadı." />
+    </div>
+</div>
+
+@code {
+    private record Warehouse(string Code, string Name, string City, string Responsible, string OccupancyLabel, string Status);
+
+    private readonly List<Warehouse> _warehouses =
+    [
+        new("DPO-01", "Merkez Depo", "İstanbul", "Ahmet Yılmaz", "%78", "Aktif"),
+        new("DPO-02", "Anadolu Yakası Depo", "İstanbul", "Elif Kaya", "%52", "Aktif"),
+        new("DPO-03", "Ege Bölge Depo", "İzmir", "Mert Demir", "%34", "Aktif"),
+        new("DPO-04", "Marmara Lojistik Merkezi", "Kocaeli", "Selin Arslan", "%91", "Aktif"),
+        new("DPO-05", "Yedek Parça Deposu", "Bursa", "Can Öztürk", "%12", "Pasif"),
+    ];
+
+    private readonly List<GridColumn<Warehouse>> _columns =
+    [
+        new() { Title = "Kod", Property = x => x.Code, Filterable = false },
+        new() { Title = "Depo Adı", Property = x => x.Name, Filterable = false },
+        new() { Title = "Şehir", Property = x => x.City },
+        new() { Title = "Sorumlu", Property = x => x.Responsible, Filterable = false },
+        new() { Title = "Doluluk", Property = x => x.OccupancyLabel, Align = Align.End, Filterable = false },
+        new() { Title = "Durum", Property = x => x.Status },
+    ];
+}

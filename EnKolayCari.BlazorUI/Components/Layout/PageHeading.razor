@@ -1,0 +1,14 @@
+@inject PageHeadingState HeadingState
+
+@code {
+    [Parameter, EditorRequired]
+    public string Title { get; set; } = string.Empty;
+
+    [Parameter]
+    public string? Subtitle { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        HeadingState.Set(Title, Subtitle);
+    }
+}

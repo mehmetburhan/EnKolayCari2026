@@ -26,7 +26,7 @@ sqlcmd -S uygulama.enkolaycari.com -U memosa -P "sql123admin" -d EKCN2026 -C
 cd C:\Dev\GitHub\EnKolayCari\EnkolayCari2026
 python scripts/generate_ddl.py
 python scripts/build_full_ddl.py
-sqlcmd -S uygulama.enkolaycari.com -U memosa -P "sql123admin" -C -f 65001 -i database\EnKolayCari2026_FullSchema.sql
+sqlcmd -S uygulama.enkolaycari.com -U memosa -P "sql123admin" -C -f 65001 -i database\EnKolayCari_FullSchema.sql
 ```
 
 > `FullSchema.sql` mevcut `EKCN2026` veritabanını **DROP + CREATE** eder.

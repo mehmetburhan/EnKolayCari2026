@@ -1,4 +1,4 @@
-# Table Mapping — Legacy TR → EnKolayCari2026 EN
+# Table Mapping — Legacy TR → EnKolayCari EN
 
 | Legacy DB | Legacy Table (TR) | New Schema | New Table (EN) | Notes |
 |-----------|-------------------|------------|----------------|-------|

@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.9" />
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.14.0" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.14.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EnKolayCari.Application.Services.Model\EnKolayCari.Application.Services.Model.csproj" />
+    <ProjectReference Include="..\EnKolayCari.Application\EnKolayCari.Application.csproj" />
+    <ProjectReference Include="..\EnKolayCari.Application.Model\EnKolayCari.Application.Model.csproj" />
+    <ProjectReference Include="..\EnKolayCari.Domain\EnKolayCari.Domain.csproj" />
+    <ProjectReference Include="..\EnKolayCari.Language\EnKolayCari.Language.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Operations\" />
+  </ItemGroup>
+</Project>

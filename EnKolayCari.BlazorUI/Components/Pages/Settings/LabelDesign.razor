@@ -1,0 +1,43 @@
+@page "/label-design"
+
+<PageTitle>Etiket Tasarımı - EnKolayCari</PageTitle>
+<PageHeading Title="Etiket Tasarımı" Subtitle="Ürün ve raf etiket şablonlarınızı yönetin." />
+
+<div class="card p-5">
+    <div class="flex items-center justify-between">
+        <div>
+            <h2 class="text-base font-semibold text-slate-900">Etiket Şablonları</h2>
+            <p class="text-xs text-slate-500">Mockup veri &middot; @_templates.Count kayıt</p>
+        </div>
+        <button type="button" class="dashboard-button-primary">
+            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+            Yeni Şablon
+        </button>
+    </div>
+
+    <div class="mt-4">
+        <AppDataGrid TItem="LabelTemplate" Items="@_templates" Columns="@_columns" ExportFileName="etiket-tasarimi" SheetName="Etiket Şablonları" EmptyText="Şablon bulunamadı." />
+    </div>
+</div>
+
+@code {
+    private record LabelTemplate(string Name, string Size, string Type, string LastUpdated, string IsDefaultLabel, string Status);
+
+    private readonly List<LabelTemplate> _templates =
+    [
+        new("Standart Ürün Etiketi", "40x30mm", "Ürün", "28 Eyl 2026", "Evet", "Aktif"),
+        new("Barkodlu Raf Etiketi", "50x25mm", "Raf", "15 Eyl 2026", "Hayır", "Aktif"),
+        new("Fiyat Etiketi (Büyük)", "70x40mm", "Ürün", "02 Eyl 2026", "Hayır", "Aktif"),
+        new("Kampanya Etiketi", "60x40mm", "Ürün", "20 Ağu 2026", "Hayır", "Pasif"),
+    ];
+
+    private readonly List<GridColumn<LabelTemplate>> _columns =
+    [
+        new() { Title = "Şablon Adı", Property = x => x.Name, Filterable = false },
+        new() { Title = "Ölçü", Property = x => x.Size },
+        new() { Title = "Tür", Property = x => x.Type },
+        new() { Title = "Son Güncelleme", Property = x => x.LastUpdated, Filterable = false },
+        new() { Title = "Varsayılan", Property = x => x.IsDefaultLabel },
+        new() { Title = "Durum", Property = x => x.Status },
+    ];
+}

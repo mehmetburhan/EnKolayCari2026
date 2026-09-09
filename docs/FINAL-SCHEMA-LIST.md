@@ -1,4 +1,4 @@
-# EnKolayCari2026 — Final Schema & Table List
+# EnKolayCari — Final Schema & Table List
 
 | Alan | Değer |
 |------|--------|

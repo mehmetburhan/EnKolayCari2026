@@ -1,0 +1,43 @@
+@page "/checks"
+
+<PageTitle>Çekler - EnKolayCari</PageTitle>
+<PageHeading Title="Çekler" Subtitle="Alınan ve verilen çeklerin vade takibini yapın." />
+
+<div class="card p-5">
+    <div class="flex items-center justify-between">
+        <div>
+            <h2 class="text-base font-semibold text-slate-900">Çek Listesi</h2>
+            <p class="text-xs text-slate-500">Mockup veri &middot; @_checks.Count kayıt</p>
+        </div>
+        <button type="button" class="dashboard-button-primary">
+            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+            Yeni Çek
+        </button>
+    </div>
+
+    <div class="mt-4">
+        <AppDataGrid TItem="Check" Items="@_checks" Columns="@_columns" ExportFileName="cekler" SheetName="Çek Listesi" EmptyText="Çek bulunamadı." />
+    </div>
+</div>
+
+@code {
+    private record Check(string CheckNo, string Bank, string Type, string DueDate, string AmountLabel, string Status);
+
+    private readonly List<Check> _checks =
+    [
+        new("CEK-778401", "Garanti BBVA", "Alınan", "25 Eki 2026", "₺15.000,00", "Portföyde"),
+        new("CEK-778355", "İş Bankası", "Verilen", "01 Kas 2026", "₺8.400,00", "Portföyde"),
+        new("CEK-778290", "Akbank", "Alınan", "10 Eki 2026", "₺22.750,00", "Tahsil Edildi"),
+        new("CEK-778211", "Yapı Kredi", "Verilen", "18 Eyl 2026", "₺5.600,00", "Karşılıksız"),
+    ];
+
+    private readonly List<GridColumn<Check>> _columns =
+    [
+        new() { Title = "Çek No", Property = x => x.CheckNo, Filterable = false },
+        new() { Title = "Banka", Property = x => x.Bank },
+        new() { Title = "Tür", Property = x => x.Type },
+        new() { Title = "Vade Tarihi", Property = x => x.DueDate, Filterable = false },
+        new() { Title = "Tutar", Property = x => x.AmountLabel, Align = Align.End, Filterable = false },
+        new() { Title = "Durum", Property = x => x.Status },
+    ];
+}

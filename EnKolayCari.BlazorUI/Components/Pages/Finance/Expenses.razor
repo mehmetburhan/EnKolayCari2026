@@ -1,0 +1,44 @@
+@page "/expenses"
+
+<PageTitle>Giderler - EnKolayCari</PageTitle>
+<PageHeading Title="Giderler" Subtitle="İşletme giderlerinizi kategori bazında takip edin." />
+
+<div class="card p-5">
+    <div class="flex items-center justify-between">
+        <div>
+            <h2 class="text-base font-semibold text-slate-900">Gider Listesi</h2>
+            <p class="text-xs text-slate-500">Mockup veri &middot; @_expenses.Count kayıt</p>
+        </div>
+        <button type="button" class="dashboard-button-primary">
+            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+            Yeni Gider
+        </button>
+    </div>
+
+    <div class="mt-4">
+        <AppDataGrid TItem="Expense" Items="@_expenses" Columns="@_columns" ExportFileName="giderler" SheetName="Gider Listesi" EmptyText="Gider bulunamadı." />
+    </div>
+</div>
+
+@code {
+    private record Expense(string Date, string Category, string Description, string PaymentMethod, string AmountLabel, string Status);
+
+    private readonly List<Expense> _expenses =
+    [
+        new("11 Eki 2026", "Ofis Kirası", "Ofis Kirası", "Banka Havalesi", "₺890,00", "Ödendi"),
+        new("10 Eki 2026", "Pazarlama", "Reklam Gideri", "Kredi Kartı", "₺3.205,00", "Ödendi"),
+        new("09 Eki 2026", "Ofis Malzemesi", "Kırtasiye Gideri", "Kasa", "₺459,90", "Ödendi"),
+        new("07 Eki 2026", "Ulaşım", "Yakıt Gideri", "Kredi Kartı", "₺620,00", "Bekleniyor"),
+        new("05 Eki 2026", "Fatura", "Elektrik Faturası", "Banka Havalesi", "₺1.140,00", "Bekleniyor"),
+    ];
+
+    private readonly List<GridColumn<Expense>> _columns =
+    [
+        new() { Title = "Tarih", Property = x => x.Date, Filterable = false },
+        new() { Title = "Kategori", Property = x => x.Category },
+        new() { Title = "Açıklama", Property = x => x.Description, Filterable = false },
+        new() { Title = "Ödeme Yöntemi", Property = x => x.PaymentMethod },
+        new() { Title = "Tutar", Property = x => x.AmountLabel, Align = Align.End, Filterable = false },
+        new() { Title = "Durum", Property = x => x.Status },
+    ];
+}

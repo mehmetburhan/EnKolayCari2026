@@ -1,0 +1,43 @@
+@page "/purchases/orders"
+
+<PageTitle>Alış Siparişleri - EnKolayCari</PageTitle>
+<PageHeading Title="Alış Siparişleri" Subtitle="Tedarikçilere verilen satın alma siparişlerini izleyin." />
+
+<div class="card p-5">
+    <div class="flex items-center justify-between">
+        <div>
+            <h2 class="text-base font-semibold text-slate-900">Sipariş Listesi</h2>
+            <p class="text-xs text-slate-500">Mockup veri &middot; @_orders.Count kayıt</p>
+        </div>
+        <button type="button" class="dashboard-button-primary">
+            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+            Yeni Sipariş
+        </button>
+    </div>
+
+    <div class="mt-4">
+        <AppDataGrid TItem="PurchaseOrder" Items="@_orders" Columns="@_columns" ExportFileName="alis-siparisleri" SheetName="Sipariş Listesi" EmptyText="Sipariş bulunamadı." />
+    </div>
+</div>
+
+@code {
+    private record PurchaseOrder(string OrderNo, string Supplier, string OrderDate, string ExpectedDate, string AmountLabel, string Status);
+
+    private readonly List<PurchaseOrder> _orders =
+    [
+        new("ALS-2026-0176", "Mavi Tedarik Ltd.", "08 Eki 2026", "18 Eki 2026", "₺9.640,00", "Onaylandı"),
+        new("ALS-2026-0175", "Elektro Dağıtım A.Ş.", "05 Eki 2026", "15 Eki 2026", "₺15.200,00", "Beklemede"),
+        new("ALS-2026-0174", "Orkide Kırtasiye", "01 Eki 2026", "08 Eki 2026", "₺1.340,00", "Teslim Alındı"),
+        new("ALS-2026-0173", "Kartal Lojistik A.Ş.", "27 Eyl 2026", "04 Eki 2026", "₺6.780,00", "Teslim Alındı"),
+    ];
+
+    private readonly List<GridColumn<PurchaseOrder>> _columns =
+    [
+        new() { Title = "Sipariş No", Property = x => x.OrderNo, Filterable = false },
+        new() { Title = "Tedarikçi", Property = x => x.Supplier, Filterable = false },
+        new() { Title = "Sipariş Tarihi", Property = x => x.OrderDate, Filterable = false },
+        new() { Title = "Beklenen Teslim", Property = x => x.ExpectedDate, Filterable = false },
+        new() { Title = "Tutar", Property = x => x.AmountLabel, Align = Align.End, Filterable = false },
+        new() { Title = "Durum", Property = x => x.Status },
+    ];
+}
