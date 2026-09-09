@@ -3,29 +3,15 @@ using Microsoft.Extensions.Logging.Abstractions;
 using EnKolayCari2026.Domain.Model.Common;
 using EnKolayCari2026.Domain.Model.Dbo;
 using EnKolayCari2026.Domain.Model.Finance;
-using EnKolayCari2026.Domain.Model.HangFire;
 using EnKolayCari2026.Domain.Model.Inventory;
 using EnKolayCari2026.Domain.Model.Report;
 using EnKolayCari2026.Domain.Model.Trade;
 using EnKolayCari2026.Application.Model.DTO.Common;
 using EnKolayCari2026.Application.Model.DTO.Dbo;
 using EnKolayCari2026.Application.Model.DTO.Finance;
-using EnKolayCari2026.Application.Model.DTO.HangFire;
 using EnKolayCari2026.Application.Model.DTO.Inventory;
 using EnKolayCari2026.Application.Model.DTO.Report;
 using EnKolayCari2026.Application.Model.DTO.Trade;
-
-using CommonCounter = EnKolayCari2026.Domain.Model.Common.Counter;
-using HangFireCounter = EnKolayCari2026.Domain.Model.HangFire.Counter;
-using HangFireHash = EnKolayCari2026.Domain.Model.HangFire.Hash;
-using HangFireJob = EnKolayCari2026.Domain.Model.HangFire.Job;
-using HangFireList = EnKolayCari2026.Domain.Model.HangFire.List;
-using HangFireSchema = EnKolayCari2026.Domain.Model.HangFire.Schema;
-using HangFireServer = EnKolayCari2026.Domain.Model.HangFire.Server;
-using HangFireSet = EnKolayCari2026.Domain.Model.HangFire.Set;
-using HangFireState = EnKolayCari2026.Domain.Model.HangFire.State;
-using CommonCounterDto = EnKolayCari2026.Application.Model.DTO.Common.CounterDto;
-using HangFireCounterDto = EnKolayCari2026.Application.Model.DTO.HangFire.CounterDto;
 
 namespace EnKolayCari2026.Application.Mapping
 {
@@ -163,19 +149,19 @@ namespace EnKolayCari2026.Application.Mapping
             return entities.Any() ? _mapper.Map<List<CompanyDto>>(entities.ToList()) : new List<CompanyDto>();
         }
 
-        public static CommonCounterDto ToDto(this CommonCounter entity)
+        public static CounterDto ToDto(this Counter entity)
         {
-            return entity == null ? default : _mapper.Map<CommonCounterDto>(entity);
+            return entity == null ? default : _mapper.Map<CounterDto>(entity);
         }
 
-        public static List<CommonCounterDto> ToDtoList(this List<CommonCounter> entities)
+        public static List<CounterDto> ToDtoList(this List<Counter> entities)
         {
-            return entities == null || !entities.Any() ? new List<CommonCounterDto>() : _mapper.Map<List<CommonCounterDto>>(entities);
+            return entities == null || !entities.Any() ? new List<CounterDto>() : _mapper.Map<List<CounterDto>>(entities);
         }
 
-        public static List<CommonCounterDto> ToDtoList(this IQueryable<CommonCounter> entities)
+        public static List<CounterDto> ToDtoList(this IQueryable<Counter> entities)
         {
-            return entities.Any() ? _mapper.Map<List<CommonCounterDto>>(entities.ToList()) : new List<CommonCounterDto>();
+            return entities.Any() ? _mapper.Map<List<CounterDto>>(entities.ToList()) : new List<CounterDto>();
         }
 
         public static CounterReferenceDto ToDto(this CounterReference entity)
@@ -913,172 +899,6 @@ namespace EnKolayCari2026.Application.Mapping
         public static List<CurrencyRateDto> ToDtoList(this IQueryable<CurrencyRate> entities)
         {
             return entities.Any() ? _mapper.Map<List<CurrencyRateDto>>(entities.ToList()) : new List<CurrencyRateDto>();
-        }
-
-        // HangFire
-        public static AggregatedCounterDto ToDto(this AggregatedCounter entity)
-        {
-            return entity == null ? default : _mapper.Map<AggregatedCounterDto>(entity);
-        }
-
-        public static List<AggregatedCounterDto> ToDtoList(this List<AggregatedCounter> entities)
-        {
-            return entities == null || !entities.Any() ? new List<AggregatedCounterDto>() : _mapper.Map<List<AggregatedCounterDto>>(entities);
-        }
-
-        public static List<AggregatedCounterDto> ToDtoList(this IQueryable<AggregatedCounter> entities)
-        {
-            return entities.Any() ? _mapper.Map<List<AggregatedCounterDto>>(entities.ToList()) : new List<AggregatedCounterDto>();
-        }
-
-        public static HangFireCounterDto ToDto(this HangFireCounter entity)
-        {
-            return entity == null ? default : _mapper.Map<HangFireCounterDto>(entity);
-        }
-
-        public static List<HangFireCounterDto> ToDtoList(this List<HangFireCounter> entities)
-        {
-            return entities == null || !entities.Any() ? new List<HangFireCounterDto>() : _mapper.Map<List<HangFireCounterDto>>(entities);
-        }
-
-        public static List<HangFireCounterDto> ToDtoList(this IQueryable<HangFireCounter> entities)
-        {
-            return entities.Any() ? _mapper.Map<List<HangFireCounterDto>>(entities.ToList()) : new List<HangFireCounterDto>();
-        }
-
-        public static HashDto ToDto(this HangFireHash entity)
-        {
-            return entity == null ? default : _mapper.Map<HashDto>(entity);
-        }
-
-        public static List<HashDto> ToDtoList(this List<HangFireHash> entities)
-        {
-            return entities == null || !entities.Any() ? new List<HashDto>() : _mapper.Map<List<HashDto>>(entities);
-        }
-
-        public static List<HashDto> ToDtoList(this IQueryable<HangFireHash> entities)
-        {
-            return entities.Any() ? _mapper.Map<List<HashDto>>(entities.ToList()) : new List<HashDto>();
-        }
-
-        public static JobDto ToDto(this HangFireJob entity)
-        {
-            return entity == null ? default : _mapper.Map<JobDto>(entity);
-        }
-
-        public static List<JobDto> ToDtoList(this List<HangFireJob> entities)
-        {
-            return entities == null || !entities.Any() ? new List<JobDto>() : _mapper.Map<List<JobDto>>(entities);
-        }
-
-        public static List<JobDto> ToDtoList(this IQueryable<HangFireJob> entities)
-        {
-            return entities.Any() ? _mapper.Map<List<JobDto>>(entities.ToList()) : new List<JobDto>();
-        }
-
-        public static JobParameterDto ToDto(this JobParameter entity)
-        {
-            return entity == null ? default : _mapper.Map<JobParameterDto>(entity);
-        }
-
-        public static List<JobParameterDto> ToDtoList(this List<JobParameter> entities)
-        {
-            return entities == null || !entities.Any() ? new List<JobParameterDto>() : _mapper.Map<List<JobParameterDto>>(entities);
-        }
-
-        public static List<JobParameterDto> ToDtoList(this IQueryable<JobParameter> entities)
-        {
-            return entities.Any() ? _mapper.Map<List<JobParameterDto>>(entities.ToList()) : new List<JobParameterDto>();
-        }
-
-        public static JobQueueDto ToDto(this JobQueue entity)
-        {
-            return entity == null ? default : _mapper.Map<JobQueueDto>(entity);
-        }
-
-        public static List<JobQueueDto> ToDtoList(this List<JobQueue> entities)
-        {
-            return entities == null || !entities.Any() ? new List<JobQueueDto>() : _mapper.Map<List<JobQueueDto>>(entities);
-        }
-
-        public static List<JobQueueDto> ToDtoList(this IQueryable<JobQueue> entities)
-        {
-            return entities.Any() ? _mapper.Map<List<JobQueueDto>>(entities.ToList()) : new List<JobQueueDto>();
-        }
-
-        public static ListDto ToDto(this HangFireList entity)
-        {
-            return entity == null ? default : _mapper.Map<ListDto>(entity);
-        }
-
-        public static List<ListDto> ToDtoList(this List<HangFireList> entities)
-        {
-            return entities == null || !entities.Any() ? new List<ListDto>() : _mapper.Map<List<ListDto>>(entities);
-        }
-
-        public static List<ListDto> ToDtoList(this IQueryable<HangFireList> entities)
-        {
-            return entities.Any() ? _mapper.Map<List<ListDto>>(entities.ToList()) : new List<ListDto>();
-        }
-
-        public static SchemaDto ToDto(this HangFireSchema entity)
-        {
-            return entity == null ? default : _mapper.Map<SchemaDto>(entity);
-        }
-
-        public static List<SchemaDto> ToDtoList(this List<HangFireSchema> entities)
-        {
-            return entities == null || !entities.Any() ? new List<SchemaDto>() : _mapper.Map<List<SchemaDto>>(entities);
-        }
-
-        public static List<SchemaDto> ToDtoList(this IQueryable<HangFireSchema> entities)
-        {
-            return entities.Any() ? _mapper.Map<List<SchemaDto>>(entities.ToList()) : new List<SchemaDto>();
-        }
-
-        public static ServerDto ToDto(this HangFireServer entity)
-        {
-            return entity == null ? default : _mapper.Map<ServerDto>(entity);
-        }
-
-        public static List<ServerDto> ToDtoList(this List<HangFireServer> entities)
-        {
-            return entities == null || !entities.Any() ? new List<ServerDto>() : _mapper.Map<List<ServerDto>>(entities);
-        }
-
-        public static List<ServerDto> ToDtoList(this IQueryable<HangFireServer> entities)
-        {
-            return entities.Any() ? _mapper.Map<List<ServerDto>>(entities.ToList()) : new List<ServerDto>();
-        }
-
-        public static SetDto ToDto(this HangFireSet entity)
-        {
-            return entity == null ? default : _mapper.Map<SetDto>(entity);
-        }
-
-        public static List<SetDto> ToDtoList(this List<HangFireSet> entities)
-        {
-            return entities == null || !entities.Any() ? new List<SetDto>() : _mapper.Map<List<SetDto>>(entities);
-        }
-
-        public static List<SetDto> ToDtoList(this IQueryable<HangFireSet> entities)
-        {
-            return entities.Any() ? _mapper.Map<List<SetDto>>(entities.ToList()) : new List<SetDto>();
-        }
-
-        public static StateDto ToDto(this HangFireState entity)
-        {
-            return entity == null ? default : _mapper.Map<StateDto>(entity);
-        }
-
-        public static List<StateDto> ToDtoList(this List<HangFireState> entities)
-        {
-            return entities == null || !entities.Any() ? new List<StateDto>() : _mapper.Map<List<StateDto>>(entities);
-        }
-
-        public static List<StateDto> ToDtoList(this IQueryable<HangFireState> entities)
-        {
-            return entities.Any() ? _mapper.Map<List<StateDto>>(entities.ToList()) : new List<StateDto>();
         }
 
         // Inventory

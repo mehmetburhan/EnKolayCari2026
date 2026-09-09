@@ -5,29 +5,15 @@ using Microsoft.EntityFrameworkCore;
 using EnKolayCari2026.Domain.Model.Common;
 using EnKolayCari2026.Domain.Model.Dbo;
 using EnKolayCari2026.Domain.Model.Finance;
-using EnKolayCari2026.Domain.Model.HangFire;
 using EnKolayCari2026.Domain.Model.Inventory;
 using EnKolayCari2026.Domain.Model.Report;
 using EnKolayCari2026.Domain.Model.Trade;
 using EnKolayCari2026.Persistence.Context.Configuration.Common;
 using EnKolayCari2026.Persistence.Context.Configuration.Dbo;
 using EnKolayCari2026.Persistence.Context.Configuration.Finance;
-using EnKolayCari2026.Persistence.Context.Configuration.HangFire;
 using EnKolayCari2026.Persistence.Context.Configuration.Inventory;
 using EnKolayCari2026.Persistence.Context.Configuration.Report;
 using EnKolayCari2026.Persistence.Context.Configuration.Trade;
-// HangFire vs Common name clashes (Counter) + BCL (List/Hash/Job/...)
-using CommonCounter = EnKolayCari2026.Domain.Model.Common.Counter;
-using HangFireCounter = EnKolayCari2026.Domain.Model.HangFire.Counter;
-using HangFireHash = EnKolayCari2026.Domain.Model.HangFire.Hash;
-using HangFireJob = EnKolayCari2026.Domain.Model.HangFire.Job;
-using HangFireList = EnKolayCari2026.Domain.Model.HangFire.List;
-using HangFireSchema = EnKolayCari2026.Domain.Model.HangFire.Schema;
-using HangFireServer = EnKolayCari2026.Domain.Model.HangFire.Server;
-using HangFireSet = EnKolayCari2026.Domain.Model.HangFire.Set;
-using HangFireState = EnKolayCari2026.Domain.Model.HangFire.State;
-using CommonCounterConfiguration = EnKolayCari2026.Persistence.Context.Configuration.Common.CounterConfiguration;
-using HangFireCounterConfiguration = EnKolayCari2026.Persistence.Context.Configuration.HangFire.CounterConfiguration;
 
 namespace EnKolayCari2026.Persistence.Context;
 public partial class EnKolayCari2026Context : IdentityDbContext<AspNetUsers,AspNetRoles,string,AspNetUserClaims,AspNetUserRoles,AspNetUserLogins,AspNetRoleClaims,AspNetUserTokens>
@@ -45,7 +31,7 @@ public partial class EnKolayCari2026Context : IdentityDbContext<AspNetUsers,AspN
     public virtual DbSet<City> City { get; set; }
     public virtual DbSet<CodeDef> CodeDef { get; set; }
     public virtual DbSet<Company> Company { get; set; }
-    public virtual DbSet<CommonCounter> Counter { get; set; }
+    public virtual DbSet<Counter> Counter { get; set; }
     public virtual DbSet<CounterReference> CounterReference { get; set; }
     public virtual DbSet<Country> Country { get; set; }
     public virtual DbSet<CountryHolidays> CountryHolidays { get; set; }
@@ -100,19 +86,6 @@ public partial class EnKolayCari2026Context : IdentityDbContext<AspNetUsers,AspN
     public virtual DbSet<Currency> Currency { get; set; }
     public virtual DbSet<CurrencyRate> CurrencyRate { get; set; }
 
-    //HangFire
-    public virtual DbSet<AggregatedCounter> AggregatedCounter { get; set; }
-    public virtual DbSet<HangFireCounter> HangFireCounter { get; set; }
-    public virtual DbSet<HangFireHash> Hash { get; set; }
-    public virtual DbSet<HangFireJob> Job { get; set; }
-    public virtual DbSet<JobParameter> JobParameter { get; set; }
-    public virtual DbSet<JobQueue> JobQueue { get; set; }
-    public virtual DbSet<HangFireList> List { get; set; }
-    public virtual DbSet<HangFireSchema> Schema { get; set; }
-    public virtual DbSet<HangFireServer> Server { get; set; }
-    public virtual DbSet<HangFireSet> Set { get; set; }
-    public virtual DbSet<HangFireState> State { get; set; }
-
     //inventory
     public virtual DbSet<Brand> Brand { get; set; }
     public virtual DbSet<Product> Product { get; set; }
@@ -151,7 +124,7 @@ public partial class EnKolayCari2026Context : IdentityDbContext<AspNetUsers,AspN
         modelBuilder.ApplyConfiguration(new CityConfiguration());
         modelBuilder.ApplyConfiguration(new CodeDefConfiguration());
         modelBuilder.ApplyConfiguration(new CompanyConfiguration());
-        modelBuilder.ApplyConfiguration(new CommonCounterConfiguration());
+        modelBuilder.ApplyConfiguration(new CounterConfiguration());
         modelBuilder.ApplyConfiguration(new CounterReferenceConfiguration());
         modelBuilder.ApplyConfiguration(new CountryConfiguration());
         modelBuilder.ApplyConfiguration(new CountryHolidaysConfiguration());
@@ -205,19 +178,6 @@ public partial class EnKolayCari2026Context : IdentityDbContext<AspNetUsers,AspN
         modelBuilder.ApplyConfiguration(new CheckNoteTransactionConfiguration());
         modelBuilder.ApplyConfiguration(new CurrencyConfiguration());
         modelBuilder.ApplyConfiguration(new CurrencyRateConfiguration());
-
-        //Table HangFire
-        modelBuilder.ApplyConfiguration(new AggregatedCounterConfiguration());
-        modelBuilder.ApplyConfiguration(new HangFireCounterConfiguration());
-        modelBuilder.ApplyConfiguration(new HashConfiguration());
-        modelBuilder.ApplyConfiguration(new JobConfiguration());
-        modelBuilder.ApplyConfiguration(new JobParameterConfiguration());
-        modelBuilder.ApplyConfiguration(new JobQueueConfiguration());
-        modelBuilder.ApplyConfiguration(new ListConfiguration());
-        modelBuilder.ApplyConfiguration(new SchemaConfiguration());
-        modelBuilder.ApplyConfiguration(new ServerConfiguration());
-        modelBuilder.ApplyConfiguration(new SetConfiguration());
-        modelBuilder.ApplyConfiguration(new StateConfiguration());
 
         //Table Inventory
         modelBuilder.ApplyConfiguration(new BrandConfiguration());

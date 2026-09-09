@@ -1,0 +1,5331 @@
+{
+  "tables": [
+    {
+      "legacyTable": "BirimTanim",
+      "sourceDb": "SLAVE",
+      "newSchema": "inventory",
+      "newTable": "Unit",
+      "entity": "Unit",
+      "companyFilter": true,
+      "columns": [
+        {
+          "new": "Id",
+          "legacy": "Id",
+          "role": "legacyId"
+        },
+        {
+          "new": "GId",
+          "legacy": "GId",
+          "role": "gid"
+        },
+        {
+          "new": "CompanyId",
+          "legacy": "SirketTanimId",
+          "role": "company"
+        },
+        {
+          "new": "Code",
+          "legacy": "Kod",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Description",
+          "legacy": "Aciklama",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Hassasiyet",
+          "legacy": "Hassasiyet",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Label",
+          "legacy": "Etiket",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "InsertDateTime",
+          "legacy": "InsertDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "InsertUser",
+          "legacy": "InsertUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UpdateDateTime",
+          "legacy": "UpdateDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UpdateUser",
+          "legacy": "UpdateUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DeleteDateTime",
+          "legacy": "DeleteDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DeleteUser",
+          "legacy": "DeleteUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "RecordDateTime",
+          "legacy": "RecDateTime",
+          "role": "data",
+          "fkTable": null
+        }
+      ],
+      "fks": [],
+      "order": 10
+    },
+    {
+      "legacyTable": "CariTanim",
+      "sourceDb": "SLAVE",
+      "newSchema": "finance",
+      "newTable": "Account",
+      "entity": "Account",
+      "companyFilter": true,
+      "columns": [
+        {
+          "new": "Id",
+          "legacy": "Id",
+          "role": "legacyId"
+        },
+        {
+          "new": "GId",
+          "legacy": "GId",
+          "role": "gid"
+        },
+        {
+          "new": "CompanyId",
+          "legacy": "SirketTanimId",
+          "role": "company"
+        },
+        {
+          "new": "AccountType",
+          "legacy": "CariTipi",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Stat",
+          "legacy": "Aktif",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "AccountCode",
+          "legacy": "CariKodu",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "FirstName",
+          "legacy": "Ad",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "LastName",
+          "legacy": "Soyad",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "FullNameOrTitle",
+          "legacy": "AdSoyadUnvan",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "BankAccountHolder",
+          "legacy": "BankaHesapSahibi",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Email",
+          "legacy": "EMail",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Password",
+          "legacy": "Parola",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "CorrespondenceEmail",
+          "legacy": "YazismaEMail",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "IsActivationCompleted",
+          "legacy": "AktivasyonYapildi",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "WebsiteUrl",
+          "legacy": "WebSayfasi",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Address",
+          "legacy": "Adres",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "City",
+          "legacy": "Il",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "District",
+          "legacy": "Ilce",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "PostalCode",
+          "legacy": "PostaKodu",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "TaxOffice",
+          "legacy": "VergiDairesi",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "TaxNumber",
+          "legacy": "VergiNumarasi",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Phone1",
+          "legacy": "Telefon1",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Phone2",
+          "legacy": "Telefon2",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Fax",
+          "legacy": "Faks",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "BankBranchCode",
+          "legacy": "BankaSubeKodu",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "AccountNumber",
+          "legacy": "HesapNo",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "IBAN",
+          "legacy": "IBAN",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "IsETaxpayerActive",
+          "legacy": "EMukellefAktif",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DiscountRate",
+          "legacy": "IskontoOrani",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "PriceGroupId",
+          "legacy": "FiyatGrupTanimId",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "IntegrationName",
+          "legacy": "EntegrasyonAdi",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "IntegrationId",
+          "legacy": "EntegrasyonId",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Label",
+          "legacy": "Etiket",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "ShowIbanOnEcommerce",
+          "legacy": "ETicaretIBANGoster",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "NewsletterOptIn",
+          "legacy": "EBulten",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "SmsOptIn",
+          "legacy": "SmsAlmakIstiyorum",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "MembershipAgreementAccepted",
+          "legacy": "UyelikSozlesmesiniOkudum",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "KvkkAccepted",
+          "legacy": "KvkkOkudum",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "RecordSource",
+          "legacy": "KayitYeri",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "NationalId",
+          "legacy": "TCKimlikNo",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Gender",
+          "legacy": "Cinsiyet",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "BirthDate",
+          "legacy": "DogumTarihi",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "FreeShipping",
+          "legacy": "KargoBedava",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "TrendyolId",
+          "legacy": "TrendyolId",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "TrendyolDescription",
+          "legacy": "TrendyolAciklama",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "PaymentTermDays",
+          "legacy": "VadeGun",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "SocialSecurity",
+          "legacy": "SosyalGuvence",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "AdditionalInfo",
+          "legacy": "EkBilgi",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "KvkkApprovalCode",
+          "legacy": "KVKKOnayKodu",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "InsertUser",
+          "legacy": "InsertUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "RecordDateTime",
+          "legacy": "RecDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "InsertDateTime",
+          "legacy": "InsertDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UpdateDateTime",
+          "legacy": "UpdateDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UpdateUser",
+          "legacy": "UpdateUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DeleteDateTime",
+          "legacy": "DeleteDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DeleteUser",
+          "legacy": "DeleteUser",
+          "role": "data",
+          "fkTable": null
+        }
+      ],
+      "fks": [],
+      "order": 10
+    },
+    {
+      "legacyTable": "DepoTanim",
+      "sourceDb": "SLAVE",
+      "newSchema": "inventory",
+      "newTable": "Store",
+      "entity": "Store",
+      "companyFilter": true,
+      "columns": [
+        {
+          "new": "Id",
+          "legacy": "Id",
+          "role": "legacyId"
+        },
+        {
+          "new": "GId",
+          "legacy": "GId",
+          "role": "gid"
+        },
+        {
+          "new": "CompanyId",
+          "legacy": "SirketTanimId",
+          "role": "company"
+        },
+        {
+          "new": "Stat",
+          "legacy": "Aktif",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "IsEcommerceSaleActive",
+          "legacy": "ETicaretSatisAktif",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "IsMainStore",
+          "legacy": "AnaDepo",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "StoreCode",
+          "legacy": "DepoKodu",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Description",
+          "legacy": "Aciklama",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "AuthorizedPerson",
+          "legacy": "Yetkili",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Label",
+          "legacy": "Etiket",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Address",
+          "legacy": "Adres",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "City",
+          "legacy": "Il",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "District",
+          "legacy": "Ilce",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Phone1",
+          "legacy": "Telefon1",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Phone2",
+          "legacy": "Telefon2",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Fax",
+          "legacy": "Faks",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "InsertDateTime",
+          "legacy": "InsertDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "InsertUser",
+          "legacy": "InsertUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UpdateDateTime",
+          "legacy": "UpdateDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UpdateUser",
+          "legacy": "UpdateUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DeleteDateTime",
+          "legacy": "DeleteDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DeleteUser",
+          "legacy": "DeleteUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "RecordDateTime",
+          "legacy": "RecDateTime",
+          "role": "data",
+          "fkTable": null
+        }
+      ],
+      "fks": [],
+      "order": 10
+    },
+    {
+      "legacyTable": "DovizKur",
+      "sourceDb": "SLAVE",
+      "newSchema": "finance",
+      "newTable": "CurrencyRate",
+      "entity": "CurrencyRate",
+      "companyFilter": true,
+      "columns": [
+        {
+          "new": "Id",
+          "legacy": "Id",
+          "role": "legacyId"
+        },
+        {
+          "new": "GId",
+          "legacy": "GId",
+          "role": "gid"
+        },
+        {
+          "new": "CompanyId",
+          "legacy": "SirketTanimId",
+          "role": "company"
+        },
+        {
+          "new": "TransactionDate",
+          "legacy": "Tarih",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "CurrencyCode",
+          "legacy": "DovizKodu",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Value",
+          "legacy": "Deger",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DefaultCurrencyCode",
+          "legacy": "StandartDovizKodu",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "InsertUser",
+          "legacy": "InsertUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "InsertDateTime",
+          "legacy": "InsertDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UpdateUser",
+          "legacy": "UpdateUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UpdateDateTime",
+          "legacy": "UpdateDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DeleteUser",
+          "legacy": "DeleteUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DeleteDateTime",
+          "legacy": "DeleteDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "RecordDateTime",
+          "legacy": "RecDateTime",
+          "role": "data",
+          "fkTable": null
+        }
+      ],
+      "fks": [],
+      "order": 10
+    },
+    {
+      "legacyTable": "DovizTanim",
+      "sourceDb": "SLAVE",
+      "newSchema": "finance",
+      "newTable": "Currency",
+      "entity": "Currency",
+      "companyFilter": true,
+      "columns": [
+        {
+          "new": "Id",
+          "legacy": "Id",
+          "role": "legacyId"
+        },
+        {
+          "new": "GId",
+          "legacy": "GId",
+          "role": "gid"
+        },
+        {
+          "new": "CompanyId",
+          "legacy": "SirketTanimId",
+          "role": "company"
+        },
+        {
+          "new": "SortOrder",
+          "legacy": "Sira",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "CurrencyCode",
+          "legacy": "DovizKodu",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Hassasiyet",
+          "legacy": "Hassasiyet",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "InsertUser",
+          "legacy": "InsertUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "InsertDateTime",
+          "legacy": "InsertDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UpdateUser",
+          "legacy": "UpdateUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UpdateDateTime",
+          "legacy": "UpdateDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DeleteUser",
+          "legacy": "DeleteUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DeleteDateTime",
+          "legacy": "DeleteDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "RecordDateTime",
+          "legacy": "RecDateTime",
+          "role": "data",
+          "fkTable": null
+        }
+      ],
+      "fks": [],
+      "order": 10
+    },
+    {
+      "legacyTable": "EMailTanim",
+      "sourceDb": "SLAVE",
+      "newSchema": "common",
+      "newTable": "EmailTemplate",
+      "entity": "EmailTemplate",
+      "companyFilter": true,
+      "columns": [
+        {
+          "new": "Id",
+          "legacy": "Id",
+          "role": "legacyId"
+        },
+        {
+          "new": "GId",
+          "legacy": "GId",
+          "role": "gid"
+        },
+        {
+          "new": "CompanyId",
+          "legacy": "SirketTanimId",
+          "role": "company"
+        },
+        {
+          "new": "Stat",
+          "legacy": "Aktif",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Konu",
+          "legacy": "Konu",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Metin",
+          "legacy": "Metin",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "InsertDateTime",
+          "legacy": "InsertDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "InsertUser",
+          "legacy": "InsertUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UpdateDateTime",
+          "legacy": "UpdateDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UpdateUser",
+          "legacy": "UpdateUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DeleteDateTime",
+          "legacy": "DeleteDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DeleteUser",
+          "legacy": "DeleteUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "RecordDateTime",
+          "legacy": "RecDateTime",
+          "role": "data",
+          "fkTable": null
+        }
+      ],
+      "fks": [],
+      "order": 10
+    },
+    {
+      "legacyTable": "Lisans",
+      "sourceDb": "MASTER",
+      "newSchema": "common",
+      "newTable": "License",
+      "entity": "License",
+      "companyFilter": true,
+      "columns": [
+        {
+          "new": "Id",
+          "legacy": "Id",
+          "role": "legacyId"
+        },
+        {
+          "new": "GId",
+          "legacy": "GId",
+          "role": "gid"
+        },
+        {
+          "new": "CompanyId",
+          "legacy": "SirketTanimId",
+          "role": "company"
+        },
+        {
+          "new": "Hediye",
+          "legacy": "Hediye",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "LicenseType",
+          "legacy": "LisansTipi",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "StartDate",
+          "legacy": "BaslangicTarihi",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "EndDate",
+          "legacy": "BitisTarihi",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "TahsilatSekli",
+          "legacy": "TahsilatSekli",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "TahsilatTutari",
+          "legacy": "TahsilatTutari",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "InsertDateTime",
+          "legacy": "InsertDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "InsertUser",
+          "legacy": "InsertUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UpdateDateTime",
+          "legacy": "UpdateDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UpdateUser",
+          "legacy": "UpdateUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DeleteDateTime",
+          "legacy": "DeleteDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DeleteUser",
+          "legacy": "DeleteUser",
+          "role": "data",
+          "fkTable": null
+        }
+      ],
+      "fks": [],
+      "order": 10
+    },
+    {
+      "legacyTable": "LisansTipi",
+      "sourceDb": "MASTER",
+      "newSchema": "common",
+      "newTable": "LicenseType",
+      "entity": "LicenseType",
+      "companyFilter": false,
+      "columns": [
+        {
+          "new": "Code",
+          "legacy": "Kod",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Value",
+          "legacy": "Deger",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "ProductTakip",
+          "legacy": "UrunTakip",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "AccountTakip",
+          "legacy": "CariTakip",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "CheckNoteTakip",
+          "legacy": "CekSenetTakip",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "TradeDocumentTakip",
+          "legacy": "FaturaTakip",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "PaymentTracking",
+          "legacy": "OdemeTakip",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "BankTracking",
+          "legacy": "BankaTakip",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "IrsaliyeTakip",
+          "legacy": "IrsaliyeTakip",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "TeklifSiparisTakip",
+          "legacy": "TeklifSiparisTakip",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "EArchiveEInvoice",
+          "legacy": "EArsivEFatura",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "MedicalService",
+          "legacy": "Servis",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "IsEcommerce",
+          "legacy": "ETicaret",
+          "role": "data",
+          "fkTable": null
+        }
+      ],
+      "fks": [],
+      "order": 10
+    },
+    {
+      "legacyTable": "MarkaTanim",
+      "sourceDb": "SLAVE",
+      "newSchema": "inventory",
+      "newTable": "Brand",
+      "entity": "Brand",
+      "companyFilter": true,
+      "columns": [
+        {
+          "new": "Id",
+          "legacy": "Id",
+          "role": "legacyId"
+        },
+        {
+          "new": "GId",
+          "legacy": "GId",
+          "role": "gid"
+        },
+        {
+          "new": "CompanyId",
+          "legacy": "SirketTanimId",
+          "role": "company"
+        },
+        {
+          "new": "Stat",
+          "legacy": "Aktif",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "BrandCode",
+          "legacy": "MarkaKodu",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Description",
+          "legacy": "Aciklama",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "TrendyolId",
+          "legacy": "TrendyolId",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "TrendyolDescription",
+          "legacy": "TrendyolAciklama",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "InsertUser",
+          "legacy": "InsertUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "InsertDateTime",
+          "legacy": "InsertDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UpdateUser",
+          "legacy": "UpdateUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UpdateDateTime",
+          "legacy": "UpdateDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DeleteUser",
+          "legacy": "DeleteUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DeleteDateTime",
+          "legacy": "DeleteDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "RecordDateTime",
+          "legacy": "RecDateTime",
+          "role": "data",
+          "fkTable": null
+        }
+      ],
+      "fks": [],
+      "order": 10
+    },
+    {
+      "legacyTable": "MerkezDoviz",
+      "sourceDb": "MASTER",
+      "newSchema": "common",
+      "newTable": "CentralCurrency",
+      "entity": "CentralCurrency",
+      "companyFilter": false,
+      "columns": [
+        {
+          "new": "SortOrder",
+          "legacy": "Sira",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Stat",
+          "legacy": "Aktif",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Code",
+          "legacy": "Kod",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Info",
+          "legacy": "Info",
+          "role": "data",
+          "fkTable": null
+        }
+      ],
+      "fks": [],
+      "order": 10
+    },
+    {
+      "legacyTable": "RaporTanim",
+      "sourceDb": "SLAVE",
+      "newSchema": "report",
+      "newTable": "ReportDef",
+      "entity": "ReportDef",
+      "companyFilter": true,
+      "columns": [
+        {
+          "new": "Id",
+          "legacy": "Id",
+          "role": "legacyId"
+        },
+        {
+          "new": "GId",
+          "legacy": "GId",
+          "role": "gid"
+        },
+        {
+          "new": "CompanyId",
+          "legacy": "SirketTanimId",
+          "role": "company"
+        },
+        {
+          "new": "ReportType",
+          "legacy": "RaporTipi",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Description",
+          "legacy": "Aciklama",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "InsertDateTime",
+          "legacy": "InsertDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "InsertUser",
+          "legacy": "InsertUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UpdateDateTime",
+          "legacy": "UpdateDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UpdateUser",
+          "legacy": "UpdateUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DeleteDateTime",
+          "legacy": "DeleteDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DeleteUser",
+          "legacy": "DeleteUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "RecordDateTime",
+          "legacy": "RecDateTime",
+          "role": "data",
+          "fkTable": null
+        }
+      ],
+      "fks": [],
+      "order": 10
+    },
+    {
+      "legacyTable": "Roles",
+      "sourceDb": "MASTER",
+      "newSchema": "common",
+      "newTable": "LegacyRole",
+      "entity": "LegacyRole",
+      "companyFilter": false,
+      "columns": [
+        {
+          "new": "Id",
+          "legacy": "Id",
+          "role": "legacyId"
+        },
+        {
+          "new": "GId",
+          "legacy": "GId",
+          "role": "gid"
+        },
+        {
+          "new": "AppCode",
+          "legacy": "AppCode",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "RoleCode",
+          "legacy": "RoleCode",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "RoleName",
+          "legacy": "RoleName",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "GroupCode",
+          "legacy": "GroupCode",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "SubGroupCode",
+          "legacy": "SubGroupCode",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "GroupOrdered",
+          "legacy": "GroupOrdered",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "SubGroupOrdered",
+          "legacy": "SubGroupOrdered",
+          "role": "data",
+          "fkTable": null
+        }
+      ],
+      "fks": [],
+      "order": 10
+    },
+    {
+      "legacyTable": "Sayac",
+      "sourceDb": "SLAVE",
+      "newSchema": "common",
+      "newTable": "Counter",
+      "entity": "Counter",
+      "companyFilter": true,
+      "columns": [
+        {
+          "new": "Id",
+          "legacy": "Id",
+          "role": "legacyId"
+        },
+        {
+          "new": "GId",
+          "legacy": "GId",
+          "role": "gid"
+        },
+        {
+          "new": "CompanyId",
+          "legacy": "SirketTanimId",
+          "role": "company"
+        },
+        {
+          "new": "Type",
+          "legacy": "Tip",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Seri",
+          "legacy": "Seri",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "BaslangicNo",
+          "legacy": "BaslangicNo",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "BitisNo",
+          "legacy": "BitisNo",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "NextNumber",
+          "legacy": "SiradakiNo",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "InsertUser",
+          "legacy": "InsertUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "InsertDateTime",
+          "legacy": "InsertDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UpdateUser",
+          "legacy": "UpdateUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UpdateDateTime",
+          "legacy": "UpdateDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DeleteUser",
+          "legacy": "DeleteUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DeleteDateTime",
+          "legacy": "DeleteDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "RecordDateTime",
+          "legacy": "RecDateTime",
+          "role": "data",
+          "fkTable": null
+        }
+      ],
+      "fks": [],
+      "order": 10
+    },
+    {
+      "legacyTable": "SayfaTanim",
+      "sourceDb": "MASTER",
+      "newSchema": "common",
+      "newTable": "PageDef",
+      "entity": "PageDef",
+      "companyFilter": false,
+      "columns": [
+        {
+          "new": "Id",
+          "legacy": "Id",
+          "role": "legacyId"
+        },
+        {
+          "new": "Description",
+          "legacy": "Aciklama",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Url",
+          "legacy": "Url",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "LicenseType",
+          "legacy": "LisansTipi",
+          "role": "data",
+          "fkTable": null
+        }
+      ],
+      "fks": [],
+      "order": 10
+    },
+    {
+      "legacyTable": "SirketTanim",
+      "sourceDb": "MASTER",
+      "newSchema": "common",
+      "newTable": "Company",
+      "entity": "Company",
+      "companyFilter": false,
+      "columns": [
+        {
+          "new": "Id",
+          "legacy": "Id",
+          "role": "legacyId"
+        },
+        {
+          "new": "GId",
+          "legacy": "GId",
+          "role": "gid"
+        },
+        {
+          "new": "Stat",
+          "legacy": "Aktif",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Code",
+          "legacy": "Kod",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "City",
+          "legacy": "Il",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "IsActivationCompleted",
+          "legacy": "AktivasyonYapildi",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "ActivationDate",
+          "legacy": "AktivasyonTarihi",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Title",
+          "legacy": "Unvan",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Email",
+          "legacy": "EMail",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "WebsiteUrl",
+          "legacy": "WebSayfasi",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Address",
+          "legacy": "Adres",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "District",
+          "legacy": "Ilce",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "MapUrl",
+          "legacy": "MapUrl",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "TaxOffice",
+          "legacy": "VergiDairesi",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "TaxNumber",
+          "legacy": "VergiNumarasi",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Phone1",
+          "legacy": "Telefon1",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Phone2",
+          "legacy": "Telefon2",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Fax",
+          "legacy": "Faks",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "AuthorizedPerson",
+          "legacy": "Yetkili",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DefaultCurrencyCode",
+          "legacy": "StandartDovizKodu",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "CurrencyCodes",
+          "legacy": "Kurlar",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Parameters",
+          "legacy": "Parametreler",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "LegacyServerId",
+          "legacy": "ServerId",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "WeightBarcodeLength",
+          "legacy": "KgBarkodUzunlugu",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "WeightBarcodeDecimalLength",
+          "legacy": "KgBarkodOndalikUzunluk",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Integrator",
+          "legacy": "Entegrator",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "IntegratorUserName",
+          "legacy": "EntegratorUserName",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "IntegratorPassword",
+          "legacy": "EntegratorPassword",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UserCount",
+          "legacy": "KullaniciSayisi",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "AboutUs",
+          "legacy": "Hakkimizda",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "ColorSizeLabel",
+          "legacy": "RenkBedenStr",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "EcommerceStyle",
+          "legacy": "ETicaretStyle",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "EcommerceStylePrefix",
+          "legacy": "ETicaretStylePrefix",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "FavIconPrefix",
+          "legacy": "FavIconPrefix",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "EcommerceStyle1",
+          "legacy": "ETicaretStyle1",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "EcommerceStylePrefix1",
+          "legacy": "ETicaretStylePrefix1",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "FavIconPrefix1",
+          "legacy": "FavIconPrefix1",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "FreeShippingLimit",
+          "legacy": "KargoBedavaLimit",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "WeightServiceFee",
+          "legacy": "KgHizmetBedeli",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DesiServiceFee",
+          "legacy": "DesiHizmetBedeli",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "ShippingFee",
+          "legacy": "KargoBedeli",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "ShippingLabel",
+          "legacy": "KargoEtiket",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "FacebookUrl",
+          "legacy": "FaceBookUrl",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "InstagramUrl",
+          "legacy": "InstagramUrl",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "TwitterUrl",
+          "legacy": "TwitterUrl",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "PinterestUrl",
+          "legacy": "PinterestUrl",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "YoutubeUrl",
+          "legacy": "YoutubeUrl",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "IsBankTransferActive",
+          "legacy": "BankaHavalesiAktif",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "IsCashOnDeliveryActive",
+          "legacy": "KapidaOdemeAktif",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "EcommerceSiteName",
+          "legacy": "ETicaretSiteAdi",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "ShowcaseName",
+          "legacy": "VitrinAdi",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "ShowcaseLabel",
+          "legacy": "VitrinEtiket",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "GoogleAnalyticsId",
+          "legacy": "GoogleAnalisticId",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "FacebookPixelId",
+          "legacy": "FacebookPixelId",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "WhatsAppPhone",
+          "legacy": "WhatsAppTelefon",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "IsSslActive",
+          "legacy": "SSLAktif",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "IsWideTopMenuActive",
+          "legacy": "GenisUstMenuAktif",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "AllProductsMainMenuActive",
+          "legacy": "TumUrunlerAnaMenuAktif",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "AllProductsSubMenuActive",
+          "legacy": "TumUrunlerAltMenuAktif",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "ProductImageWidth",
+          "legacy": "UrunResimGenislik",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "ProductImageHeight",
+          "legacy": "UrunResimYukseklik",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "SeoKeywords",
+          "legacy": "SEOKelimeler",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "GenerateSitemap",
+          "legacy": "SiteHaritasiOlustur",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "HideCategoryText",
+          "legacy": "KategoriYaziGizle",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "ShowAllStores",
+          "legacy": "TumDepolariGoster",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "ShowAllCashRegisters",
+          "legacy": "TumKasalariGoster",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "TrendyolSellerId",
+          "legacy": "TrendyolSaticiId",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "TrendyolApiKey",
+          "legacy": "TrendyolApiKey",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "TrendyolApiSecret",
+          "legacy": "TrendyolAPISecret",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "ShowColorSizeOnProductScreen",
+          "legacy": "UrunEkraniRenkBeden",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "FirstPurchaseDiscountPercent",
+          "legacy": "IlkAlisverisdeIskontoYuzdesi",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UseOwnMailSettings",
+          "legacy": "KendiMailimiKullan",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "MailAddress",
+          "legacy": "MailAddress",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "MailDisplayName",
+          "legacy": "MailDisplayName",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "MailUserName",
+          "legacy": "MailUserName",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "MailPassword",
+          "legacy": "MailPassword",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "MailHost",
+          "legacy": "MailHost",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "MailPort",
+          "legacy": "MailPort",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "IsDynamicExchangeRate",
+          "legacy": "DinamikDovizKuru",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "LogoHeight",
+          "legacy": "LogoYukseklik",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "MersisNumber",
+          "legacy": "MersisNo",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "TradeRegistryNumber",
+          "legacy": "TicaretSicilNo",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "ImportExternalData",
+          "legacy": "DisaridanVeriAl",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "ExternalSystemName",
+          "legacy": "DisSistemAdi",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "ExternalSystemIp",
+          "legacy": "DisSistemIP",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "ExternalSystemDb",
+          "legacy": "DisSistemDB",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "ExternalSystemUser",
+          "legacy": "DisSistemUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "ExternalSystemPassword",
+          "legacy": "DisSistemParola",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "IntegratorEInvoiceTemplate",
+          "legacy": "EntegratorEfaturaTasarim",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "IntegratorEArchiveTemplate",
+          "legacy": "EntegratorEarsivTasarim",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "SmsPhoneNumber",
+          "legacy": "SMSTelNo",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "SmsTitle",
+          "legacy": "SmsBaslik",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "SmsUserName",
+          "legacy": "SmsUserName",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "SmsPassword",
+          "legacy": "SmsPassword",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "AppointmentFirstSms",
+          "legacy": "RandevuIlkSMS",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "AppointmentChangeSms",
+          "legacy": "RandevuDegisiklikSMS",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "AppointmentCancelForceSms",
+          "legacy": "RandevuIptalMucbirSMS",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "AppointmentCancelPatientSms",
+          "legacy": "RandevuIptaHastaninIstegiSMS",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "AppCode",
+          "legacy": "AppCode",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "InsertDateTime",
+          "legacy": "InsertDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UpdateUser",
+          "legacy": "UpdateUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UpdateDateTime",
+          "legacy": "UpdateDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DeleteUser",
+          "legacy": "DeleteUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DeleteDateTime",
+          "legacy": "DeleteDateTime",
+          "role": "data",
+          "fkTable": null
+        }
+      ],
+      "fks": [],
+      "order": 10
+    },
+    {
+      "legacyTable": "Token",
+      "sourceDb": "MASTER",
+      "newSchema": "common",
+      "newTable": "Token",
+      "entity": "Token",
+      "companyFilter": true,
+      "columns": [
+        {
+          "new": "Id",
+          "legacy": "Id",
+          "role": "legacyId"
+        },
+        {
+          "new": "GId",
+          "legacy": "GId",
+          "role": "gid"
+        },
+        {
+          "new": "CompanyId",
+          "legacy": "SirketTanimId",
+          "role": "company"
+        },
+        {
+          "new": "PersonalId",
+          "legacy": "PersonelTanimId",
+          "role": "fk",
+          "fkTable": "PersonelTanim"
+        },
+        {
+          "new": "ExpreDate",
+          "legacy": "ExpreDate",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Application",
+          "legacy": "Application",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UpdateDateTime",
+          "legacy": "UpdateDateTime",
+          "role": "data",
+          "fkTable": null
+        }
+      ],
+      "fks": [
+        {
+          "newCol": "PersonalId",
+          "legacyCol": "PersonelTanimId",
+          "legacyTable": "PersonelTanim"
+        }
+      ],
+      "order": 10
+    },
+    {
+      "legacyTable": "UrunRenkPaleti",
+      "sourceDb": "SLAVE",
+      "newSchema": "inventory",
+      "newTable": "ProductColorPalette",
+      "entity": "ProductColorPalette",
+      "companyFilter": true,
+      "columns": [
+        {
+          "new": "Id",
+          "legacy": "Id",
+          "role": "legacyId"
+        },
+        {
+          "new": "GId",
+          "legacy": "GId",
+          "role": "gid"
+        },
+        {
+          "new": "CompanyId",
+          "legacy": "SirketTanimId",
+          "role": "company"
+        },
+        {
+          "new": "Stat",
+          "legacy": "Aktif",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "SortOrder",
+          "legacy": "Sira",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "ColorCode",
+          "legacy": "RenkKodu",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "ColorDescription",
+          "legacy": "RenkAciklama",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "InsertUser",
+          "legacy": "InsertUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "InsertDateTime",
+          "legacy": "InsertDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UpdateUser",
+          "legacy": "UpdateUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UpdateDateTime",
+          "legacy": "UpdateDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DeleteUser",
+          "legacy": "DeleteUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DeleteDateTime",
+          "legacy": "DeleteDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "RecordDateTime",
+          "legacy": "RecDateTime",
+          "role": "data",
+          "fkTable": null
+        }
+      ],
+      "fks": [],
+      "order": 10
+    },
+    {
+      "legacyTable": "CariTanimAdres",
+      "sourceDb": "SLAVE",
+      "newSchema": "finance",
+      "newTable": "AccountAddress",
+      "entity": "AccountAddress",
+      "companyFilter": true,
+      "columns": [
+        {
+          "new": "Id",
+          "legacy": "Id",
+          "role": "legacyId"
+        },
+        {
+          "new": "GId",
+          "legacy": "GId",
+          "role": "gid"
+        },
+        {
+          "new": "CompanyId",
+          "legacy": "SirketTanimId",
+          "role": "company"
+        },
+        {
+          "new": "AccountId",
+          "legacy": "CariTanimId",
+          "role": "fk",
+          "fkTable": "CariTanim"
+        },
+        {
+          "new": "AddressTitle",
+          "legacy": "AdresBaslik",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "AdSoyad",
+          "legacy": "AdSoyad",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Address",
+          "legacy": "Adres",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "City",
+          "legacy": "Il",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "District",
+          "legacy": "Ilce",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "PostalCode",
+          "legacy": "PostaKodu",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Email",
+          "legacy": "EMail",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Phone",
+          "legacy": "Telefon",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "InsertUser",
+          "legacy": "InsertUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "InsertDateTime",
+          "legacy": "InsertDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UpdateDateTime",
+          "legacy": "UpdateDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UpdateUser",
+          "legacy": "UpdateUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DeleteDateTime",
+          "legacy": "DeleteDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DeleteUser",
+          "legacy": "DeleteUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "RecordDateTime",
+          "legacy": "RecDateTime",
+          "role": "data",
+          "fkTable": null
+        }
+      ],
+      "fks": [
+        {
+          "newCol": "AccountId",
+          "legacyCol": "CariTanimId",
+          "legacyTable": "CariTanim"
+        }
+      ],
+      "order": 20
+    },
+    {
+      "legacyTable": "CariTanimBelge",
+      "sourceDb": "SLAVE",
+      "newSchema": "finance",
+      "newTable": "AccountDocument",
+      "entity": "AccountDocument",
+      "companyFilter": true,
+      "columns": [
+        {
+          "new": "Id",
+          "legacy": "Id",
+          "role": "legacyId"
+        },
+        {
+          "new": "GId",
+          "legacy": "GId",
+          "role": "gid"
+        },
+        {
+          "new": "CompanyId",
+          "legacy": "SirketTanimId",
+          "role": "company"
+        },
+        {
+          "new": "DocumentDefId",
+          "legacy": "BelgeTanimId",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DocumentTanimDescription",
+          "legacy": "BelgeTanimAciklama",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "AccountId",
+          "legacy": "CariTanimId",
+          "role": "fk",
+          "fkTable": "CariTanim"
+        },
+        {
+          "new": "DocumentIcerik",
+          "legacy": "BelgeIcerik",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "ApprovalType",
+          "legacy": "OnayTipi",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "InsertUser",
+          "legacy": "InsertUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "InsertDateTime",
+          "legacy": "InsertDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UpdateUser",
+          "legacy": "UpdateUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UpdateDateTime",
+          "legacy": "UpdateDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DeleteUser",
+          "legacy": "DeleteUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DeleteDateTime",
+          "legacy": "DeleteDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "RecordDateTime",
+          "legacy": "RecDateTime",
+          "role": "data",
+          "fkTable": null
+        }
+      ],
+      "fks": [
+        {
+          "newCol": "AccountId",
+          "legacyCol": "CariTanimId",
+          "legacyTable": "CariTanim"
+        }
+      ],
+      "order": 20
+    },
+    {
+      "legacyTable": "CekSenetHareket",
+      "sourceDb": "SLAVE",
+      "newSchema": "finance",
+      "newTable": "CheckNoteTransaction",
+      "entity": "CheckNoteTransaction",
+      "companyFilter": true,
+      "columns": [
+        {
+          "new": "Id",
+          "legacy": "Id",
+          "role": "legacyId"
+        },
+        {
+          "new": "GId",
+          "legacy": "GId",
+          "role": "gid"
+        },
+        {
+          "new": "HareketDate",
+          "legacy": "HareketTarihi",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "CompanyId",
+          "legacy": "SirketTanimId",
+          "role": "company"
+        },
+        {
+          "new": "CheckNoteId",
+          "legacy": "CekSenetId",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DocumentStatus",
+          "legacy": "BelgeDurum",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "AccountId",
+          "legacy": "CariTanimId",
+          "role": "fk",
+          "fkTable": "CariTanim"
+        },
+        {
+          "new": "AccountHareketId",
+          "legacy": "CariHareketId",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "CashRegisterHareketId",
+          "legacy": "KasaHareketId",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Label",
+          "legacy": "Etiket",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "InsertDateTime",
+          "legacy": "InsertDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "InsertUser",
+          "legacy": "InsertUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UpdateDateTime",
+          "legacy": "UpdateDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UpdateUser",
+          "legacy": "UpdateUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DeleteDateTime",
+          "legacy": "DeleteDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DeleteUser",
+          "legacy": "DeleteUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "RecordDateTime",
+          "legacy": "RecDateTime",
+          "role": "data",
+          "fkTable": null
+        }
+      ],
+      "fks": [
+        {
+          "newCol": "AccountId",
+          "legacyCol": "CariTanimId",
+          "legacyTable": "CariTanim"
+        }
+      ],
+      "order": 20
+    },
+    {
+      "legacyTable": "CekSenetTanim",
+      "sourceDb": "SLAVE",
+      "newSchema": "finance",
+      "newTable": "CheckNote",
+      "entity": "CheckNote",
+      "companyFilter": true,
+      "columns": [
+        {
+          "new": "Id",
+          "legacy": "Id",
+          "role": "legacyId"
+        },
+        {
+          "new": "GId",
+          "legacy": "GId",
+          "role": "gid"
+        },
+        {
+          "new": "CompanyId",
+          "legacy": "SirketTanimId",
+          "role": "company"
+        },
+        {
+          "new": "AccountId",
+          "legacy": "CariTanimId",
+          "role": "fk",
+          "fkTable": "CariTanim"
+        },
+        {
+          "new": "KimdeAccountDefId",
+          "legacy": "KimdeCariTanimId",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DocumentNo",
+          "legacy": "BelgeNo",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DocumentStatus",
+          "legacy": "BelgeDurum",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "TransactionDate",
+          "legacy": "Tarih",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DueDate",
+          "legacy": "VadeTarihi",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "HareketType",
+          "legacy": "HareketTipi",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Amount",
+          "legacy": "Tutar",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "CurrencyCode",
+          "legacy": "DovizKodu",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DocumentOriginalOwnerTitle",
+          "legacy": "BelgeIlkSahibiUnvan",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "TCKN",
+          "legacy": "TCKN",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "OwningBank",
+          "legacy": "AitOlduguBanka",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "BankBranch",
+          "legacy": "BankaSubesi",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "KesideYeri",
+          "legacy": "KesideYeri",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "IBAN",
+          "legacy": "IBAN",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "MersisNumber",
+          "legacy": "MersisNo",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "FindeksNo",
+          "legacy": "FindeksNo",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Label",
+          "legacy": "Etiket",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "InsertDatetime",
+          "legacy": "InsertDatetime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "InsertUser",
+          "legacy": "InsertUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UpdateDateTime",
+          "legacy": "UpdateDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UpdateUser",
+          "legacy": "UpdateUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DeleteDateTime",
+          "legacy": "DeleteDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DeleteUser",
+          "legacy": "DeleteUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "RecordDateTime",
+          "legacy": "RecDateTime",
+          "role": "data",
+          "fkTable": null
+        }
+      ],
+      "fks": [
+        {
+          "newCol": "AccountId",
+          "legacyCol": "CariTanimId",
+          "legacyTable": "CariTanim"
+        }
+      ],
+      "order": 20
+    },
+    {
+      "legacyTable": "DepoPersonel",
+      "sourceDb": "SLAVE",
+      "newSchema": "inventory",
+      "newTable": "StorePersonal",
+      "entity": "StorePersonal",
+      "companyFilter": true,
+      "columns": [
+        {
+          "new": "Id",
+          "legacy": "Id",
+          "role": "legacyId"
+        },
+        {
+          "new": "GId",
+          "legacy": "GId",
+          "role": "gid"
+        },
+        {
+          "new": "CompanyId",
+          "legacy": "SirketTanimId",
+          "role": "company"
+        },
+        {
+          "new": "InsertUser",
+          "legacy": "InsertUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "InsertDateTime",
+          "legacy": "InsertDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UpdateUser",
+          "legacy": "UpdateUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UpdateDateTime",
+          "legacy": "UpdateDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DeleteUser",
+          "legacy": "DeleteUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DeleteDateTime",
+          "legacy": "DeleteDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "RecordDateTime",
+          "legacy": "RecDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "StoreId",
+          "legacy": "DepoId",
+          "role": "fk",
+          "fkTable": "DepoTanim"
+        },
+        {
+          "new": "PersonalId",
+          "legacy": "PersonelId",
+          "role": "fk",
+          "fkTable": "PersonelTanim"
+        }
+      ],
+      "fks": [
+        {
+          "newCol": "StoreId",
+          "legacyCol": "DepoId",
+          "legacyTable": "DepoTanim"
+        },
+        {
+          "newCol": "PersonalId",
+          "legacyCol": "PersonelId",
+          "legacyTable": "PersonelTanim"
+        }
+      ],
+      "order": 20
+    },
+    {
+      "legacyTable": "Fatura",
+      "sourceDb": "SLAVE",
+      "newSchema": "trade",
+      "newTable": "TradeDocument",
+      "entity": "TradeDocument",
+      "companyFilter": true,
+      "columns": [
+        {
+          "new": "Id",
+          "legacy": "Id",
+          "role": "legacyId"
+        },
+        {
+          "new": "GId",
+          "legacy": "GId",
+          "role": "gid"
+        },
+        {
+          "new": "CompanyId",
+          "legacy": "SirketTanimId",
+          "role": "company"
+        },
+        {
+          "new": "StoreId",
+          "legacy": "DepoTanimId",
+          "role": "fk",
+          "fkTable": "DepoTanim"
+        },
+        {
+          "new": "StoreTanim1Id",
+          "legacy": "DepoTanim1Id",
+          "role": "fk",
+          "fkTable": "DepoTanim"
+        },
+        {
+          "new": "AccountId",
+          "legacy": "CariTanimId",
+          "role": "fk",
+          "fkTable": "CariTanim"
+        },
+        {
+          "new": "HareketType",
+          "legacy": "HareketTipi",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "TradeDocumentNo",
+          "legacy": "FaturaNo",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "TransactionDate",
+          "legacy": "Tarih",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Saat",
+          "legacy": "Saat",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DueDate",
+          "legacy": "VadeTarihi",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "CurrencyCode",
+          "legacy": "DovizKodu",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "SiparisStatus",
+          "legacy": "SiparisDurumu",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "OrderShippingSlipNumber",
+          "legacy": "SiparisKargoFisNo",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "ShippingFirmaDefId",
+          "legacy": "KargoFirmaTanimId",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "TradeDocumentTeslimAdSoyadTitle",
+          "legacy": "FaturaTeslimAdSoyadUnvan",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "TradeDocumentTeslimEMail",
+          "legacy": "FaturaTeslimEMail",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "TradeDocumentTeslimPhone",
+          "legacy": "FaturaTeslimTelefon",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Address",
+          "legacy": "Adres",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "City",
+          "legacy": "Il",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "District",
+          "legacy": "Ilce",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "PostalCode",
+          "legacy": "PostaKodu",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DeliverToDifferentAddress",
+          "legacy": "FarkliAdreseTeslim",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DeliveryFullNameOrTitle",
+          "legacy": "TeslimatAdSoyadUnvan",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DeliveryEmail",
+          "legacy": "TeslimatEMail",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DeliveryPhone",
+          "legacy": "TeslimatTelefon",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DeliveryAddress",
+          "legacy": "TeslimatAdres",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "TeslimatIl",
+          "legacy": "TeslimatIl",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DeliveryDistrict",
+          "legacy": "TeslimatIlce",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DeliveryPostalCode",
+          "legacy": "TeslimatPostaKodu",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "TaxOffice",
+          "legacy": "VergiDairesi",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "TaxNumber",
+          "legacy": "VergiNumarasi",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "RelatedTradeDocumentId",
+          "legacy": "BagliFaturaId",
+          "role": "fk",
+          "fkTable": "Fatura"
+        },
+        {
+          "new": "MedicalServiceProductBrandModel",
+          "legacy": "ServisUrunMarkaModel",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "MedicalServiceCihazSeriNo",
+          "legacy": "ServisCihazSeriNo",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "MedicalServiceSellerCompany",
+          "legacy": "ServisSaticiFirma",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "MedicalServiceAksesuar",
+          "legacy": "ServisAksesuar",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "ServiceDeviceDescription",
+          "legacy": "ServisCihazAciklama",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "MedicalServiceMusteriNotu",
+          "legacy": "ServisMusteriNotu",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "ServicePersonalNote",
+          "legacy": "ServisPersonelNotu",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "MedicalServiceGarantiBilgisi",
+          "legacy": "ServisGarantiBilgisi",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "MedicalServiceStatus",
+          "legacy": "ServisDurumu",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "ServiceDeliveryDate",
+          "legacy": "ServisTeslimTarihi",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "MedicalServiceTeslimAlanKisi",
+          "legacy": "ServisTeslimAlanKisi",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "TeklifStatus",
+          "legacy": "TeklifDurum",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Label",
+          "legacy": "Etiket",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DocumentKapali",
+          "legacy": "BelgeKapali",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "ED_SonIslemDate",
+          "legacy": "ED_SonIslemTarihi",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "ED_Code",
+          "legacy": "ED_Code",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "ED_Description",
+          "legacy": "ED_Description",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "ED_DetailDescription",
+          "legacy": "ED_DetailDescription",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "RecordSource",
+          "legacy": "KayitYeri",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "EcommercePaymentMethod",
+          "legacy": "ETicaretOdemeSekli",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "EcommercePaymentBank",
+          "legacy": "ETicaretOdemeBanka",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "EcommercePaymentId",
+          "legacy": "ETicaretOdemeId",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "IntegrationId",
+          "legacy": "EntegrasyonId",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "IntegrationName",
+          "legacy": "EntegrasyonAdi",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "LineCount",
+          "legacy": "KalemSayisi",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "ToplamVatTutar",
+          "legacy": "ToplamKdvTutar",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "ToplamTutar",
+          "legacy": "ToplamTutar",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "InsertDateTime",
+          "legacy": "InsertDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "InsertUser",
+          "legacy": "InsertUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UpdateDateTime",
+          "legacy": "UpdateDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UpdateUser",
+          "legacy": "UpdateUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DeleteDateTime",
+          "legacy": "DeleteDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DeleteUser",
+          "legacy": "DeleteUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "RecordDateTime",
+          "legacy": "RecDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "IsDocumentCancelled",
+          "legacy": "BelgeIptal",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "ElectronicDocumentType",
+          "legacy": "ElektronikBelgeTipi",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "ElektronikBelgeNo",
+          "legacy": "ElektronikBelgeNo",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "ElectronicDocumentSentDate",
+          "legacy": "ElektronikBelgeGonderimTarihi",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "ElektronikBelgeHatalari",
+          "legacy": "ElektronikBelgeHatalari",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "ElektronikBelgeGonderimStatus",
+          "legacy": "ElektronikBelgeGonderimDurumu",
+          "role": "data",
+          "fkTable": null
+        }
+      ],
+      "fks": [
+        {
+          "newCol": "StoreId",
+          "legacyCol": "DepoTanimId",
+          "legacyTable": "DepoTanim"
+        },
+        {
+          "newCol": "StoreTanim1Id",
+          "legacyCol": "DepoTanim1Id",
+          "legacyTable": "DepoTanim"
+        },
+        {
+          "newCol": "AccountId",
+          "legacyCol": "CariTanimId",
+          "legacyTable": "CariTanim"
+        },
+        {
+          "newCol": "RelatedTradeDocumentId",
+          "legacyCol": "BagliFaturaId",
+          "legacyTable": "Fatura"
+        }
+      ],
+      "order": 20
+    },
+    {
+      "legacyTable": "FaturaHareketTemp",
+      "sourceDb": "SLAVE",
+      "newSchema": "trade",
+      "newTable": "TradeDocumentLineTemp",
+      "entity": "TradeDocumentLineTemp",
+      "companyFilter": true,
+      "columns": [
+        {
+          "new": "Id",
+          "legacy": "Id",
+          "role": "legacyId"
+        },
+        {
+          "new": "GId",
+          "legacy": "GId",
+          "role": "gid"
+        },
+        {
+          "new": "PersonalGId",
+          "legacy": "PersonelGId",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "SepetId",
+          "legacy": "SepetId",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "CompanyId",
+          "legacy": "SirketTanimId",
+          "role": "company"
+        },
+        {
+          "new": "HareketType",
+          "legacy": "HareketTipi",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "ProductGId",
+          "legacy": "UrunGId",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "ProductDescription",
+          "legacy": "UrunAciklama",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "SeriNo",
+          "legacy": "SeriNo",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "ColorSize",
+          "legacy": "RenkBeden",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Quantity",
+          "legacy": "Miktar",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UnitId",
+          "legacy": "BirimId",
+          "role": "fk",
+          "fkTable": "BirimTanim"
+        },
+        {
+          "new": "UnitKatsayi",
+          "legacy": "BirimKatsayi",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UnitPrice",
+          "legacy": "BirimFiyati",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UnitPriceVatIncluded",
+          "legacy": "BirimFiyatiKdvDahil",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "CurrencyCode",
+          "legacy": "DovizKodu",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "VatRate",
+          "legacy": "KdvOrani",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "VatDH",
+          "legacy": "KdvDH",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "ToplamTutarVatHaric",
+          "legacy": "ToplamTutarKdvHaric",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "ToplamTutar",
+          "legacy": "ToplamTutar",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "TradeDocumentGId",
+          "legacy": "FaturaGId",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "TradeDocumentHareketGId",
+          "legacy": "FaturaHareketGId",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "InsertDateTime",
+          "legacy": "InsertDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "EcommercePaymentId",
+          "legacy": "ETicaretOdemeId",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Tukenmis",
+          "legacy": "Tukenmis",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "StoreTanimGId",
+          "legacy": "DepoTanimGId",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DiscountPercent",
+          "legacy": "IskontoYuzde",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Discount1Percent",
+          "legacy": "Iskonto1Yuzde",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "VadeFarkiPercent",
+          "legacy": "VadeFarkiYuzde",
+          "role": "data",
+          "fkTable": null
+        }
+      ],
+      "fks": [
+        {
+          "newCol": "UnitId",
+          "legacyCol": "BirimId",
+          "legacyTable": "BirimTanim"
+        }
+      ],
+      "order": 20
+    },
+    {
+      "legacyTable": "FaturaTemp",
+      "sourceDb": "SLAVE",
+      "newSchema": "trade",
+      "newTable": "TradeDocumentTemp",
+      "entity": "TradeDocumentTemp",
+      "companyFilter": true,
+      "columns": [
+        {
+          "new": "Id",
+          "legacy": "Id",
+          "role": "legacyId"
+        },
+        {
+          "new": "GId",
+          "legacy": "GId",
+          "role": "gid"
+        },
+        {
+          "new": "CompanyId",
+          "legacy": "SirketTanimId",
+          "role": "company"
+        },
+        {
+          "new": "PersonalGId",
+          "legacy": "PersonelGId",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "HareketType",
+          "legacy": "HareketTipi",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "AccountId",
+          "legacy": "CariTanimId",
+          "role": "fk",
+          "fkTable": "CariTanim"
+        },
+        {
+          "new": "TradeDocumentNo",
+          "legacy": "FaturaNo",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "TransactionDate",
+          "legacy": "Tarih",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "CurrencyCode",
+          "legacy": "DovizKodu",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Address",
+          "legacy": "Adres",
+          "role": "data",
+          "fkTable": null
+        }
+      ],
+      "fks": [
+        {
+          "newCol": "AccountId",
+          "legacyCol": "CariTanimId",
+          "legacyTable": "CariTanim"
+        }
+      ],
+      "order": 20
+    },
+    {
+      "legacyTable": "KasaTanim",
+      "sourceDb": "SLAVE",
+      "newSchema": "finance",
+      "newTable": "CashRegister",
+      "entity": "CashRegister",
+      "companyFilter": true,
+      "columns": [
+        {
+          "new": "Id",
+          "legacy": "Id",
+          "role": "legacyId"
+        },
+        {
+          "new": "GId",
+          "legacy": "GId",
+          "role": "gid"
+        },
+        {
+          "new": "CompanyId",
+          "legacy": "SirketTanimId",
+          "role": "company"
+        },
+        {
+          "new": "Stat",
+          "legacy": "Aktif",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "CashRegisterCode",
+          "legacy": "KasaKodu",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Description",
+          "legacy": "Aciklama",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "StoreId",
+          "legacy": "DepoId",
+          "role": "fk",
+          "fkTable": "DepoTanim"
+        },
+        {
+          "new": "InsertDateTime",
+          "legacy": "InsertDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "InsertUser",
+          "legacy": "InsertUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UpdateDateTime",
+          "legacy": "UpdateDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UpdateUser",
+          "legacy": "UpdateUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DeleteDateTime",
+          "legacy": "DeleteDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DeleteUser",
+          "legacy": "DeleteUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "RecordDateTime",
+          "legacy": "RecDateTime",
+          "role": "data",
+          "fkTable": null
+        }
+      ],
+      "fks": [
+        {
+          "newCol": "StoreId",
+          "legacyCol": "DepoId",
+          "legacyTable": "DepoTanim"
+        }
+      ],
+      "order": 20
+    },
+    {
+      "legacyTable": "SayacReferans",
+      "sourceDb": "SLAVE",
+      "newSchema": "common",
+      "newTable": "CounterReference",
+      "entity": "CounterReference",
+      "companyFilter": true,
+      "columns": [
+        {
+          "new": "Id",
+          "legacy": "Id",
+          "role": "legacyId"
+        },
+        {
+          "new": "GId",
+          "legacy": "GId",
+          "role": "gid"
+        },
+        {
+          "new": "CompanyId",
+          "legacy": "SirketTanimId",
+          "role": "company"
+        },
+        {
+          "new": "Type",
+          "legacy": "Tip",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "CounterDefId",
+          "legacy": "SayacTanimId",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "StoreId",
+          "legacy": "DepoTanimId",
+          "role": "fk",
+          "fkTable": "DepoTanim"
+        },
+        {
+          "new": "InsertUser",
+          "legacy": "InsertUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "InsertDateTime",
+          "legacy": "InsertDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UpdateUser",
+          "legacy": "UpdateUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UpdateDateTime",
+          "legacy": "UpdateDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DeleteUser",
+          "legacy": "DeleteUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DeleteDateTime",
+          "legacy": "DeleteDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "RecordDateTime",
+          "legacy": "RecDateTime",
+          "role": "data",
+          "fkTable": null
+        }
+      ],
+      "fks": [
+        {
+          "newCol": "StoreId",
+          "legacyCol": "DepoTanimId",
+          "legacyTable": "DepoTanim"
+        }
+      ],
+      "order": 20
+    },
+    {
+      "legacyTable": "SayimTanim",
+      "sourceDb": "SLAVE",
+      "newSchema": "inventory",
+      "newTable": "StockCount",
+      "entity": "StockCount",
+      "companyFilter": true,
+      "columns": [
+        {
+          "new": "Id",
+          "legacy": "Id",
+          "role": "legacyId"
+        },
+        {
+          "new": "GId",
+          "legacy": "GId",
+          "role": "gid"
+        },
+        {
+          "new": "CompanyId",
+          "legacy": "SirketTanimId",
+          "role": "company"
+        },
+        {
+          "new": "InsertUser",
+          "legacy": "InsertUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "InsertDateTime",
+          "legacy": "InsertDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UpdateUser",
+          "legacy": "UpdateUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UpdateDateTime",
+          "legacy": "UpdateDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DeleteUser",
+          "legacy": "DeleteUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DeleteDateTime",
+          "legacy": "DeleteDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "RecordDateTime",
+          "legacy": "RecDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "StockCountDate",
+          "legacy": "SayimTarihi",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "StockCountDescription",
+          "legacy": "SayimAciklama",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "StockCountStatus",
+          "legacy": "SayimDurumu",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "StoreId",
+          "legacy": "DepoTanimId",
+          "role": "fk",
+          "fkTable": "DepoTanim"
+        },
+        {
+          "new": "InboundTradeDocumentId",
+          "legacy": "GirisFaturaId",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "OutboundTradeDocumentId",
+          "legacy": "CikisFaturaId",
+          "role": "data",
+          "fkTable": null
+        }
+      ],
+      "fks": [
+        {
+          "newCol": "StoreId",
+          "legacyCol": "DepoTanimId",
+          "legacyTable": "DepoTanim"
+        }
+      ],
+      "order": 20
+    },
+    {
+      "legacyTable": "UrunBirim",
+      "sourceDb": "SLAVE",
+      "newSchema": "inventory",
+      "newTable": "ProductUnit",
+      "entity": "ProductUnit",
+      "companyFilter": true,
+      "columns": [
+        {
+          "new": "Id",
+          "legacy": "Id",
+          "role": "legacyId"
+        },
+        {
+          "new": "GId",
+          "legacy": "GId",
+          "role": "gid"
+        },
+        {
+          "new": "CompanyId",
+          "legacy": "SirketTanimId",
+          "role": "company"
+        },
+        {
+          "new": "Stat",
+          "legacy": "Aktif",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "ProductId",
+          "legacy": "UrunId",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UnitId",
+          "legacy": "BirimId",
+          "role": "fk",
+          "fkTable": "BirimTanim"
+        },
+        {
+          "new": "Barcode",
+          "legacy": "Barkod",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Carpan",
+          "legacy": "Carpan",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Hassasiyet",
+          "legacy": "Hassasiyet",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Label",
+          "legacy": "Etiket",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "InsertDateTime",
+          "legacy": "InsertDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "InsertUser",
+          "legacy": "InsertUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UpdateDateTime",
+          "legacy": "UpdateDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UpdateUser",
+          "legacy": "UpdateUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DeleteDateTime",
+          "legacy": "DeleteDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DeleteUser",
+          "legacy": "DeleteUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "RecordDateTime",
+          "legacy": "RecDateTime",
+          "role": "data",
+          "fkTable": null
+        }
+      ],
+      "fks": [
+        {
+          "newCol": "UnitId",
+          "legacyCol": "BirimId",
+          "legacyTable": "BirimTanim"
+        }
+      ],
+      "order": 20
+    },
+    {
+      "legacyTable": "UrunTanim",
+      "sourceDb": "SLAVE",
+      "newSchema": "inventory",
+      "newTable": "Product",
+      "entity": "Product",
+      "companyFilter": true,
+      "columns": [
+        {
+          "new": "Id",
+          "legacy": "Id",
+          "role": "legacyId"
+        },
+        {
+          "new": "GId",
+          "legacy": "GId",
+          "role": "gid"
+        },
+        {
+          "new": "CompanyId",
+          "legacy": "SirketTanimId",
+          "role": "company"
+        },
+        {
+          "new": "Stat",
+          "legacy": "Aktif",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "ProductCode",
+          "legacy": "UrunKodu",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "OzelKod",
+          "legacy": "OzelKod",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "BrandId",
+          "legacy": "MarkaTanimId",
+          "role": "fk",
+          "fkTable": "MarkaTanim"
+        },
+        {
+          "new": "ProductDescription",
+          "legacy": "UrunAciklama",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "ProductKisaBilgi",
+          "legacy": "UrunKisaBilgi",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Barcode",
+          "legacy": "Barkod",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "ColorId",
+          "legacy": "RenkId",
+          "role": "fk",
+          "fkTable": "UrunRenkPaleti"
+        },
+        {
+          "new": "IsWeightBarcode",
+          "legacy": "KgBarkod",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UnitId",
+          "legacy": "BirimId",
+          "role": "fk",
+          "fkTable": "BirimTanim"
+        },
+        {
+          "new": "CategoryId",
+          "legacy": "KategoriTanimId",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "CriticalStockQuantity",
+          "legacy": "KritikStokMiktari",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "InternetCriticalStockQuantity",
+          "legacy": "InternetKritikStokMiktari",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "SeriNoTakip",
+          "legacy": "SeriNoTakip",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "PurchaseVatRate",
+          "legacy": "AlisKdvOrani",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "VatRate",
+          "legacy": "KdvOrani",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "PurchasePrice",
+          "legacy": "AlisFiyati",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "PurchaseCurrencyCode",
+          "legacy": "AlisDovizKodu",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "PurchaseVatIncluded",
+          "legacy": "AlisKdvDH",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "PreviousSalePrice",
+          "legacy": "OncekiSatisFiyati",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "SalePrice",
+          "legacy": "SatisFiyati",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "InstallmentSalePrice",
+          "legacy": "TaksitliSatisFiyati",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "SaleCurrencyCode",
+          "legacy": "SatisDovizKodu",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "SaleVatIncluded",
+          "legacy": "SatisKdvDH",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "ProductDetay",
+          "legacy": "UrunDetay",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "VideoUrl",
+          "legacy": "VideoUrl",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "IntegrationName",
+          "legacy": "EntegrasyonAdi",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "IntegrationId",
+          "legacy": "EntegrasyonId",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "IsInternetSaleActive",
+          "legacy": "InternetSatisAktif",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "IsTrendyolActive",
+          "legacy": "TrendyolAktif",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "IsHepsiBuradaActive",
+          "legacy": "HepsiburadaAktif",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Width",
+          "legacy": "Genislik",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Height",
+          "legacy": "Yukseklik",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Derinlik",
+          "legacy": "Derinlik",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Desi",
+          "legacy": "Desi",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Agirlik",
+          "legacy": "Agirlik",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Color",
+          "legacy": "Renk",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "IsAppointmentActive",
+          "legacy": "RandevuAktif",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "IsAppointmentOpen",
+          "legacy": "RandevuAcik",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "TrendyolSyncType",
+          "legacy": "TransTypeTrendyol",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "HepsiBuradaSyncType",
+          "legacy": "TransTypeHepsiburada",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "InsertDateTime",
+          "legacy": "InsertDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "InsertUser",
+          "legacy": "InsertUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UpdateDateTime",
+          "legacy": "UpdateDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UpdateUser",
+          "legacy": "UpdateUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DeleteDateTime",
+          "legacy": "DeleteDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DeleteUser",
+          "legacy": "DeleteUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "RecordDateTime",
+          "legacy": "RecDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "HepsiBuradaProductId",
+          "legacy": "HepsiBuradaUrunId",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "MinSaleQuantity",
+          "legacy": "MinSatisMiktar",
+          "role": "data",
+          "fkTable": null
+        }
+      ],
+      "fks": [
+        {
+          "newCol": "BrandId",
+          "legacyCol": "MarkaTanimId",
+          "legacyTable": "MarkaTanim"
+        },
+        {
+          "newCol": "ColorId",
+          "legacyCol": "RenkId",
+          "legacyTable": "UrunRenkPaleti"
+        },
+        {
+          "newCol": "UnitId",
+          "legacyCol": "BirimId",
+          "legacyTable": "BirimTanim"
+        }
+      ],
+      "order": 20
+    },
+    {
+      "legacyTable": "CariHareket",
+      "sourceDb": "SLAVE",
+      "newSchema": "finance",
+      "newTable": "AccountTransaction",
+      "entity": "AccountTransaction",
+      "companyFilter": true,
+      "columns": [
+        {
+          "new": "Id",
+          "legacy": "Id",
+          "role": "legacyId"
+        },
+        {
+          "new": "GId",
+          "legacy": "GId",
+          "role": "gid"
+        },
+        {
+          "new": "CompanyId",
+          "legacy": "SirketTanimId",
+          "role": "company"
+        },
+        {
+          "new": "AccountId",
+          "legacy": "CariTanimId",
+          "role": "fk",
+          "fkTable": "CariTanim"
+        },
+        {
+          "new": "TransactionDate",
+          "legacy": "Tarih",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DueDate",
+          "legacy": "VadeTarihi",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DocumentNo",
+          "legacy": "BelgeNo",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "HareketType",
+          "legacy": "HareketTipi",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "TradeDocumentId",
+          "legacy": "FaturaId",
+          "role": "fk",
+          "fkTable": "Fatura"
+        },
+        {
+          "new": "Description",
+          "legacy": "Aciklama",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DebitAmount",
+          "legacy": "Borc",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "CreditAmount",
+          "legacy": "Alacak",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "CurrencyCode",
+          "legacy": "DovizKodu",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "RelatedAccountTransactionId",
+          "legacy": "BagliCariHareketId",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "CheckNoteDefId",
+          "legacy": "CekSenetTanimId",
+          "role": "fk",
+          "fkTable": "CekSenetTanim"
+        },
+        {
+          "new": "CashRegisterId",
+          "legacy": "KasaTanimId",
+          "role": "fk",
+          "fkTable": "KasaTanim"
+        },
+        {
+          "new": "Label",
+          "legacy": "Etiket",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "InsertDateTime",
+          "legacy": "InsertDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "InsertUser",
+          "legacy": "InsertUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UpdateDateTime",
+          "legacy": "UpdateDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UpdateUser",
+          "legacy": "UpdateUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DeleteUser",
+          "legacy": "DeleteUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DeleteDateTime",
+          "legacy": "DeleteDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "RecordDateTime",
+          "legacy": "RecDateTime",
+          "role": "data",
+          "fkTable": null
+        }
+      ],
+      "fks": [
+        {
+          "newCol": "AccountId",
+          "legacyCol": "CariTanimId",
+          "legacyTable": "CariTanim"
+        },
+        {
+          "newCol": "TradeDocumentId",
+          "legacyCol": "FaturaId",
+          "legacyTable": "Fatura"
+        },
+        {
+          "newCol": "CheckNoteDefId",
+          "legacyCol": "CekSenetTanimId",
+          "legacyTable": "CekSenetTanim"
+        },
+        {
+          "newCol": "CashRegisterId",
+          "legacyCol": "KasaTanimId",
+          "legacyTable": "KasaTanim"
+        }
+      ],
+      "order": 30
+    },
+    {
+      "legacyTable": "FaturaDoviz",
+      "sourceDb": "SLAVE",
+      "newSchema": "trade",
+      "newTable": "TradeDocumentCurrency",
+      "entity": "TradeDocumentCurrency",
+      "companyFilter": true,
+      "columns": [
+        {
+          "new": "Id",
+          "legacy": "Id",
+          "role": "legacyId"
+        },
+        {
+          "new": "GId",
+          "legacy": "GId",
+          "role": "gid"
+        },
+        {
+          "new": "CompanyId",
+          "legacy": "SirketTanimId",
+          "role": "company"
+        },
+        {
+          "new": "TradeDocumentId",
+          "legacy": "FaturaId",
+          "role": "fk",
+          "fkTable": "Fatura"
+        },
+        {
+          "new": "CurrencyCode",
+          "legacy": "DovizKodu",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Value",
+          "legacy": "Deger",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "InsertDateTime",
+          "legacy": "InsertDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "InsertUser",
+          "legacy": "InsertUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UpdateDateTime",
+          "legacy": "UpdateDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UpdateUser",
+          "legacy": "UpdateUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DeleteDateTime",
+          "legacy": "DeleteDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DeleteUser",
+          "legacy": "DeleteUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "RecordDateTime",
+          "legacy": "RecDateTime",
+          "role": "data",
+          "fkTable": null
+        }
+      ],
+      "fks": [
+        {
+          "newCol": "TradeDocumentId",
+          "legacyCol": "FaturaId",
+          "legacyTable": "Fatura"
+        }
+      ],
+      "order": 30
+    },
+    {
+      "legacyTable": "FaturaHareket",
+      "sourceDb": "SLAVE",
+      "newSchema": "trade",
+      "newTable": "TradeDocumentLine",
+      "entity": "TradeDocumentLine",
+      "companyFilter": true,
+      "columns": [
+        {
+          "new": "Id",
+          "legacy": "Id",
+          "role": "legacyId"
+        },
+        {
+          "new": "GId",
+          "legacy": "GId",
+          "role": "gid"
+        },
+        {
+          "new": "CompanyId",
+          "legacy": "SirketTanimId",
+          "role": "company"
+        },
+        {
+          "new": "TradeDocumentId",
+          "legacy": "FaturaId",
+          "role": "fk",
+          "fkTable": "Fatura"
+        },
+        {
+          "new": "StoreId",
+          "legacy": "DepoTanimId",
+          "role": "fk",
+          "fkTable": "DepoTanim"
+        },
+        {
+          "new": "HareketType",
+          "legacy": "HareketTipi",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "ProductId",
+          "legacy": "UrunTanimId",
+          "role": "fk",
+          "fkTable": "UrunTanim"
+        },
+        {
+          "new": "ProductDescription",
+          "legacy": "UrunAciklama",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "SeriNo",
+          "legacy": "SeriNo",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "ColorSize",
+          "legacy": "RenkBeden",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Quantity",
+          "legacy": "Miktar",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UnitId",
+          "legacy": "BirimId",
+          "role": "fk",
+          "fkTable": "BirimTanim"
+        },
+        {
+          "new": "UnitKatsayi",
+          "legacy": "BirimKatsayi",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UnitPrice",
+          "legacy": "BirimFiyati",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "CurrencyCode",
+          "legacy": "DovizKodu",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "VatRate",
+          "legacy": "KdvOrani",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "VatTutari",
+          "legacy": "KdvTutari",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "SatirTutari",
+          "legacy": "SatirTutari",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "StokSayimiDahilEtme",
+          "legacy": "StokSayimiDahilEtme",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Label",
+          "legacy": "Etiket",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "InsertDateTime",
+          "legacy": "InsertDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "InsertUser",
+          "legacy": "InsertUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UpdateDateTime",
+          "legacy": "UpdateDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UpdateUser",
+          "legacy": "UpdateUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DeleteDateTime",
+          "legacy": "DeleteDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DeleteUser",
+          "legacy": "DeleteUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "RecordDateTime",
+          "legacy": "RecDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DiscountPercent",
+          "legacy": "IskontoYuzde",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Discount1Percent",
+          "legacy": "Iskonto1Yuzde",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "VadeFarkiPercent",
+          "legacy": "VadeFarkiYuzde",
+          "role": "data",
+          "fkTable": null
+        }
+      ],
+      "fks": [
+        {
+          "newCol": "TradeDocumentId",
+          "legacyCol": "FaturaId",
+          "legacyTable": "Fatura"
+        },
+        {
+          "newCol": "StoreId",
+          "legacyCol": "DepoTanimId",
+          "legacyTable": "DepoTanim"
+        },
+        {
+          "newCol": "ProductId",
+          "legacyCol": "UrunTanimId",
+          "legacyTable": "UrunTanim"
+        },
+        {
+          "newCol": "UnitId",
+          "legacyCol": "BirimId",
+          "legacyTable": "BirimTanim"
+        }
+      ],
+      "order": 30
+    },
+    {
+      "legacyTable": "KasaHareket",
+      "sourceDb": "SLAVE",
+      "newSchema": "finance",
+      "newTable": "CashTransaction",
+      "entity": "CashTransaction",
+      "companyFilter": true,
+      "columns": [
+        {
+          "new": "Id",
+          "legacy": "Id",
+          "role": "legacyId"
+        },
+        {
+          "new": "GId",
+          "legacy": "GId",
+          "role": "gid"
+        },
+        {
+          "new": "CompanyId",
+          "legacy": "SirketTanimId",
+          "role": "company"
+        },
+        {
+          "new": "CashRegisterId",
+          "legacy": "KasaTanimId",
+          "role": "fk",
+          "fkTable": "KasaTanim"
+        },
+        {
+          "new": "AccountHareketId",
+          "legacy": "CariHareketId",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "TransactionDate",
+          "legacy": "Tarih",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "CashRegisterHareketType",
+          "legacy": "KasaHareketTipi",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Description",
+          "legacy": "Aciklama",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DebitAmount",
+          "legacy": "Borc",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "CreditAmount",
+          "legacy": "Alacak",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "CurrencyCode",
+          "legacy": "DovizKodu",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Label",
+          "legacy": "Etiket",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "InsertDateTime",
+          "legacy": "InsertDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "InsertUser",
+          "legacy": "InsertUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UpdateDateTime",
+          "legacy": "UpdateDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UpdateUser",
+          "legacy": "UpdateUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DeleteDateTime",
+          "legacy": "DeleteDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DeleteUser",
+          "legacy": "DeleteUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "RecordDateTime",
+          "legacy": "RecDateTime",
+          "role": "data",
+          "fkTable": null
+        }
+      ],
+      "fks": [
+        {
+          "newCol": "CashRegisterId",
+          "legacyCol": "KasaTanimId",
+          "legacyTable": "KasaTanim"
+        }
+      ],
+      "order": 30
+    },
+    {
+      "legacyTable": "KasaPersonel",
+      "sourceDb": "SLAVE",
+      "newSchema": "finance",
+      "newTable": "CashRegisterPersonal",
+      "entity": "CashRegisterPersonal",
+      "companyFilter": true,
+      "columns": [
+        {
+          "new": "Id",
+          "legacy": "Id",
+          "role": "legacyId"
+        },
+        {
+          "new": "GId",
+          "legacy": "GId",
+          "role": "gid"
+        },
+        {
+          "new": "CompanyId",
+          "legacy": "SirketTanimId",
+          "role": "company"
+        },
+        {
+          "new": "InsertUser",
+          "legacy": "InsertUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "InsertDateTime",
+          "legacy": "InsertDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UpdateUser",
+          "legacy": "UpdateUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UpdateDateTime",
+          "legacy": "UpdateDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DeleteUser",
+          "legacy": "DeleteUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DeleteDateTime",
+          "legacy": "DeleteDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "RecordDateTime",
+          "legacy": "RecDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "CashRegisterId",
+          "legacy": "KasaId",
+          "role": "fk",
+          "fkTable": "KasaTanim"
+        },
+        {
+          "new": "PersonalId",
+          "legacy": "PersonelId",
+          "role": "fk",
+          "fkTable": "PersonelTanim"
+        }
+      ],
+      "fks": [
+        {
+          "newCol": "CashRegisterId",
+          "legacyCol": "KasaId",
+          "legacyTable": "KasaTanim"
+        },
+        {
+          "newCol": "PersonalId",
+          "legacyCol": "PersonelId",
+          "legacyTable": "PersonelTanim"
+        }
+      ],
+      "order": 30
+    },
+    {
+      "legacyTable": "UrunBarkod",
+      "sourceDb": "SLAVE",
+      "newSchema": "inventory",
+      "newTable": "ProductBarcode",
+      "entity": "ProductBarcode",
+      "companyFilter": true,
+      "columns": [
+        {
+          "new": "Id",
+          "legacy": "Id",
+          "role": "legacyId"
+        },
+        {
+          "new": "GId",
+          "legacy": "GId",
+          "role": "gid"
+        },
+        {
+          "new": "CompanyId",
+          "legacy": "SirketTanimId",
+          "role": "company"
+        },
+        {
+          "new": "ProductId",
+          "legacy": "UrunTanimId",
+          "role": "fk",
+          "fkTable": "UrunTanim"
+        },
+        {
+          "new": "SortOrder",
+          "legacy": "Sira",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "IsMainProduct",
+          "legacy": "AnaUrun",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "ColorSize",
+          "legacy": "RenkBeden",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Size",
+          "legacy": "Beden",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Color",
+          "legacy": "Renk",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "ProductColorPaletteId",
+          "legacy": "UrunRenkPaletiId",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Barcode",
+          "legacy": "Barkod",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "IsSalePriceActive",
+          "legacy": "SatisFiyatAktif",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "SalePrice",
+          "legacy": "SatisFiyati",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "InstallmentSalePrice",
+          "legacy": "TaksitliSatisFiyati",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "PreviousSalePrice",
+          "legacy": "OncekiSatisFiyati",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "InsertUser",
+          "legacy": "InsertUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "InsertDateTime",
+          "legacy": "InsertDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UpdateUser",
+          "legacy": "UpdateUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UpdateDateTime",
+          "legacy": "UpdateDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DeleteUser",
+          "legacy": "DeleteUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DeleteDateTime",
+          "legacy": "DeleteDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "RecordDateTime",
+          "legacy": "RecDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "HepsiBuradaProductId",
+          "legacy": "HepsiBuradaUrunId",
+          "role": "data",
+          "fkTable": null
+        }
+      ],
+      "fks": [
+        {
+          "newCol": "ProductId",
+          "legacyCol": "UrunTanimId",
+          "legacyTable": "UrunTanim"
+        }
+      ],
+      "order": 30
+    },
+    {
+      "legacyTable": "SayimHareket",
+      "sourceDb": "SLAVE",
+      "newSchema": "inventory",
+      "newTable": "StockCountLine",
+      "entity": "StockCountLine",
+      "companyFilter": true,
+      "columns": [
+        {
+          "new": "Id",
+          "legacy": "Id",
+          "role": "legacyId"
+        },
+        {
+          "new": "GId",
+          "legacy": "GId",
+          "role": "gid"
+        },
+        {
+          "new": "CompanyId",
+          "legacy": "SirketTanimId",
+          "role": "company"
+        },
+        {
+          "new": "InsertUser",
+          "legacy": "InsertUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "InsertDateTime",
+          "legacy": "InsertDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UpdateUser",
+          "legacy": "UpdateUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "UpdateDateTime",
+          "legacy": "UpdateDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DeleteUser",
+          "legacy": "DeleteUser",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "DeleteDateTime",
+          "legacy": "DeleteDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "RecordDateTime",
+          "legacy": "RecDateTime",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "StockCountId",
+          "legacy": "SayimId",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "ProductId",
+          "legacy": "UrunTanimId",
+          "role": "fk",
+          "fkTable": "UrunTanim"
+        },
+        {
+          "new": "Color",
+          "legacy": "Renk",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Barcode",
+          "legacy": "Barkod",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "Quantity",
+          "legacy": "Miktar",
+          "role": "data",
+          "fkTable": null
+        },
+        {
+          "new": "TradeDocumentLineId",
+          "legacy": "FaturaHareketId",
+          "role": "fk",
+          "fkTable": "FaturaHareket"
+        }
+      ],
+      "fks": [
+        {
+          "newCol": "ProductId",
+          "legacyCol": "UrunTanimId",
+          "legacyTable": "UrunTanim"
+        },
+        {
+          "newCol": "TradeDocumentLineId",
+          "legacyCol": "FaturaHareketId",
+          "legacyTable": "FaturaHareket"
+        }
+      ],
+      "order": 40
+    }
+  ]
+}

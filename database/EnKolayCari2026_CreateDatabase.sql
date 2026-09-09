@@ -727,7 +727,7 @@ CREATE TABLE common.Company (
   FavIconPrefix1 nvarchar(30) COLLATE Turkish_CI_AI NULL,
   FreeShippingLimit decimal(18,4) NOT NULL,
   WeightServiceFee decimal(18,4) NULL,
-  DesiServiceFee decimal(18,4) NULL,
+  DesiWeightServiceFee decimal(18,4) NULL,
   ShippingFee decimal(18,4) NOT NULL,
   ShippingLabel nvarchar(30) COLLATE Turkish_CI_AI NULL,
   FacebookUrl nvarchar(200) COLLATE Turkish_CI_AI NULL,
@@ -873,10 +873,10 @@ GO
 EXEC sp_addextendedproperty 'MS_Description', N'Slave sunucu (FK -> ServerTanim.Id). | Eski alan: SirketTanim.ServerId', N'schema', N'common', N'table', N'Company', N'column', N'LegacyServerId'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'Agirlik barkodu toplam uzunlugu. | Eski alan: SirketTanim.KgBarkodUzunlugu', N'schema', N'common', N'table', N'Company', N'column', N'WeightBarcodeLength'
+EXEC sp_addextendedproperty 'MS_Description', N'Weight barkodu toplam uzunlugu. | Eski alan: SirketTanim.KgBarkodUzunlugu', N'schema', N'common', N'table', N'Company', N'column', N'WeightBarcodeLength'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'Agirlik barkodu ondalik hane sayisi. | Eski alan: SirketTanim.KgBarkodOndalikUzunluk', N'schema', N'common', N'table', N'Company', N'column', N'WeightBarcodeDecimalLength'
+EXEC sp_addextendedproperty 'MS_Description', N'Weight barkodu ondalik hane sayisi. | Eski alan: SirketTanim.KgBarkodOndalikUzunluk', N'schema', N'common', N'table', N'Company', N'column', N'WeightBarcodeDecimalLength'
 GO
 
 EXEC sp_addextendedproperty 'MS_Description', N'e-Belge entegratoru: 0=MukellefDegilim, 50=Logo, 100=NesBilgi. | Eski alan: SirketTanim.Entegrator', N'schema', N'common', N'table', N'Company', N'column', N'Integrator'
@@ -921,7 +921,7 @@ GO
 EXEC sp_addextendedproperty 'MS_Description', N'Kg bazli kargo hizmet bedeli. | Eski alan: SirketTanim.KgHizmetBedeli', N'schema', N'common', N'table', N'Company', N'column', N'WeightServiceFee'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'Desi bazli kargo hizmet bedeli. | Eski alan: SirketTanim.DesiHizmetBedeli', N'schema', N'common', N'table', N'Company', N'column', N'DesiServiceFee'
+EXEC sp_addextendedproperty 'MS_Description', N'DesiWeight bazli kargo hizmet bedeli. | Eski alan: SirketTanim.DesiWeightHizmetBedeli', N'schema', N'common', N'table', N'Company', N'column', N'DesiWeightServiceFee'
 GO
 
 EXEC sp_addextendedproperty 'MS_Description', N'Sabit kargo ucreti. | Eski alan: SirketTanim.KargoBedeli', N'schema', N'common', N'table', N'Company', N'column', N'ShippingFee'
@@ -1126,9 +1126,9 @@ CREATE TABLE common.Counter (
   GId uniqueidentifier DEFAULT newid() NOT NULL,
   CompanyId bigint NOT NULL,
   Type nvarchar(15) COLLATE Turkish_CI_AI NULL,
-  Seri nvarchar(10) COLLATE Turkish_CI_AI NULL,
-  BaslangicNo int NOT NULL,
-  BitisNo int NOT NULL,
+  SerialCode nvarchar(10) COLLATE Turkish_CI_AI NULL,
+  StartNumber int NOT NULL,
+  EndNumber int NOT NULL,
   NextNumber int NOT NULL,
   InsertUser bigint DEFAULT 0 NOT NULL,
   InsertDateTime datetime DEFAULT getdate() NOT NULL,
@@ -1161,13 +1161,13 @@ GO
 EXEC sp_addextendedproperty 'MS_Description', N'Sayac tipi (Fatura, Irsaliye vb.). | Eski alan: Sayac.Tip', N'schema', N'common', N'table', N'Counter', N'column', N'Type'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'Belge seri kodu. | Eski alan: Sayac.Seri', N'schema', N'common', N'table', N'Counter', N'column', N'Seri'
+EXEC sp_addextendedproperty 'MS_Description', N'Belge seri kodu. | Eski alan: Sayac.SerialCode', N'schema', N'common', N'table', N'Counter', N'column', N'SerialCode'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'Baslangic numarasi. | Eski alan: Sayac.BaslangicNo', N'schema', N'common', N'table', N'Counter', N'column', N'BaslangicNo'
+EXEC sp_addextendedproperty 'MS_Description', N'Baslangic numarasi. | Eski alan: Sayac.StartNumber', N'schema', N'common', N'table', N'Counter', N'column', N'StartNumber'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'Bitis numarasi. | Eski alan: Sayac.BitisNo', N'schema', N'common', N'table', N'Counter', N'column', N'BitisNo'
+EXEC sp_addextendedproperty 'MS_Description', N'Bitis numarasi. | Eski alan: Sayac.EndNumber', N'schema', N'common', N'table', N'Counter', N'column', N'EndNumber'
 GO
 
 EXEC sp_addextendedproperty 'MS_Description', N'Siradaki numara. | Eski alan: Sayac.SiradakiNo', N'schema', N'common', N'table', N'Counter', N'column', N'NextNumber'
@@ -1275,7 +1275,7 @@ CREATE TABLE common.EmailTemplate (
   CompanyId bigint NOT NULL,
   Stat bit DEFAULT 1 NOT NULL,
   Konu nvarchar(200) COLLATE Turkish_CI_AI NOT NULL,
-  Metin nvarchar(max) COLLATE Turkish_CI_AI NULL,
+  Body nvarchar(max) COLLATE Turkish_CI_AI NULL,
   InsertDateTime datetime DEFAULT getdate() NOT NULL,
   InsertUser bigint DEFAULT 0 NOT NULL,
   UpdateDateTime datetime NULL,
@@ -1310,7 +1310,7 @@ GO
 EXEC sp_addextendedproperty 'MS_Description', N'E-posta konusu. | Eski alan: EMailTanim.Konu', N'schema', N'common', N'table', N'EmailTemplate', N'column', N'Konu'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'E-posta govde metni (HTML/text). | Eski alan: EMailTanim.Metin', N'schema', N'common', N'table', N'EmailTemplate', N'column', N'Metin'
+EXEC sp_addextendedproperty 'MS_Description', N'E-posta govde metni (HTML/text). | Eski alan: EMailTanim.Body', N'schema', N'common', N'table', N'EmailTemplate', N'column', N'Body'
 GO
 
 EXEC sp_addextendedproperty 'MS_Description', N'Olusturma tarihi. | Eski alan: EMailTanim.InsertDateTime', N'schema', N'common', N'table', N'EmailTemplate', N'column', N'InsertDateTime'
@@ -1397,12 +1397,12 @@ CREATE TABLE common.License (
   Id bigint IDENTITY(1, 1) NOT NULL,
   GId uniqueidentifier DEFAULT newid() NULL,
   CompanyId bigint NOT NULL,
-  Hediye bit NULL,
+  IsGift bit NULL,
   LicenseType nvarchar(10) COLLATE Turkish_CI_AI NOT NULL,
   StartDate datetime NOT NULL,
   EndDate datetime NOT NULL,
-  TahsilatSekli int NULL,
-  TahsilatTutari decimal(18,2) NOT NULL,
+  CollectionMethod int NULL,
+  CollectionAmount decimal(18,2) NOT NULL,
   InsertDateTime datetime DEFAULT getdate() NOT NULL,
   InsertUser bigint DEFAULT 0 NOT NULL,
   UpdateDateTime datetime NULL,
@@ -1430,7 +1430,7 @@ GO
 EXEC sp_addextendedproperty 'MS_Description', N'Bagli sirket (FK). | Eski alan: Lisans.SirketTanimId', N'schema', N'common', N'table', N'License', N'column', N'CompanyId'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'Hediye/demo lisans mi? | Eski alan: Lisans.Hediye', N'schema', N'common', N'table', N'License', N'column', N'Hediye'
+EXEC sp_addextendedproperty 'MS_Description', N'IsGift/demo lisans mi? | Eski alan: Lisans.IsGift', N'schema', N'common', N'table', N'License', N'column', N'IsGift'
 GO
 
 EXEC sp_addextendedproperty 'MS_Description', N'Lisans paket kodu (FK -> LisansTipi.Kod). | Eski alan: Lisans.LisansTipi', N'schema', N'common', N'table', N'License', N'column', N'LicenseType'
@@ -1442,10 +1442,10 @@ GO
 EXEC sp_addextendedproperty 'MS_Description', N'Lisans bitis tarihi. | Eski alan: Lisans.BitisTarihi', N'schema', N'common', N'table', N'License', N'column', N'EndDate'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'Tahsilat/odeme sekli kodu. | Eski alan: Lisans.TahsilatSekli', N'schema', N'common', N'table', N'License', N'column', N'TahsilatSekli'
+EXEC sp_addextendedproperty 'MS_Description', N'Tahsilat/odeme sekli kodu. | Eski alan: Lisans.CollectionMethod', N'schema', N'common', N'table', N'License', N'column', N'CollectionMethod'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'Lisans ucreti. | Eski alan: Lisans.TahsilatTutari', N'schema', N'common', N'table', N'License', N'column', N'TahsilatTutari'
+EXEC sp_addextendedproperty 'MS_Description', N'Lisans ucreti. | Eski alan: Lisans.CollectionAmount', N'schema', N'common', N'table', N'License', N'column', N'CollectionAmount'
 GO
 
 EXEC sp_addextendedproperty 'MS_Description', N'Olusturma tarihi. | Eski alan: Lisans.InsertDateTime', N'schema', N'common', N'table', N'License', N'column', N'InsertDateTime'
@@ -1474,14 +1474,14 @@ GO
 CREATE TABLE common.LicenseType (
   Code nvarchar(30) COLLATE Turkish_CI_AI NOT NULL,
   Value int NOT NULL,
-  ProductTakip bit NULL,
-  AccountTakip bit NULL,
-  CheckNoteTakip bit NULL,
-  TradeDocumentTakip bit NULL,
+  ProductTracking bit NULL,
+  AccountTracking bit NULL,
+  CheckNoteTracking bit NULL,
+  TradeDocumentTracking bit NULL,
   PaymentTracking bit NULL,
   BankTracking bit NULL,
-  IrsaliyeTakip bit NULL,
-  TeklifSiparisTakip bit NULL,
+  ShippingNoteTracking bit NULL,
+  QuoteOrderTracking bit NULL,
   EArchiveEInvoice bit NULL,
   MedicalService bit NULL,
   IsEcommerce bit NULL
@@ -1498,16 +1498,16 @@ GO
 EXEC sp_addextendedproperty 'MS_Description', N'Paket oncelik degeri (bitmask). | Eski alan: LisansTipi.Deger', N'schema', N'common', N'table', N'LicenseType', N'column', N'Value'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'Urun/stok modulu dahil mi? | Eski alan: LisansTipi.UrunTakip', N'schema', N'common', N'table', N'LicenseType', N'column', N'ProductTakip'
+EXEC sp_addextendedproperty 'MS_Description', N'Urun/stok modulu dahil mi? | Eski alan: LisansTipi.UrunTakip', N'schema', N'common', N'table', N'LicenseType', N'column', N'ProductTracking'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'Cari modulu dahil mi? | Eski alan: LisansTipi.CariTakip', N'schema', N'common', N'table', N'LicenseType', N'column', N'AccountTakip'
+EXEC sp_addextendedproperty 'MS_Description', N'Cari modulu dahil mi? | Eski alan: LisansTipi.CariTakip', N'schema', N'common', N'table', N'LicenseType', N'column', N'AccountTracking'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'Cek/senet modulu dahil mi? | Eski alan: LisansTipi.CekSenetTakip', N'schema', N'common', N'table', N'LicenseType', N'column', N'CheckNoteTakip'
+EXEC sp_addextendedproperty 'MS_Description', N'Cek/senet modulu dahil mi? | Eski alan: LisansTipi.CekSenetTakip', N'schema', N'common', N'table', N'LicenseType', N'column', N'CheckNoteTracking'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'Fatura modulu dahil mi? | Eski alan: LisansTipi.FaturaTakip', N'schema', N'common', N'table', N'LicenseType', N'column', N'TradeDocumentTakip'
+EXEC sp_addextendedproperty 'MS_Description', N'Fatura modulu dahil mi? | Eski alan: LisansTipi.FaturaTakip', N'schema', N'common', N'table', N'LicenseType', N'column', N'TradeDocumentTracking'
 GO
 
 EXEC sp_addextendedproperty 'MS_Description', N'Odeme modulu dahil mi? | Eski alan: LisansTipi.OdemeTakip', N'schema', N'common', N'table', N'LicenseType', N'column', N'PaymentTracking'
@@ -1516,10 +1516,10 @@ GO
 EXEC sp_addextendedproperty 'MS_Description', N'Banka modulu dahil mi? | Eski alan: LisansTipi.BankaTakip', N'schema', N'common', N'table', N'LicenseType', N'column', N'BankTracking'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'Irsaliye modulu dahil mi? | Eski alan: LisansTipi.IrsaliyeTakip', N'schema', N'common', N'table', N'LicenseType', N'column', N'IrsaliyeTakip'
+EXEC sp_addextendedproperty 'MS_Description', N'Irsaliye modulu dahil mi? | Eski alan: LisansTipi.ShippingNoteTracking', N'schema', N'common', N'table', N'LicenseType', N'column', N'ShippingNoteTracking'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'Teklif/siparis modulu dahil mi? | Eski alan: LisansTipi.TeklifSiparisTakip', N'schema', N'common', N'table', N'LicenseType', N'column', N'TeklifSiparisTakip'
+EXEC sp_addextendedproperty 'MS_Description', N'Teklif/siparis modulu dahil mi? | Eski alan: LisansTipi.QuoteOrderTracking', N'schema', N'common', N'table', N'LicenseType', N'column', N'QuoteOrderTracking'
 GO
 
 EXEC sp_addextendedproperty 'MS_Description', N'e-Arsiv/e-Fatura modulu dahil mi? | Eski alan: LisansTipi.EArsivEFatura', N'schema', N'common', N'table', N'LicenseType', N'column', N'EArchiveEInvoice'
@@ -1957,9 +1957,9 @@ CREATE TABLE finance.AccountDocument (
   GId uniqueidentifier DEFAULT newid() NOT NULL,
   CompanyId bigint NOT NULL,
   DocumentDefId bigint NOT NULL,
-  DocumentTanimDescription nvarchar(100) COLLATE Turkish_CI_AI NOT NULL,
+  DocumentTypeDescription nvarchar(100) COLLATE Turkish_CI_AI NOT NULL,
   AccountId bigint NOT NULL,
-  DocumentIcerik nvarchar(max) COLLATE Turkish_CI_AI NOT NULL,
+  DocumentContent nvarchar(max) COLLATE Turkish_CI_AI NOT NULL,
   ApprovalType nvarchar(10) COLLATE Turkish_CI_AI NULL,
   InsertUser bigint DEFAULT 0 NOT NULL,
   InsertDateTime datetime DEFAULT getdate() NOT NULL,
@@ -1992,13 +1992,13 @@ GO
 EXEC sp_addextendedproperty 'MS_Description', N'Belge sablonu (FK -> BelgeTanim.Id). | Eski alan: CariTanimBelge.BelgeTanimId', N'schema', N'finance', N'table', N'AccountDocument', N'column', N'DocumentDefId'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'Belge aciklamasi (anlik kopya). | Eski alan: CariTanimBelge.BelgeTanimAciklama', N'schema', N'finance', N'table', N'AccountDocument', N'column', N'DocumentTanimDescription'
+EXEC sp_addextendedproperty 'MS_Description', N'Belge aciklamasi (anlik kopya). | Eski alan: CariTanimBelge.BelgeTanimAciklama', N'schema', N'finance', N'table', N'AccountDocument', N'column', N'DocumentTypeDescription'
 GO
 
 EXEC sp_addextendedproperty 'MS_Description', N'Bagli cari (FK -> CariTanim.Id). | Eski alan: CariTanimBelge.CariTanimId', N'schema', N'finance', N'table', N'AccountDocument', N'column', N'AccountId'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'Imzalanan belge icerigi. | Eski alan: CariTanimBelge.BelgeIcerik', N'schema', N'finance', N'table', N'AccountDocument', N'column', N'DocumentIcerik'
+EXEC sp_addextendedproperty 'MS_Description', N'Imzalanan belge icerigi. | Eski alan: CariTanimBelge.BelgeIcerik', N'schema', N'finance', N'table', N'AccountDocument', N'column', N'DocumentContent'
 GO
 
 EXEC sp_addextendedproperty 'MS_Description', N'Onay tipi kodu. | Eski alan: CariTanimBelge.OnayTipi', N'schema', N'finance', N'table', N'AccountDocument', N'column', N'ApprovalType'
@@ -2038,7 +2038,7 @@ CREATE TABLE finance.AccountTransaction (
   TransactionDate datetime NOT NULL,
   DueDate datetime NULL,
   DocumentNo nvarchar(50) COLLATE Turkish_CI_AI NULL,
-  HareketType int NOT NULL,
+  TransactionType int NOT NULL,
   TradeDocumentId bigint NOT NULL,
   Description nvarchar(1000) COLLATE Turkish_CI_AI NULL,
   DebitAmount decimal(18,4) NOT NULL,
@@ -2088,7 +2088,7 @@ GO
 EXEC sp_addextendedproperty 'MS_Description', N'Belge/evrak numarasi. | Eski alan: CariHareket.BelgeNo', N'schema', N'finance', N'table', N'AccountTransaction', N'column', N'DocumentNo'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'SatisFaturasi=100, AlisFaturasi=200, NakitTahsilat=1, NakitOdeme=2, AlinanCek=102, AlinanSenet=103, BankaDekontTahsilat=11, BankaDekontOdeme=21, VerilenFirmaCeki=202, VerilenMusteriCeki=203, VerilenFirmaSenet=204, VerilenMusteriSenet=205 | Eski alan: CariHareket.HareketTipi', N'schema', N'finance', N'table', N'AccountTransaction', N'column', N'HareketType'
+EXEC sp_addextendedproperty 'MS_Description', N'SatisFaturasi=100, AlisFaturasi=200, NakitTahsilat=1, NakitOdeme=2, AlinanCek=102, AlinanSenet=103, BankaDekontTahsilat=11, BankaDekontOdeme=21, VerilenFirmaCeki=202, VerilenMusteriCeki=203, VerilenFirmaSenet=204, VerilenMusteriSenet=205 | Eski alan: CariHareket.HareketTipi', N'schema', N'finance', N'table', N'AccountTransaction', N'column', N'DocumentType'
 GO
 
 EXEC sp_addextendedproperty 'MS_Description', N'Iliskili fatura (FK -> Fatura.Id). | Eski alan: CariHareket.FaturaId', N'schema', N'finance', N'table', N'AccountTransaction', N'column', N'TradeDocumentId'
@@ -2289,9 +2289,9 @@ CREATE TABLE finance.CashTransaction (
   GId uniqueidentifier DEFAULT newid() NOT NULL,
   CompanyId bigint NOT NULL,
   CashRegisterId bigint NOT NULL,
-  AccountHareketId bigint NOT NULL,
+  AccountTransactionId bigint NOT NULL,
   TransactionDate datetime NOT NULL,
-  CashRegisterHareketType int NOT NULL,
+  CashRegisterTransactionType int NOT NULL,
   Description nvarchar(1000) COLLATE Turkish_CI_AI NULL,
   DebitAmount decimal(18,4) NOT NULL,
   CreditAmount decimal(18,4) NOT NULL,
@@ -2328,13 +2328,13 @@ GO
 EXEC sp_addextendedproperty 'MS_Description', N'Kasa (FK -> KasaTanim.Id). | Eski alan: KasaHareket.KasaTanimId', N'schema', N'finance', N'table', N'CashTransaction', N'column', N'CashRegisterId'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'Bagli cari hareket (FK -> CariHareket.Id). | Eski alan: KasaHareket.CariHareketId', N'schema', N'finance', N'table', N'CashTransaction', N'column', N'AccountHareketId'
+EXEC sp_addextendedproperty 'MS_Description', N'Bagli cari hareket (FK -> CariHareket.Id). | Eski alan: KasaHareket.CariHareketId', N'schema', N'finance', N'table', N'CashTransaction', N'column', N'AccountTransactionId'
 GO
 
 EXEC sp_addextendedproperty 'MS_Description', N'Hareket tarihi. | Eski alan: KasaHareket.Tarih', N'schema', N'finance', N'table', N'CashTransaction', N'column', N'TransactionDate'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'Kasa hareket tipi. | Eski alan: KasaHareket.KasaHareketTipi', N'schema', N'finance', N'table', N'CashTransaction', N'column', N'CashRegisterHareketType'
+EXEC sp_addextendedproperty 'MS_Description', N'Kasa hareket tipi. | Eski alan: KasaHareket.KasaHareketTipi', N'schema', N'finance', N'table', N'CashTransaction', N'column', N'CashRegisterTransactionType'
 GO
 
 EXEC sp_addextendedproperty 'MS_Description', N'Hareket aciklamasi. | Eski alan: KasaHareket.Aciklama', N'schema', N'finance', N'table', N'CashTransaction', N'column', N'Description'
@@ -2388,7 +2388,7 @@ CREATE TABLE finance.CheckNote (
   DocumentStatus int NOT NULL,
   TransactionDate datetime NOT NULL,
   DueDate datetime NOT NULL,
-  HareketType int NOT NULL,
+  NoteType int NOT NULL,
   Amount decimal(18,4) NOT NULL,
   CurrencyCode nvarchar(10) COLLATE Turkish_CI_AI NOT NULL,
   DocumentOriginalOwnerTitle nvarchar(150) COLLATE Turkish_CI_AI NULL,
@@ -2446,7 +2446,7 @@ GO
 EXEC sp_addextendedproperty 'MS_Description', N'Vade tarihi. | Eski alan: CekSenetTanim.VadeTarihi', N'schema', N'finance', N'table', N'CheckNote', N'column', N'DueDate'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'VerilenFirmaCeki=202, VerilenMusteriCeki=203, VerilenFirmaSenet=204, VerilenMusteriSenet=205 | Eski alan: CekSenetTanim.HareketTipi', N'schema', N'finance', N'table', N'CheckNote', N'column', N'HareketType'
+EXEC sp_addextendedproperty 'MS_Description', N'VerilenFirmaCeki=202, VerilenMusteriCeki=203, VerilenFirmaSenet=204, VerilenMusteriSenet=205 | Eski alan: CekSenetTanim.HareketTipi', N'schema', N'finance', N'table', N'CheckNote', N'column', N'DocumentType'
 GO
 
 EXEC sp_addextendedproperty 'MS_Description', N'Tutar. | Eski alan: CekSenetTanim.Tutar', N'schema', N'finance', N'table', N'CheckNote', N'column', N'Amount'
@@ -2511,13 +2511,13 @@ GO
 CREATE TABLE finance.CheckNoteTransaction (
   Id bigint IDENTITY(1, 1) NOT NULL,
   GId uniqueidentifier DEFAULT newid() NOT NULL,
-  HareketDate datetime NOT NULL,
+  TransactionDate datetime NOT NULL,
   CompanyId bigint NOT NULL,
   CheckNoteId bigint NOT NULL,
   DocumentStatus int NOT NULL,
   AccountId bigint NOT NULL,
-  AccountHareketId bigint NOT NULL,
-  CashRegisterHareketId bigint NOT NULL,
+  AccountTransactionId bigint NOT NULL,
+  CashRegisterTransactionId bigint NOT NULL,
   Label nvarchar(500) COLLATE Turkish_CI_AI NULL,
   InsertDateTime datetime DEFAULT getdate() NOT NULL,
   InsertUser bigint DEFAULT 0 NOT NULL,
@@ -2544,7 +2544,7 @@ GO
 EXEC sp_addextendedproperty 'MS_Description', N'Global benzersiz kimlik (GUID). | Eski alan: CekSenetHareket.GId', N'schema', N'finance', N'table', N'CheckNoteTransaction', N'column', N'GId'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'Hareket tarihi. | Eski alan: CekSenetHareket.HareketTarihi', N'schema', N'finance', N'table', N'CheckNoteTransaction', N'column', N'HareketDate'
+EXEC sp_addextendedproperty 'MS_Description', N'Hareket tarihi. | Eski alan: CekSenetHareket.HareketTarihi', N'schema', N'finance', N'table', N'CheckNoteTransaction', N'column', N'TransactionDate'
 GO
 
 EXEC sp_addextendedproperty 'MS_Description', N'Bagli sirket. | Eski alan: CekSenetHareket.SirketTanimId', N'schema', N'finance', N'table', N'CheckNoteTransaction', N'column', N'CompanyId'
@@ -2559,10 +2559,10 @@ GO
 EXEC sp_addextendedproperty 'MS_Description', N'Iliskili cari. | Eski alan: CekSenetHareket.CariTanimId', N'schema', N'finance', N'table', N'CheckNoteTransaction', N'column', N'AccountId'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'Iliskili cari hareket. | Eski alan: CekSenetHareket.CariHareketId', N'schema', N'finance', N'table', N'CheckNoteTransaction', N'column', N'AccountHareketId'
+EXEC sp_addextendedproperty 'MS_Description', N'Iliskili cari hareket. | Eski alan: CekSenetHareket.CariHareketId', N'schema', N'finance', N'table', N'CheckNoteTransaction', N'column', N'AccountTransactionId'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'Iliskili kasa hareket. | Eski alan: CekSenetHareket.KasaHareketId', N'schema', N'finance', N'table', N'CheckNoteTransaction', N'column', N'CashRegisterHareketId'
+EXEC sp_addextendedproperty 'MS_Description', N'Iliskili kasa hareket. | Eski alan: CekSenetHareket.KasaHareketId', N'schema', N'finance', N'table', N'CheckNoteTransaction', N'column', N'CashRegisterTransactionId'
 GO
 
 EXEC sp_addextendedproperty 'MS_Description', N'Etiket. | Eski alan: CekSenetHareket.Etiket', N'schema', N'finance', N'table', N'CheckNoteTransaction', N'column', N'Label'
@@ -2600,7 +2600,7 @@ CREATE TABLE finance.Currency (
   CompanyId bigint NOT NULL,
   SortOrder int NOT NULL,
   CurrencyCode nvarchar(10) COLLATE Turkish_CI_AI NOT NULL,
-  Hassasiyet int NOT NULL,
+  DecimalPrecision int NOT NULL,
   InsertUser bigint DEFAULT 0 NOT NULL,
   InsertDateTime datetime DEFAULT getdate() NOT NULL,
   UpdateUser bigint NULL,
@@ -2635,7 +2635,7 @@ GO
 EXEC sp_addextendedproperty 'MS_Description', N'Doviz kodu (USD, EUR vb.). | Eski alan: DovizTanim.DovizKodu', N'schema', N'finance', N'table', N'Currency', N'column', N'CurrencyCode'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'Ondalik hassasiyet. | Eski alan: DovizTanim.Hassasiyet', N'schema', N'finance', N'table', N'Currency', N'column', N'Hassasiyet'
+EXEC sp_addextendedproperty 'MS_Description', N'Ondalik hassasiyet. | Eski alan: DovizTanim.DecimalPrecision', N'schema', N'finance', N'table', N'Currency', N'column', N'DecimalPrecision'
 GO
 
 EXEC sp_addextendedproperty 'MS_Description', N'Olusturan kullanici. | Eski alan: DovizTanim.InsertUser', N'schema', N'finance', N'table', N'Currency', N'column', N'InsertUser'
@@ -2833,7 +2833,7 @@ CREATE TABLE inventory.Product (
   CategoryId bigint NULL,
   CriticalStockQuantity decimal(18,4) NULL,
   InternetCriticalStockQuantity decimal(18,4) NULL,
-  SeriNoTakip bit NOT NULL,
+  SerialCodeNoTakip bit NOT NULL,
   PurchaseVatRate int NOT NULL,
   VatRate int NOT NULL,
   PurchasePrice decimal(18,4) NOT NULL,
@@ -2853,9 +2853,9 @@ CREATE TABLE inventory.Product (
   IsHepsiBuradaActive bit NOT NULL,
   Width int NOT NULL,
   Height int NOT NULL,
-  Derinlik int NOT NULL,
-  Desi decimal(18,4) NOT NULL,
-  Agirlik decimal(18,4) NOT NULL,
+  Depth int NOT NULL,
+  DesiWeight decimal(18,4) NOT NULL,
+  Weight decimal(18,4) NOT NULL,
   Color nvarchar(30) COLLATE Turkish_CI_AI NULL,
   IsAppointmentActive bit NULL,
   IsAppointmentOpen bit NULL,
@@ -2915,7 +2915,7 @@ GO
 EXEC sp_addextendedproperty 'MS_Description', N'Renk (FK -> UrunRenkPaleti.Id). | Eski alan: UrunTanim.RenkId', N'schema', N'inventory', N'table', N'Product', N'column', N'ColorId'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'Agirlik barkodu mu? | Eski alan: UrunTanim.KgBarkod', N'schema', N'inventory', N'table', N'Product', N'column', N'IsWeightBarcode'
+EXEC sp_addextendedproperty 'MS_Description', N'Weight barkodu mu? | Eski alan: UrunTanim.KgBarkod', N'schema', N'inventory', N'table', N'Product', N'column', N'IsWeightBarcode'
 GO
 
 EXEC sp_addextendedproperty 'MS_Description', N'Ana birim (FK -> BirimTanim.Id). | Eski alan: UrunTanim.BirimId', N'schema', N'inventory', N'table', N'Product', N'column', N'UnitId'
@@ -2930,7 +2930,7 @@ GO
 EXEC sp_addextendedproperty 'MS_Description', N'E-ticaret kritik stok esigi. | Eski alan: UrunTanim.InternetKritikStokMiktari', N'schema', N'inventory', N'table', N'Product', N'column', N'InternetCriticalStockQuantity'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'Seri numarasi takibi yapilsin mi? | Eski alan: UrunTanim.SeriNoTakip', N'schema', N'inventory', N'table', N'Product', N'column', N'SeriNoTakip'
+EXEC sp_addextendedproperty 'MS_Description', N'SerialCode numarasi takibi yapilsin mi? | Eski alan: UrunTanim.SerialCodeNoTakip', N'schema', N'inventory', N'table', N'Product', N'column', N'SerialCodeNoTakip'
 GO
 
 EXEC sp_addextendedproperty 'MS_Description', N'Alis KDV orani (%). | Eski alan: UrunTanim.AlisKdvOrani', N'schema', N'inventory', N'table', N'Product', N'column', N'PurchaseVatRate'
@@ -2990,13 +2990,13 @@ GO
 EXEC sp_addextendedproperty 'MS_Description', N'Urun yuksekligi (cm). | Eski alan: UrunTanim.Yukseklik', N'schema', N'inventory', N'table', N'Product', N'column', N'Height'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'Urun derinligi (cm). | Eski alan: UrunTanim.Derinlik', N'schema', N'inventory', N'table', N'Product', N'column', N'Derinlik'
+EXEC sp_addextendedproperty 'MS_Description', N'Urun derinligi (cm). | Eski alan: UrunTanim.Depth', N'schema', N'inventory', N'table', N'Product', N'column', N'Depth'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'Desi degeri (kargo). | Eski alan: UrunTanim.Desi', N'schema', N'inventory', N'table', N'Product', N'column', N'Desi'
+EXEC sp_addextendedproperty 'MS_Description', N'DesiWeight degeri (kargo). | Eski alan: UrunTanim.DesiWeight', N'schema', N'inventory', N'table', N'Product', N'column', N'DesiWeight'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'Agirlik (kg). | Eski alan: UrunTanim.Agirlik', N'schema', N'inventory', N'table', N'Product', N'column', N'Agirlik'
+EXEC sp_addextendedproperty 'MS_Description', N'Weight (kg). | Eski alan: UrunTanim.Weight', N'schema', N'inventory', N'table', N'Product', N'column', N'Weight'
 GO
 
 EXEC sp_addextendedproperty 'MS_Description', N'Randevu takvim renk kodu. | Eski alan: UrunTanim.Renk', N'schema', N'inventory', N'table', N'Product', N'column', N'Color'
@@ -3239,7 +3239,7 @@ CREATE TABLE inventory.ProductUnit (
   UnitId bigint NOT NULL,
   Barcode nvarchar(50) COLLATE Turkish_CI_AI NULL,
   Carpan float NOT NULL,
-  Hassasiyet int NOT NULL,
+  DecimalPrecision int NOT NULL,
   Label nvarchar(500) COLLATE Turkish_CI_AI NULL,
   InsertDateTime datetime DEFAULT getdate() NULL,
   InsertUser bigint DEFAULT 0 NULL,
@@ -3279,7 +3279,7 @@ GO
 EXEC sp_addextendedproperty 'MS_Description', N'- | Eski alan: UrunBirim.Carpan', N'schema', N'inventory', N'table', N'ProductUnit', N'column', N'Carpan'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'- | Eski alan: UrunBirim.Hassasiyet', N'schema', N'inventory', N'table', N'ProductUnit', N'column', N'Hassasiyet'
+EXEC sp_addextendedproperty 'MS_Description', N'- | Eski alan: UrunBirim.DecimalPrecision', N'schema', N'inventory', N'table', N'ProductUnit', N'column', N'DecimalPrecision'
 GO
 
 EXEC sp_addextendedproperty 'MS_Description', N'- | Eski alan: UrunBirim.Etiket', N'schema', N'inventory', N'table', N'ProductUnit', N'column', N'Label'
@@ -3657,7 +3657,7 @@ CREATE TABLE inventory.Unit (
   CompanyId bigint NOT NULL,
   Code nvarchar(15) COLLATE Turkish_CI_AI NOT NULL,
   Description nvarchar(100) COLLATE Turkish_CI_AI NOT NULL,
-  Hassasiyet int NOT NULL,
+  DecimalPrecision int NOT NULL,
   Label nvarchar(500) COLLATE Turkish_CI_AI NULL,
   InsertDateTime datetime DEFAULT getdate() NULL,
   InsertUser bigint DEFAULT 0 NULL,
@@ -3693,7 +3693,7 @@ GO
 EXEC sp_addextendedproperty 'MS_Description', N'Birim aciklamasi. | Eski alan: BirimTanim.Aciklama', N'schema', N'inventory', N'table', N'Unit', N'column', N'Description'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'Ondalik hassasiyet (hane sayisi). | Eski alan: BirimTanim.Hassasiyet', N'schema', N'inventory', N'table', N'Unit', N'column', N'Hassasiyet'
+EXEC sp_addextendedproperty 'MS_Description', N'Ondalik hassasiyet (hane sayisi). | Eski alan: BirimTanim.DecimalPrecision', N'schema', N'inventory', N'table', N'Unit', N'column', N'DecimalPrecision'
 GO
 
 EXEC sp_addextendedproperty 'MS_Description', N'Etiket/barkod metni. | Eski alan: BirimTanim.Etiket', N'schema', N'inventory', N'table', N'Unit', N'column', N'Label'
@@ -3730,20 +3730,20 @@ CREATE TABLE trade.TradeDocument (
   GId uniqueidentifier DEFAULT newid() NOT NULL,
   CompanyId bigint NOT NULL,
   StoreId bigint NOT NULL,
-  StoreTanim1Id bigint NULL,
+  SecondaryStoreId bigint NULL,
   AccountId bigint NOT NULL,
-  HareketType int NOT NULL,
+  DocumentType int NOT NULL,
   TradeDocumentNo nvarchar(50) COLLATE Turkish_CI_AI NOT NULL,
   TransactionDate datetime NOT NULL,
   Saat datetime NULL,
   DueDate datetime NULL,
   CurrencyCode nvarchar(30) COLLATE Turkish_CI_AI NOT NULL,
-  SiparisStatus int NULL,
+  OrderStatus int NULL,
   OrderShippingSlipNumber nvarchar(50) COLLATE Turkish_CI_AI NULL,
-  ShippingFirmaDefId bigint NULL,
-  TradeDocumentTeslimAdSoyadTitle varchar(250) COLLATE Turkish_CI_AI NULL,
-  TradeDocumentTeslimEMail nvarchar(100) COLLATE Turkish_CI_AI NULL,
-  TradeDocumentTeslimPhone nvarchar(30) COLLATE Turkish_CI_AI NULL,
+  ShippingCompanyDefId bigint NULL,
+  BillingFullNameOrTitle varchar(250) COLLATE Turkish_CI_AI NULL,
+  BillingEmail nvarchar(100) COLLATE Turkish_CI_AI NULL,
+  BillingPhone nvarchar(30) COLLATE Turkish_CI_AI NULL,
   Address nvarchar(500) COLLATE Turkish_CI_AI NULL,
   City nvarchar(50) COLLATE Turkish_CI_AI NULL,
   District nvarchar(50) COLLATE Turkish_CI_AI NULL,
@@ -3753,27 +3753,27 @@ CREATE TABLE trade.TradeDocument (
   DeliveryEmail nvarchar(100) COLLATE Turkish_CI_AI NULL,
   DeliveryPhone nvarchar(30) COLLATE Turkish_CI_AI NULL,
   DeliveryAddress nvarchar(500) COLLATE Turkish_CI_AI NULL,
-  TeslimatIl nvarchar(50) COLLATE Turkish_CI_AI NULL,
+  DeliveryCity nvarchar(50) COLLATE Turkish_CI_AI NULL,
   DeliveryDistrict nvarchar(50) COLLATE Turkish_CI_AI NULL,
   DeliveryPostalCode nvarchar(30) COLLATE Turkish_CI_AI NULL,
   TaxOffice nvarchar(50) COLLATE Turkish_CI_AI NULL,
   TaxNumber nvarchar(50) COLLATE Turkish_CI_AI NULL,
   RelatedTradeDocumentId bigint NULL,
   MedicalServiceProductBrandModel nvarchar(250) COLLATE Turkish_CI_AI NULL,
-  MedicalServiceCihazSeriNo nvarchar(50) COLLATE Turkish_CI_AI NULL,
+  MedicalServiceCihazSerialCodeNo nvarchar(50) COLLATE Turkish_CI_AI NULL,
   MedicalServiceSellerCompany nvarchar(100) COLLATE Turkish_CI_AI NULL,
-  MedicalServiceAksesuar nvarchar(750) COLLATE Turkish_CI_AI NULL,
+  ServiceAccessories nvarchar(750) COLLATE Turkish_CI_AI NULL,
   ServiceDeviceDescription nvarchar(750) COLLATE Turkish_CI_AI NULL,
-  MedicalServiceMusteriNotu nvarchar(750) COLLATE Turkish_CI_AI NULL,
+  ServiceCustomerNote nvarchar(750) COLLATE Turkish_CI_AI NULL,
   ServicePersonalNote nvarchar(750) COLLATE Turkish_CI_AI NULL,
-  MedicalServiceGarantiBilgisi bit NULL,
+  ServiceWarrantyInfo bit NULL,
   MedicalServiceStatus int NULL,
   ServiceDeliveryDate datetime NULL,
-  MedicalServiceTeslimAlanKisi nvarchar(100) COLLATE Turkish_CI_AI NULL,
-  TeklifStatus int NULL,
+  ServiceDeliveryRecipient nvarchar(100) COLLATE Turkish_CI_AI NULL,
+  QuoteStatus int NULL,
   Label nvarchar(500) COLLATE Turkish_CI_AI NULL,
-  DocumentKapali bit NOT NULL,
-  ED_SonIslemDate datetime NULL,
+  IsDocumentClosed bit NOT NULL,
+  ED_LastProcessDate datetime NULL,
   ED_Code int NULL,
   ED_Description nvarchar(200) COLLATE Turkish_CI_AI NULL,
   ED_DetailDescription nvarchar(500) COLLATE Turkish_CI_AI NULL,
@@ -3784,8 +3784,8 @@ CREATE TABLE trade.TradeDocument (
   IntegrationId nvarchar(50) COLLATE Turkish_CI_AI NULL,
   IntegrationName nvarchar(30) COLLATE Turkish_CI_AI NULL,
   LineCount int NOT NULL,
-  ToplamVatTutar decimal(18,4) NOT NULL,
-  ToplamTutar decimal(18,4) NOT NULL,
+  TotalVatAmount decimal(18,4) NOT NULL,
+  TotalAmount decimal(18,4) NOT NULL,
   InsertDateTime datetime DEFAULT getdate() NOT NULL,
   InsertUser bigint DEFAULT 0 NOT NULL,
   UpdateDateTime datetime NULL,
@@ -3795,10 +3795,10 @@ CREATE TABLE trade.TradeDocument (
   RecordDateTime datetime DEFAULT getdate() NULL,
   IsDocumentCancelled bit NOT NULL,
   ElectronicDocumentType int NULL,
-  ElektronikBelgeNo nvarchar(50) COLLATE Turkish_CI_AI NULL,
+  ElectronicDocumentNo nvarchar(50) COLLATE Turkish_CI_AI NULL,
   ElectronicDocumentSentDate datetime NULL,
-  ElektronikBelgeHatalari nvarchar(MAX) COLLATE Turkish_CI_AI NULL,
-  ElektronikBelgeGonderimStatus int NULL
+  ElectronicDocumentErrors nvarchar(MAX) COLLATE Turkish_CI_AI NULL,
+  ElectronicDocumentSendStatus int NULL
 ,
   CONSTRAINT TradeDocument_pk PRIMARY KEY CLUSTERED (Id)
     WITH (
@@ -3823,13 +3823,13 @@ GO
 EXEC sp_addextendedproperty 'MS_Description', N'Ana depo (FK -> DepoTanim.Id). | Eski alan: Fatura.DepoTanimId', N'schema', N'trade', N'table', N'TradeDocument', N'column', N'StoreId'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'Ikincil/hedef depo. | Eski alan: Fatura.DepoTanim1Id', N'schema', N'trade', N'table', N'TradeDocument', N'column', N'StoreTanim1Id'
+EXEC sp_addextendedproperty 'MS_Description', N'Ikincil/hedef depo. | Eski alan: Fatura.DepoTanim1Id', N'schema', N'trade', N'table', N'TradeDocument', N'column', N'SecondaryStoreId'
 GO
 
 EXEC sp_addextendedproperty 'MS_Description', N'Bagli cari (FK -> CariTanim.Id). | Eski alan: Fatura.CariTanimId', N'schema', N'trade', N'table', N'TradeDocument', N'column', N'AccountId'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'Tanimsiz=0, SatisFaturasi=100, SatisIrsaliye=101, AlinanSiparis=103, VerilenTeklif=104, VerilenServis=105, DepoCikis=106, AlisIadeFaturasi=107, SayimGiris=108, AlisFaturasi=200, AlisIrsaliye=201, VerilenSiparis=203, AlinanTeklif=204, DepoGiris=206, SatisIadeFaturasi=207, SayimCikis=208 | Eski alan: Fatura.HareketTipi', N'schema', N'trade', N'table', N'TradeDocument', N'column', N'HareketType'
+EXEC sp_addextendedproperty 'MS_Description', N'Tanimsiz=0, SatisFaturasi=100, SatisIrsaliye=101, AlinanSiparis=103, VerilenTeklif=104, VerilenServis=105, DepoCikis=106, AlisIadeFaturasi=107, SayimGiris=108, AlisFaturasi=200, AlisIrsaliye=201, VerilenSiparis=203, AlinanTeklif=204, DepoGiris=206, SatisIadeFaturasi=207, SayimCikis=208 | Eski alan: Fatura.HareketTipi', N'schema', N'trade', N'table', N'TradeDocument', N'column', N'DocumentType'
 GO
 
 EXEC sp_addextendedproperty 'MS_Description', N'Belge/fatura numarasi. | Eski alan: Fatura.FaturaNo', N'schema', N'trade', N'table', N'TradeDocument', N'column', N'TradeDocumentNo'
@@ -3847,22 +3847,22 @@ GO
 EXEC sp_addextendedproperty 'MS_Description', N'Para birimi. | Eski alan: Fatura.DovizKodu', N'schema', N'trade', N'table', N'TradeDocument', N'column', N'CurrencyCode'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'E-ticaret siparis durumu. | Eski alan: Fatura.SiparisDurumu', N'schema', N'trade', N'table', N'TradeDocument', N'column', N'SiparisStatus'
+EXEC sp_addextendedproperty 'MS_Description', N'E-ticaret siparis durumu. | Eski alan: Fatura.SiparisDurumu', N'schema', N'trade', N'table', N'TradeDocument', N'column', N'OrderStatus'
 GO
 
 EXEC sp_addextendedproperty 'MS_Description', N'Kargo takip/fis numarasi. | Eski alan: Fatura.SiparisKargoFisNo', N'schema', N'trade', N'table', N'TradeDocument', N'column', N'OrderShippingSlipNumber'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'Kargo firmasi ID. | Eski alan: Fatura.KargoFirmaTanimId', N'schema', N'trade', N'table', N'TradeDocument', N'column', N'ShippingFirmaDefId'
+EXEC sp_addextendedproperty 'MS_Description', N'Kargo firmasi ID. | Eski alan: Fatura.KargoFirmaTanimId', N'schema', N'trade', N'table', N'TradeDocument', N'column', N'ShippingCompanyDefId'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'Fatura teslim alici. | Eski alan: Fatura.FaturaTeslimAdSoyadUnvan', N'schema', N'trade', N'table', N'TradeDocument', N'column', N'TradeDocumentTeslimAdSoyadTitle'
+EXEC sp_addextendedproperty 'MS_Description', N'Fatura teslim alici. | Eski alan: Fatura.FaturaTeslimAdSoyadUnvan', N'schema', N'trade', N'table', N'TradeDocument', N'column', N'BillingFullNameOrTitle'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'Fatura teslim e-posta. | Eski alan: Fatura.FaturaTeslimEMail', N'schema', N'trade', N'table', N'TradeDocument', N'column', N'TradeDocumentTeslimEMail'
+EXEC sp_addextendedproperty 'MS_Description', N'Fatura teslim e-posta. | Eski alan: Fatura.FaturaTeslimEMail', N'schema', N'trade', N'table', N'TradeDocument', N'column', N'BillingEmail'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'Fatura teslim telefon. | Eski alan: Fatura.FaturaTeslimTelefon', N'schema', N'trade', N'table', N'TradeDocument', N'column', N'TradeDocumentTeslimPhone'
+EXEC sp_addextendedproperty 'MS_Description', N'Fatura teslim telefon. | Eski alan: Fatura.FaturaTeslimTelefon', N'schema', N'trade', N'table', N'TradeDocument', N'column', N'BillingPhone'
 GO
 
 EXEC sp_addextendedproperty 'MS_Description', N'Fatura adresi. | Eski alan: Fatura.Adres', N'schema', N'trade', N'table', N'TradeDocument', N'column', N'Address'
@@ -3892,10 +3892,10 @@ GO
 EXEC sp_addextendedproperty 'MS_Description', N'Teslimat adresi. | Eski alan: Fatura.TeslimatAdres', N'schema', N'trade', N'table', N'TradeDocument', N'column', N'DeliveryAddress'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'Teslimat ili. | Eski alan: Fatura.TeslimatIl', N'schema', N'trade', N'table', N'TradeDocument', N'column', N'TeslimatIl'
+EXEC sp_addextendedproperty 'MS_Description', N'Teslimat ili. | Eski alan: Fatura.DeliveryCity', N'schema', N'trade', N'table', N'TradeDocument', N'column', N'DeliveryCity'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'Teslimat ilcesi. | Eski alan: Fatura.TeslimatIlce', N'schema', N'trade', N'table', N'TradeDocument', N'column', N'DeliveryDistrict'
+EXEC sp_addextendedproperty 'MS_Description', N'Teslimat ilcesi. | Eski alan: Fatura.DeliveryCityce', N'schema', N'trade', N'table', N'TradeDocument', N'column', N'DeliveryDistrict'
 GO
 
 EXEC sp_addextendedproperty 'MS_Description', N'Teslimat posta kodu. | Eski alan: Fatura.TeslimatPostaKodu', N'schema', N'trade', N'table', N'TradeDocument', N'column', N'DeliveryPostalCode'
@@ -3913,25 +3913,25 @@ GO
 EXEC sp_addextendedproperty 'MS_Description', N'Servis: urun marka/model. | Eski alan: Fatura.ServisUrunMarkaModel', N'schema', N'trade', N'table', N'TradeDocument', N'column', N'MedicalServiceProductBrandModel'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'Servis: cihaz seri no. | Eski alan: Fatura.ServisCihazSeriNo', N'schema', N'trade', N'table', N'TradeDocument', N'column', N'MedicalServiceCihazSeriNo'
+EXEC sp_addextendedproperty 'MS_Description', N'Servis: cihaz seri no. | Eski alan: Fatura.ServisCihazSerialCodeNo', N'schema', N'trade', N'table', N'TradeDocument', N'column', N'MedicalServiceCihazSerialCodeNo'
 GO
 
 EXEC sp_addextendedproperty 'MS_Description', N'Servis: satici firma. | Eski alan: Fatura.ServisSaticiFirma', N'schema', N'trade', N'table', N'TradeDocument', N'column', N'MedicalServiceSellerCompany'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'Servis: aksesuarlar. | Eski alan: Fatura.ServisAksesuar', N'schema', N'trade', N'table', N'TradeDocument', N'column', N'MedicalServiceAksesuar'
+EXEC sp_addextendedproperty 'MS_Description', N'Servis: aksesuarlar. | Eski alan: Fatura.ServisAksesuar', N'schema', N'trade', N'table', N'TradeDocument', N'column', N'ServiceAccessories'
 GO
 
 EXEC sp_addextendedproperty 'MS_Description', N'Servis: cihaz aciklamasi. | Eski alan: Fatura.ServisCihazAciklama', N'schema', N'trade', N'table', N'TradeDocument', N'column', N'ServiceDeviceDescription'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'Servis: musteri notu. | Eski alan: Fatura.ServisMusteriNotu', N'schema', N'trade', N'table', N'TradeDocument', N'column', N'MedicalServiceMusteriNotu'
+EXEC sp_addextendedproperty 'MS_Description', N'Servis: musteri notu. | Eski alan: Fatura.ServisMusteriNotu', N'schema', N'trade', N'table', N'TradeDocument', N'column', N'ServiceCustomerNote'
 GO
 
 EXEC sp_addextendedproperty 'MS_Description', N'Servis: personel notu. | Eski alan: Fatura.ServisPersonelNotu', N'schema', N'trade', N'table', N'TradeDocument', N'column', N'ServicePersonalNote'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'Servis: garanti bilgisi. | Eski alan: Fatura.ServisGarantiBilgisi', N'schema', N'trade', N'table', N'TradeDocument', N'column', N'MedicalServiceGarantiBilgisi'
+EXEC sp_addextendedproperty 'MS_Description', N'Servis: garanti bilgisi. | Eski alan: Fatura.ServisGarantiBilgisi', N'schema', N'trade', N'table', N'TradeDocument', N'column', N'ServiceWarrantyInfo'
 GO
 
 EXEC sp_addextendedproperty 'MS_Description', N'YeniSiparis=0, Hazirlaniyor=100, KargoyaVerildi=200, TeslimEdildi=300, Iade=400, Iptal=500 | Eski alan: Fatura.ServisDurumu', N'schema', N'trade', N'table', N'TradeDocument', N'column', N'MedicalServiceStatus'
@@ -3940,19 +3940,19 @@ GO
 EXEC sp_addextendedproperty 'MS_Description', N'Servis teslim tarihi. | Eski alan: Fatura.ServisTeslimTarihi', N'schema', N'trade', N'table', N'TradeDocument', N'column', N'ServiceDeliveryDate'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'Servisi teslim alan kisi. | Eski alan: Fatura.ServisTeslimAlanKisi', N'schema', N'trade', N'table', N'TradeDocument', N'column', N'MedicalServiceTeslimAlanKisi'
+EXEC sp_addextendedproperty 'MS_Description', N'Servisi teslim alan kisi. | Eski alan: Fatura.ServisTeslimAlanKisi', N'schema', N'trade', N'table', N'TradeDocument', N'column', N'ServiceDeliveryRecipient'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'-100=TeklifIptal, 100=YeniTeklif, 200=TeklifKabulEdildi, 300=SozlesmeImzalandi, 400=KabulEdilmedi | Eski alan: Fatura.TeklifDurum', N'schema', N'trade', N'table', N'TradeDocument', N'column', N'TeklifStatus'
+EXEC sp_addextendedproperty 'MS_Description', N'-100=TeklifIptal, 100=YeniTeklif, 200=TeklifKabulEdildi, 300=SozlesmeImzalandi, 400=KabulEdilmedi | Eski alan: Fatura.TeklifDurum', N'schema', N'trade', N'table', N'TradeDocument', N'column', N'QuoteStatus'
 GO
 
 EXEC sp_addextendedproperty 'MS_Description', N'Etiket. | Eski alan: Fatura.Etiket', N'schema', N'trade', N'table', N'TradeDocument', N'column', N'Label'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'Belge kapatildi mi (stok/cari kilit)? | Eski alan: Fatura.BelgeKapali', N'schema', N'trade', N'table', N'TradeDocument', N'column', N'DocumentKapali'
+EXEC sp_addextendedproperty 'MS_Description', N'Belge kapatildi mi (stok/cari kilit)? | Eski alan: Fatura.BelgeKapali', N'schema', N'trade', N'table', N'TradeDocument', N'column', N'IsDocumentClosed'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'e-Belge son islem tarihi. | Eski alan: Fatura.ED_SonIslemTarihi', N'schema', N'trade', N'table', N'TradeDocument', N'column', N'ED_SonIslemDate'
+EXEC sp_addextendedproperty 'MS_Description', N'e-Belge son islem tarihi. | Eski alan: Fatura.ED_SonIslemTarihi', N'schema', N'trade', N'table', N'TradeDocument', N'column', N'ED_LastProcessDate'
 GO
 
 EXEC sp_addextendedproperty 'MS_Description', N'e-Belge islem kodu. | Eski alan: Fatura.ED_Code', N'schema', N'trade', N'table', N'TradeDocument', N'column', N'ED_Code'
@@ -3985,10 +3985,10 @@ GO
 EXEC sp_addextendedproperty 'MS_Description', N'Toplam kalem sayisi. | Eski alan: Fatura.KalemSayisi', N'schema', N'trade', N'table', N'TradeDocument', N'column', N'LineCount'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'Toplam KDV tutari. | Eski alan: Fatura.ToplamKdvTutar', N'schema', N'trade', N'table', N'TradeDocument', N'column', N'ToplamVatTutar'
+EXEC sp_addextendedproperty 'MS_Description', N'Toplam KDV tutari. | Eski alan: Fatura.ToplamKdvTutar', N'schema', N'trade', N'table', N'TradeDocument', N'column', N'TotalVatAmount'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'Toplam belge tutari. | Eski alan: Fatura.ToplamTutar', N'schema', N'trade', N'table', N'TradeDocument', N'column', N'ToplamTutar'
+EXEC sp_addextendedproperty 'MS_Description', N'Toplam belge tutari. | Eski alan: Fatura.TotalAmount', N'schema', N'trade', N'table', N'TradeDocument', N'column', N'TotalAmount'
 GO
 
 EXEC sp_addextendedproperty 'MS_Description', N'Olusturma tarihi. | Eski alan: Fatura.InsertDateTime', N'schema', N'trade', N'table', N'TradeDocument', N'column', N'InsertDateTime'
@@ -4018,16 +4018,16 @@ GO
 EXEC sp_addextendedproperty 'MS_Description', N'1=EArsiv, 2=EFatura, 3=EIrsaliye | Eski alan: Fatura.ElektronikBelgeTipi', N'schema', N'trade', N'table', N'TradeDocument', N'column', N'ElectronicDocumentType'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'e-Belge numarasi. | Eski alan: Fatura.ElektronikBelgeNo', N'schema', N'trade', N'table', N'TradeDocument', N'column', N'ElektronikBelgeNo'
+EXEC sp_addextendedproperty 'MS_Description', N'e-Belge numarasi. | Eski alan: Fatura.ElectronicDocumentNo', N'schema', N'trade', N'table', N'TradeDocument', N'column', N'ElectronicDocumentNo'
 GO
 
 EXEC sp_addextendedproperty 'MS_Description', N'e-Belge gonderim tarihi. | Eski alan: Fatura.ElektronikBelgeGonderimTarihi', N'schema', N'trade', N'table', N'TradeDocument', N'column', N'ElectronicDocumentSentDate'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'e-Belge gonderim hata mesajlari. | Eski alan: Fatura.ElektronikBelgeHatalari', N'schema', N'trade', N'table', N'TradeDocument', N'column', N'ElektronikBelgeHatalari'
+EXEC sp_addextendedproperty 'MS_Description', N'e-Belge gonderim hata mesajlari. | Eski alan: Fatura.ElectronicDocumentErrors', N'schema', N'trade', N'table', N'TradeDocument', N'column', N'ElectronicDocumentErrors'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'null=Gonderilmemis, -1=Hatali, 1=Basarili | Eski alan: Fatura.ElektronikBelgeGonderimDurumu', N'schema', N'trade', N'table', N'TradeDocument', N'column', N'ElektronikBelgeGonderimStatus'
+EXEC sp_addextendedproperty 'MS_Description', N'null=Gonderilmemis, -1=Hatali, 1=Basarili | Eski alan: Fatura.ElektronikBelgeGonderimDurumu', N'schema', N'trade', N'table', N'TradeDocument', N'column', N'ElectronicDocumentSendStatus'
 GO
 
 --
@@ -4111,20 +4111,20 @@ CREATE TABLE trade.TradeDocumentLine (
   CompanyId bigint NOT NULL,
   TradeDocumentId bigint NOT NULL,
   StoreId bigint NOT NULL,
-  HareketType int NOT NULL,
+  DocumentType int NOT NULL,
   ProductId bigint NOT NULL,
   ProductDescription nvarchar(500) COLLATE Turkish_CI_AI NOT NULL,
-  SeriNo nvarchar(50) COLLATE Turkish_CI_AI NULL,
+  SerialCodeNo nvarchar(50) COLLATE Turkish_CI_AI NULL,
   ColorSize nvarchar(50) COLLATE Turkish_CI_AI NULL,
   Quantity decimal(18,4) NOT NULL,
   UnitId bigint NOT NULL,
-  UnitKatsayi decimal(18,4) NULL,
+  UnitMultiplier decimal(18,4) NULL,
   UnitPrice decimal(18,4) NOT NULL,
   CurrencyCode nvarchar(10) COLLATE Turkish_CI_AI NOT NULL,
   VatRate int NOT NULL,
-  VatTutari decimal(18,4) NOT NULL,
-  SatirTutari decimal(18,4) NOT NULL,
-  StokSayimiDahilEtme bit NULL,
+  VatAmount decimal(18,4) NOT NULL,
+  LineAmount decimal(18,4) NOT NULL,
+  ExcludeFromStockCount bit NULL,
   Label nvarchar(500) COLLATE Turkish_CI_AI NULL,
   InsertDateTime datetime DEFAULT getdate() NULL,
   InsertUser bigint DEFAULT 0 NULL,
@@ -4135,7 +4135,7 @@ CREATE TABLE trade.TradeDocumentLine (
   RecordDateTime datetime DEFAULT getdate() NULL,
   DiscountPercent decimal(18,4) NULL,
   Discount1Percent decimal(18,4) NULL,
-  VadeFarkiPercent decimal(18,4) NULL
+  DeferralPercent decimal(18,4) NULL
 ,
   CONSTRAINT TradeDocumentLine_pk PRIMARY KEY CLUSTERED (Id)
     WITH (
@@ -4163,7 +4163,7 @@ GO
 EXEC sp_addextendedproperty 'MS_Description', N'Islem yapilan depo (FK -> DepoTanim.Id). | Eski alan: FaturaHareket.DepoTanimId', N'schema', N'trade', N'table', N'TradeDocumentLine', N'column', N'StoreId'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'Tanimsiz = 0, | Eski alan: FaturaHareket.HareketTipi', N'schema', N'trade', N'table', N'TradeDocumentLine', N'column', N'HareketType'
+EXEC sp_addextendedproperty 'MS_Description', N'Tanimsiz = 0, | Eski alan: FaturaHareket.HareketTipi', N'schema', N'trade', N'table', N'TradeDocumentLine', N'column', N'DocumentType'
 GO
 
 EXEC sp_addextendedproperty 'MS_Description', N'Bagli urun (FK -> UrunTanim.Id). | Eski alan: FaturaHareket.UrunTanimId', N'schema', N'trade', N'table', N'TradeDocumentLine', N'column', N'ProductId'
@@ -4172,7 +4172,7 @@ GO
 EXEC sp_addextendedproperty 'MS_Description', N'Satir urun aciklamasi. | Eski alan: FaturaHareket.UrunAciklama', N'schema', N'trade', N'table', N'TradeDocumentLine', N'column', N'ProductDescription'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'Seri numarasi. | Eski alan: FaturaHareket.SeriNo', N'schema', N'trade', N'table', N'TradeDocumentLine', N'column', N'SeriNo'
+EXEC sp_addextendedproperty 'MS_Description', N'SerialCode numarasi. | Eski alan: FaturaHareket.SerialCodeNo', N'schema', N'trade', N'table', N'TradeDocumentLine', N'column', N'SerialCodeNo'
 GO
 
 EXEC sp_addextendedproperty 'MS_Description', N'Renk/beden bilgisi. | Eski alan: FaturaHareket.RenkBeden', N'schema', N'trade', N'table', N'TradeDocumentLine', N'column', N'ColorSize'
@@ -4184,7 +4184,7 @@ GO
 EXEC sp_addextendedproperty 'MS_Description', N'Birim (FK -> BirimTanim.Id). | Eski alan: FaturaHareket.BirimId', N'schema', N'trade', N'table', N'TradeDocumentLine', N'column', N'UnitId'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'Birim donusum katsayisi. | Eski alan: FaturaHareket.BirimKatsayi', N'schema', N'trade', N'table', N'TradeDocumentLine', N'column', N'UnitKatsayi'
+EXEC sp_addextendedproperty 'MS_Description', N'Birim donusum katsayisi. | Eski alan: FaturaHareket.BirimKatsayi', N'schema', N'trade', N'table', N'TradeDocumentLine', N'column', N'UnitMultiplier'
 GO
 
 EXEC sp_addextendedproperty 'MS_Description', N'Birim fiyati. | Eski alan: FaturaHareket.BirimFiyati', N'schema', N'trade', N'table', N'TradeDocumentLine', N'column', N'UnitPrice'
@@ -4196,13 +4196,13 @@ GO
 EXEC sp_addextendedproperty 'MS_Description', N'KDV orani (%). | Eski alan: FaturaHareket.KdvOrani', N'schema', N'trade', N'table', N'TradeDocumentLine', N'column', N'VatRate'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'KDV tutari. | Eski alan: FaturaHareket.KdvTutari', N'schema', N'trade', N'table', N'TradeDocumentLine', N'column', N'VatTutari'
+EXEC sp_addextendedproperty 'MS_Description', N'KDV tutari. | Eski alan: FaturaHareket.KdvTutari', N'schema', N'trade', N'table', N'TradeDocumentLine', N'column', N'VatAmount'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'Satir tutari (KDV haric). | Eski alan: FaturaHareket.SatirTutari', N'schema', N'trade', N'table', N'TradeDocumentLine', N'column', N'SatirTutari'
+EXEC sp_addextendedproperty 'MS_Description', N'Satir tutari (KDV haric). | Eski alan: FaturaHareket.LineAmount', N'schema', N'trade', N'table', N'TradeDocumentLine', N'column', N'LineAmount'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'�rsaliye faturaya d�n���nce irsaliye i�inde kalan kalemler stok say�m�na dahil edilmesin diye bu yap�lm��t�r. | Eski alan: FaturaHareket.StokSayimiDahilEtme', N'schema', N'trade', N'table', N'TradeDocumentLine', N'column', N'StokSayimiDahilEtme'
+EXEC sp_addextendedproperty 'MS_Description', N'�rsaliye faturaya d�n���nce irsaliye i�inde kalan kalemler stok say�m�na dahil edilmesin diye bu yap�lm��t�r. | Eski alan: FaturaHareket.ExcludeFromStockCount', N'schema', N'trade', N'table', N'TradeDocumentLine', N'column', N'ExcludeFromStockCount'
 GO
 
 EXEC sp_addextendedproperty 'MS_Description', N'Etiket. | Eski alan: FaturaHareket.Etiket', N'schema', N'trade', N'table', N'TradeDocumentLine', N'column', N'Label'
@@ -4235,7 +4235,7 @@ GO
 EXEC sp_addextendedproperty 'MS_Description', N'Ikinci iskonto yuzdesi. | Eski alan: FaturaHareket.Iskonto1Yuzde', N'schema', N'trade', N'table', N'TradeDocumentLine', N'column', N'Discount1Percent'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'Vade farki yuzdesi. | Eski alan: FaturaHareket.VadeFarkiYuzde', N'schema', N'trade', N'table', N'TradeDocumentLine', N'column', N'VadeFarkiPercent'
+EXEC sp_addextendedproperty 'MS_Description', N'Vade farki yuzdesi. | Eski alan: FaturaHareket.VadeFarkiYuzde', N'schema', N'trade', N'table', N'TradeDocumentLine', N'column', N'DeferralPercent'
 GO
 
 --
@@ -4247,32 +4247,32 @@ CREATE TABLE trade.TradeDocumentLineTemp (
   Id bigint IDENTITY(1, 1) NOT NULL,
   GId uniqueidentifier DEFAULT newid() NOT NULL,
   PersonalGId uniqueidentifier NOT NULL,
-  SepetId bigint NULL,
+  CartId bigint NULL,
   CompanyId bigint NOT NULL,
-  HareketType int NOT NULL,
+  DocumentType int NOT NULL,
   ProductGId uniqueidentifier NOT NULL,
   ProductDescription nvarchar(500) COLLATE Turkish_CI_AI NOT NULL,
-  SeriNo nvarchar(50) COLLATE Turkish_CI_AI NULL,
+  SerialCodeNo nvarchar(50) COLLATE Turkish_CI_AI NULL,
   ColorSize nvarchar(50) COLLATE Turkish_CI_AI NULL,
   Quantity decimal(18,4) NOT NULL,
   UnitId bigint NOT NULL,
-  UnitKatsayi decimal(18,4) NULL,
+  UnitMultiplier decimal(18,4) NULL,
   UnitPrice decimal(18,4) NOT NULL,
   UnitPriceVatIncluded decimal(18,4) NOT NULL,
   CurrencyCode nvarchar(10) COLLATE Turkish_CI_AI NOT NULL,
   VatRate int NOT NULL,
   VatDH nvarchar(1) COLLATE Turkish_CI_AI NULL,
-  ToplamTutarVatHaric decimal(18,4) NULL,
-  ToplamTutar decimal(18,4) NOT NULL,
+  TotalAmountExVat decimal(18,4) NULL,
+  TotalAmount decimal(18,4) NOT NULL,
   TradeDocumentGId uniqueidentifier NULL,
-  TradeDocumentHareketGId uniqueidentifier NULL,
+  TradeDocumentTypeGId uniqueidentifier NULL,
   InsertDateTime datetime DEFAULT getdate() NOT NULL,
   EcommercePaymentId nvarchar(50) COLLATE Turkish_CI_AI NULL,
-  Tukenmis bit NOT NULL,
-  StoreTanimGId uniqueidentifier NULL,
+  IsSoldOut bit NOT NULL,
+  StoreGId uniqueidentifier NULL,
   DiscountPercent decimal(18,4) NULL,
   Discount1Percent decimal(18,4) NULL,
-  VadeFarkiPercent decimal(18,4) NULL
+  DeferralPercent decimal(18,4) NULL
 ,
   CONSTRAINT TradeDocumentLineTemp_pk PRIMARY KEY CLUSTERED (Id)
     WITH (
@@ -4294,13 +4294,13 @@ GO
 EXEC sp_addextendedproperty 'MS_Description', N'Personel/kullanici GUID (sepet sahibi). | Eski alan: FaturaHareketTemp.PersonelGId', N'schema', N'trade', N'table', N'TradeDocumentLineTemp', N'column', N'PersonalGId'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'Sepet oturum ID. | Eski alan: FaturaHareketTemp.SepetId', N'schema', N'trade', N'table', N'TradeDocumentLineTemp', N'column', N'SepetId'
+EXEC sp_addextendedproperty 'MS_Description', N'Sepet oturum ID. | Eski alan: FaturaHareketTemp.CartId', N'schema', N'trade', N'table', N'TradeDocumentLineTemp', N'column', N'CartId'
 GO
 
 EXEC sp_addextendedproperty 'MS_Description', N'Bagli sirket. | Eski alan: FaturaHareketTemp.SirketTanimId', N'schema', N'trade', N'table', N'TradeDocumentLineTemp', N'column', N'CompanyId'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'Belge hareket tipi. | Eski alan: FaturaHareketTemp.HareketTipi', N'schema', N'trade', N'table', N'TradeDocumentLineTemp', N'column', N'HareketType'
+EXEC sp_addextendedproperty 'MS_Description', N'Belge hareket tipi. | Eski alan: FaturaHareketTemp.HareketTipi', N'schema', N'trade', N'table', N'TradeDocumentLineTemp', N'column', N'DocumentType'
 GO
 
 EXEC sp_addextendedproperty 'MS_Description', N'Urun GUID. | Eski alan: FaturaHareketTemp.UrunGId', N'schema', N'trade', N'table', N'TradeDocumentLineTemp', N'column', N'ProductGId'
@@ -4309,7 +4309,7 @@ GO
 EXEC sp_addextendedproperty 'MS_Description', N'Satir urun aciklamasi. | Eski alan: FaturaHareketTemp.UrunAciklama', N'schema', N'trade', N'table', N'TradeDocumentLineTemp', N'column', N'ProductDescription'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'Seri numarasi. | Eski alan: FaturaHareketTemp.SeriNo', N'schema', N'trade', N'table', N'TradeDocumentLineTemp', N'column', N'SeriNo'
+EXEC sp_addextendedproperty 'MS_Description', N'SerialCode numarasi. | Eski alan: FaturaHareketTemp.SerialCodeNo', N'schema', N'trade', N'table', N'TradeDocumentLineTemp', N'column', N'SerialCodeNo'
 GO
 
 EXEC sp_addextendedproperty 'MS_Description', N'Renk/beden bilgisi. | Eski alan: FaturaHareketTemp.RenkBeden', N'schema', N'trade', N'table', N'TradeDocumentLineTemp', N'column', N'ColorSize'
@@ -4321,7 +4321,7 @@ GO
 EXEC sp_addextendedproperty 'MS_Description', N'Birim (FK -> BirimTanim.Id). | Eski alan: FaturaHareketTemp.BirimId', N'schema', N'trade', N'table', N'TradeDocumentLineTemp', N'column', N'UnitId'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'Birim donusum katsayisi. | Eski alan: FaturaHareketTemp.BirimKatsayi', N'schema', N'trade', N'table', N'TradeDocumentLineTemp', N'column', N'UnitKatsayi'
+EXEC sp_addextendedproperty 'MS_Description', N'Birim donusum katsayisi. | Eski alan: FaturaHareketTemp.BirimKatsayi', N'schema', N'trade', N'table', N'TradeDocumentLineTemp', N'column', N'UnitMultiplier'
 GO
 
 EXEC sp_addextendedproperty 'MS_Description', N'Birim fiyati (KDV haric). | Eski alan: FaturaHareketTemp.BirimFiyati', N'schema', N'trade', N'table', N'TradeDocumentLineTemp', N'column', N'UnitPrice'
@@ -4339,16 +4339,16 @@ GO
 EXEC sp_addextendedproperty 'MS_Description', N'KDV durumu: D=Dahil, H=Haric. | Eski alan: FaturaHareketTemp.KdvDH', N'schema', N'trade', N'table', N'TradeDocumentLineTemp', N'column', N'VatDH'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'Toplam tutar (KDV haric). | Eski alan: FaturaHareketTemp.ToplamTutarKdvHaric', N'schema', N'trade', N'table', N'TradeDocumentLineTemp', N'column', N'ToplamTutarVatHaric'
+EXEC sp_addextendedproperty 'MS_Description', N'Toplam tutar (KDV haric). | Eski alan: FaturaHareketTemp.TotalAmountKdvHaric', N'schema', N'trade', N'table', N'TradeDocumentLineTemp', N'column', N'TotalAmountExVat'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'Toplam tutar (KDV dahil). | Eski alan: FaturaHareketTemp.ToplamTutar', N'schema', N'trade', N'table', N'TradeDocumentLineTemp', N'column', N'ToplamTutar'
+EXEC sp_addextendedproperty 'MS_Description', N'Toplam tutar (KDV dahil). | Eski alan: FaturaHareketTemp.TotalAmount', N'schema', N'trade', N'table', N'TradeDocumentLineTemp', N'column', N'TotalAmount'
 GO
 
 EXEC sp_addextendedproperty 'MS_Description', N'Bagli fatura GUID. | Eski alan: FaturaHareketTemp.FaturaGId', N'schema', N'trade', N'table', N'TradeDocumentLineTemp', N'column', N'TradeDocumentGId'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'Bagli fatura satir GUID. | Eski alan: FaturaHareketTemp.FaturaHareketGId', N'schema', N'trade', N'table', N'TradeDocumentLineTemp', N'column', N'TradeDocumentHareketGId'
+EXEC sp_addextendedproperty 'MS_Description', N'Bagli fatura satir GUID. | Eski alan: FaturaHareketTemp.FaturaHareketGId', N'schema', N'trade', N'table', N'TradeDocumentLineTemp', N'column', N'TradeDocumentTypeGId'
 GO
 
 EXEC sp_addextendedproperty 'MS_Description', N'Olusturma tarihi. | Eski alan: FaturaHareketTemp.InsertDateTime', N'schema', N'trade', N'table', N'TradeDocumentLineTemp', N'column', N'InsertDateTime'
@@ -4357,10 +4357,10 @@ GO
 EXEC sp_addextendedproperty 'MS_Description', N'E-ticaret odeme referans ID. | Eski alan: FaturaHareketTemp.ETicaretOdemeId', N'schema', N'trade', N'table', N'TradeDocumentLineTemp', N'column', N'EcommercePaymentId'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'Stok tukendi mi? | Eski alan: FaturaHareketTemp.Tukenmis', N'schema', N'trade', N'table', N'TradeDocumentLineTemp', N'column', N'Tukenmis'
+EXEC sp_addextendedproperty 'MS_Description', N'Stok tukendi mi? | Eski alan: FaturaHareketTemp.IsSoldOut', N'schema', N'trade', N'table', N'TradeDocumentLineTemp', N'column', N'IsSoldOut'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'Depo GUID. | Eski alan: FaturaHareketTemp.DepoTanimGId', N'schema', N'trade', N'table', N'TradeDocumentLineTemp', N'column', N'StoreTanimGId'
+EXEC sp_addextendedproperty 'MS_Description', N'Depo GUID. | Eski alan: FaturaHareketTemp.DepoTanimGId', N'schema', N'trade', N'table', N'TradeDocumentLineTemp', N'column', N'StoreGId'
 GO
 
 EXEC sp_addextendedproperty 'MS_Description', N'Iskonto yuzdesi. | Eski alan: FaturaHareketTemp.IskontoYuzde', N'schema', N'trade', N'table', N'TradeDocumentLineTemp', N'column', N'DiscountPercent'
@@ -4369,7 +4369,7 @@ GO
 EXEC sp_addextendedproperty 'MS_Description', N'Ikinci iskonto yuzdesi. | Eski alan: FaturaHareketTemp.Iskonto1Yuzde', N'schema', N'trade', N'table', N'TradeDocumentLineTemp', N'column', N'Discount1Percent'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'Vade farki yuzdesi. | Eski alan: FaturaHareketTemp.VadeFarkiYuzde', N'schema', N'trade', N'table', N'TradeDocumentLineTemp', N'column', N'VadeFarkiPercent'
+EXEC sp_addextendedproperty 'MS_Description', N'Vade farki yuzdesi. | Eski alan: FaturaHareketTemp.VadeFarkiYuzde', N'schema', N'trade', N'table', N'TradeDocumentLineTemp', N'column', N'DeferralPercent'
 GO
 
 --
@@ -4382,7 +4382,7 @@ CREATE TABLE trade.TradeDocumentTemp (
   GId uniqueidentifier DEFAULT newid() NOT NULL,
   CompanyId bigint NOT NULL,
   PersonalGId uniqueidentifier NOT NULL,
-  HareketType int NOT NULL,
+  DocumentType int NOT NULL,
   AccountId bigint NULL,
   TradeDocumentNo nvarchar(50) COLLATE Turkish_CI_AI NULL,
   TransactionDate datetime NULL,
@@ -4412,7 +4412,7 @@ GO
 EXEC sp_addextendedproperty 'MS_Description', N'Personel/kullanici GUID. | Eski alan: FaturaTemp.PersonelGId', N'schema', N'trade', N'table', N'TradeDocumentTemp', N'column', N'PersonalGId'
 GO
 
-EXEC sp_addextendedproperty 'MS_Description', N'Belge hareket tipi. | Eski alan: FaturaTemp.HareketTipi', N'schema', N'trade', N'table', N'TradeDocumentTemp', N'column', N'HareketType'
+EXEC sp_addextendedproperty 'MS_Description', N'Belge hareket tipi. | Eski alan: FaturaTemp.HareketTipi', N'schema', N'trade', N'table', N'TradeDocumentTemp', N'column', N'DocumentType'
 GO
 
 EXEC sp_addextendedproperty 'MS_Description', N'Bagli cari (FK -> CariTanim.Id). | Eski alan: FaturaTemp.CariTanimId', N'schema', N'trade', N'table', N'TradeDocumentTemp', N'column', N'AccountId'

@@ -767,7 +767,7 @@ CREATE TABLE common.Company (
   FavIconPrefix1 nvarchar(30) COLLATE Turkish_CI_AI NULL,
   FreeShippingLimit decimal(18,4) NOT NULL,
   WeightServiceFee decimal(18,4) NULL,
-  DesiServiceFee decimal(18,4) NULL,
+  DesiWeightServiceFee decimal(18,4) NULL,
   ShippingFee decimal(18,4) NOT NULL,
   ShippingLabel nvarchar(30) COLLATE Turkish_CI_AI NULL,
   FacebookUrl nvarchar(200) COLLATE Turkish_CI_AI NULL,
@@ -913,10 +913,10 @@ GO
 EXEC dbo._SetFullSchemaDescription N'common', N'Company', N'LegacyServerId', N'Slave sunucu (FK -> ServerTanim.Id). | Eski alan: SirketTanim.ServerId'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'common', N'Company', N'WeightBarcodeLength', N'Agirlik barkodu toplam uzunlugu. | Eski alan: SirketTanim.KgBarkodUzunlugu'
+EXEC dbo._SetFullSchemaDescription N'common', N'Company', N'WeightBarcodeLength', N'Weight barkodu toplam uzunlugu. | Eski alan: SirketTanim.KgBarkodUzunlugu'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'common', N'Company', N'WeightBarcodeDecimalLength', N'Agirlik barkodu ondalik hane sayisi. | Eski alan: SirketTanim.KgBarkodOndalikUzunluk'
+EXEC dbo._SetFullSchemaDescription N'common', N'Company', N'WeightBarcodeDecimalLength', N'Weight barkodu ondalik hane sayisi. | Eski alan: SirketTanim.KgBarkodOndalikUzunluk'
 GO
 
 EXEC dbo._SetFullSchemaDescription N'common', N'Company', N'Integrator', N'e-Belge entegratoru: 0=MukellefDegilim, 50=Logo, 100=NesBilgi. | Eski alan: SirketTanim.Entegrator'
@@ -961,7 +961,7 @@ GO
 EXEC dbo._SetFullSchemaDescription N'common', N'Company', N'WeightServiceFee', N'Kg bazli kargo hizmet bedeli. | Eski alan: SirketTanim.KgHizmetBedeli'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'common', N'Company', N'DesiServiceFee', N'Desi bazli kargo hizmet bedeli. | Eski alan: SirketTanim.DesiHizmetBedeli'
+EXEC dbo._SetFullSchemaDescription N'common', N'Company', N'DesiWeightServiceFee', N'DesiWeight bazli kargo hizmet bedeli. | Eski alan: SirketTanim.DesiWeightHizmetBedeli'
 GO
 
 EXEC dbo._SetFullSchemaDescription N'common', N'Company', N'ShippingFee', N'Sabit kargo ucreti. | Eski alan: SirketTanim.KargoBedeli'
@@ -1166,9 +1166,9 @@ CREATE TABLE common.Counter (
   GId uniqueidentifier DEFAULT newid() NOT NULL,
   CompanyId bigint NOT NULL,
   Type nvarchar(15) COLLATE Turkish_CI_AI NULL,
-  Seri nvarchar(10) COLLATE Turkish_CI_AI NULL,
-  BaslangicNo int NOT NULL,
-  BitisNo int NOT NULL,
+  SerialCode nvarchar(10) COLLATE Turkish_CI_AI NULL,
+  StartNumber int NOT NULL,
+  EndNumber int NOT NULL,
   NextNumber int NOT NULL,
   InsertUser bigint DEFAULT 0 NOT NULL,
   InsertDateTime datetime DEFAULT getdate() NOT NULL,
@@ -1201,13 +1201,13 @@ GO
 EXEC dbo._SetFullSchemaDescription N'common', N'Counter', N'Type', N'Sayac tipi (Fatura, Irsaliye vb.). | Eski alan: Sayac.Tip'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'common', N'Counter', N'Seri', N'Belge seri kodu. | Eski alan: Sayac.Seri'
+EXEC dbo._SetFullSchemaDescription N'common', N'Counter', N'SerialCode', N'Belge seri kodu. | Eski alan: Sayac.SerialCode'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'common', N'Counter', N'BaslangicNo', N'Baslangic numarasi. | Eski alan: Sayac.BaslangicNo'
+EXEC dbo._SetFullSchemaDescription N'common', N'Counter', N'StartNumber', N'Baslangic numarasi. | Eski alan: Sayac.StartNumber'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'common', N'Counter', N'BitisNo', N'Bitis numarasi. | Eski alan: Sayac.BitisNo'
+EXEC dbo._SetFullSchemaDescription N'common', N'Counter', N'EndNumber', N'Bitis numarasi. | Eski alan: Sayac.EndNumber'
 GO
 
 EXEC dbo._SetFullSchemaDescription N'common', N'Counter', N'NextNumber', N'Siradaki numara. | Eski alan: Sayac.SiradakiNo'
@@ -1315,7 +1315,7 @@ CREATE TABLE common.EmailTemplate (
   CompanyId bigint NOT NULL,
   Stat bit DEFAULT 1 NOT NULL,
   Konu nvarchar(200) COLLATE Turkish_CI_AI NOT NULL,
-  Metin nvarchar(max) COLLATE Turkish_CI_AI NULL,
+  Body nvarchar(max) COLLATE Turkish_CI_AI NULL,
   InsertDateTime datetime DEFAULT getdate() NOT NULL,
   InsertUser bigint DEFAULT 0 NOT NULL,
   UpdateDateTime datetime NULL,
@@ -1350,7 +1350,7 @@ GO
 EXEC dbo._SetFullSchemaDescription N'common', N'EmailTemplate', N'Konu', N'E-posta konusu. | Eski alan: EMailTanim.Konu'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'common', N'EmailTemplate', N'Metin', N'E-posta govde metni (HTML/text). | Eski alan: EMailTanim.Metin'
+EXEC dbo._SetFullSchemaDescription N'common', N'EmailTemplate', N'Body', N'E-posta govde metni (HTML/text). | Eski alan: EMailTanim.Body'
 GO
 
 EXEC dbo._SetFullSchemaDescription N'common', N'EmailTemplate', N'InsertDateTime', N'Olusturma tarihi. | Eski alan: EMailTanim.InsertDateTime'
@@ -1437,12 +1437,12 @@ CREATE TABLE common.License (
   Id bigint IDENTITY(1, 1) NOT NULL,
   GId uniqueidentifier DEFAULT newid() NULL,
   CompanyId bigint NOT NULL,
-  Hediye bit NULL,
+  IsGift bit NULL,
   LicenseType nvarchar(10) COLLATE Turkish_CI_AI NOT NULL,
   StartDate datetime NOT NULL,
   EndDate datetime NOT NULL,
-  TahsilatSekli int NULL,
-  TahsilatTutari decimal(18,2) NOT NULL,
+  CollectionMethod int NULL,
+  CollectionAmount decimal(18,2) NOT NULL,
   InsertDateTime datetime DEFAULT getdate() NOT NULL,
   InsertUser bigint DEFAULT 0 NOT NULL,
   UpdateDateTime datetime NULL,
@@ -1470,7 +1470,7 @@ GO
 EXEC dbo._SetFullSchemaDescription N'common', N'License', N'CompanyId', N'Bagli sirket (FK). | Eski alan: Lisans.SirketTanimId'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'common', N'License', N'Hediye', N'Hediye/demo lisans mi? | Eski alan: Lisans.Hediye'
+EXEC dbo._SetFullSchemaDescription N'common', N'License', N'IsGift', N'IsGift/demo lisans mi? | Eski alan: Lisans.IsGift'
 GO
 
 EXEC dbo._SetFullSchemaDescription N'common', N'License', N'LicenseType', N'Lisans paket kodu (FK -> LisansTipi.Kod). | Eski alan: Lisans.LisansTipi'
@@ -1482,10 +1482,10 @@ GO
 EXEC dbo._SetFullSchemaDescription N'common', N'License', N'EndDate', N'Lisans bitis tarihi. | Eski alan: Lisans.BitisTarihi'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'common', N'License', N'TahsilatSekli', N'Tahsilat/odeme sekli kodu. | Eski alan: Lisans.TahsilatSekli'
+EXEC dbo._SetFullSchemaDescription N'common', N'License', N'CollectionMethod', N'Tahsilat/odeme sekli kodu. | Eski alan: Lisans.CollectionMethod'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'common', N'License', N'TahsilatTutari', N'Lisans ucreti. | Eski alan: Lisans.TahsilatTutari'
+EXEC dbo._SetFullSchemaDescription N'common', N'License', N'CollectionAmount', N'Lisans ucreti. | Eski alan: Lisans.CollectionAmount'
 GO
 
 EXEC dbo._SetFullSchemaDescription N'common', N'License', N'InsertDateTime', N'Olusturma tarihi. | Eski alan: Lisans.InsertDateTime'
@@ -1514,14 +1514,14 @@ GO
 CREATE TABLE common.LicenseType (
   Code nvarchar(30) COLLATE Turkish_CI_AI NOT NULL,
   Value int NOT NULL,
-  ProductTakip bit NULL,
-  AccountTakip bit NULL,
-  CheckNoteTakip bit NULL,
-  TradeDocumentTakip bit NULL,
+  ProductTracking bit NULL,
+  AccountTracking bit NULL,
+  CheckNoteTracking bit NULL,
+  TradeDocumentTracking bit NULL,
   PaymentTracking bit NULL,
   BankTracking bit NULL,
-  IrsaliyeTakip bit NULL,
-  TeklifSiparisTakip bit NULL,
+  ShippingNoteTracking bit NULL,
+  QuoteOrderTracking bit NULL,
   EArchiveEInvoice bit NULL,
   MedicalService bit NULL,
   IsEcommerce bit NULL
@@ -1538,16 +1538,16 @@ GO
 EXEC dbo._SetFullSchemaDescription N'common', N'LicenseType', N'Value', N'Paket oncelik degeri (bitmask). | Eski alan: LisansTipi.Deger'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'common', N'LicenseType', N'ProductTakip', N'Urun/stok modulu dahil mi? | Eski alan: LisansTipi.UrunTakip'
+EXEC dbo._SetFullSchemaDescription N'common', N'LicenseType', N'ProductTracking', N'Urun/stok modulu dahil mi? | Eski alan: LisansTipi.UrunTakip'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'common', N'LicenseType', N'AccountTakip', N'Cari modulu dahil mi? | Eski alan: LisansTipi.CariTakip'
+EXEC dbo._SetFullSchemaDescription N'common', N'LicenseType', N'AccountTracking', N'Cari modulu dahil mi? | Eski alan: LisansTipi.CariTakip'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'common', N'LicenseType', N'CheckNoteTakip', N'Cek/senet modulu dahil mi? | Eski alan: LisansTipi.CekSenetTakip'
+EXEC dbo._SetFullSchemaDescription N'common', N'LicenseType', N'CheckNoteTracking', N'Cek/senet modulu dahil mi? | Eski alan: LisansTipi.CekSenetTakip'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'common', N'LicenseType', N'TradeDocumentTakip', N'Fatura modulu dahil mi? | Eski alan: LisansTipi.FaturaTakip'
+EXEC dbo._SetFullSchemaDescription N'common', N'LicenseType', N'TradeDocumentTracking', N'Fatura modulu dahil mi? | Eski alan: LisansTipi.FaturaTakip'
 GO
 
 EXEC dbo._SetFullSchemaDescription N'common', N'LicenseType', N'PaymentTracking', N'Odeme modulu dahil mi? | Eski alan: LisansTipi.OdemeTakip'
@@ -1556,10 +1556,10 @@ GO
 EXEC dbo._SetFullSchemaDescription N'common', N'LicenseType', N'BankTracking', N'Banka modulu dahil mi? | Eski alan: LisansTipi.BankaTakip'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'common', N'LicenseType', N'IrsaliyeTakip', N'Irsaliye modulu dahil mi? | Eski alan: LisansTipi.IrsaliyeTakip'
+EXEC dbo._SetFullSchemaDescription N'common', N'LicenseType', N'ShippingNoteTracking', N'Irsaliye modulu dahil mi? | Eski alan: LisansTipi.ShippingNoteTracking'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'common', N'LicenseType', N'TeklifSiparisTakip', N'Teklif/siparis modulu dahil mi? | Eski alan: LisansTipi.TeklifSiparisTakip'
+EXEC dbo._SetFullSchemaDescription N'common', N'LicenseType', N'QuoteOrderTracking', N'Teklif/siparis modulu dahil mi? | Eski alan: LisansTipi.QuoteOrderTracking'
 GO
 
 EXEC dbo._SetFullSchemaDescription N'common', N'LicenseType', N'EArchiveEInvoice', N'e-Arsiv/e-Fatura modulu dahil mi? | Eski alan: LisansTipi.EArsivEFatura'
@@ -1997,9 +1997,9 @@ CREATE TABLE finance.AccountDocument (
   GId uniqueidentifier DEFAULT newid() NOT NULL,
   CompanyId bigint NOT NULL,
   DocumentDefId bigint NOT NULL,
-  DocumentTanimDescription nvarchar(100) COLLATE Turkish_CI_AI NOT NULL,
+  DocumentTypeDescription nvarchar(100) COLLATE Turkish_CI_AI NOT NULL,
   AccountId bigint NOT NULL,
-  DocumentIcerik nvarchar(max) COLLATE Turkish_CI_AI NOT NULL,
+  DocumentContent nvarchar(max) COLLATE Turkish_CI_AI NOT NULL,
   ApprovalType nvarchar(10) COLLATE Turkish_CI_AI NULL,
   InsertUser bigint DEFAULT 0 NOT NULL,
   InsertDateTime datetime DEFAULT getdate() NOT NULL,
@@ -2032,13 +2032,13 @@ GO
 EXEC dbo._SetFullSchemaDescription N'finance', N'AccountDocument', N'DocumentDefId', N'Belge sablonu (FK -> BelgeTanim.Id). | Eski alan: CariTanimBelge.BelgeTanimId'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'finance', N'AccountDocument', N'DocumentTanimDescription', N'Belge aciklamasi (anlik kopya). | Eski alan: CariTanimBelge.BelgeTanimAciklama'
+EXEC dbo._SetFullSchemaDescription N'finance', N'AccountDocument', N'DocumentTypeDescription', N'Belge aciklamasi (anlik kopya). | Eski alan: CariTanimBelge.BelgeTanimAciklama'
 GO
 
 EXEC dbo._SetFullSchemaDescription N'finance', N'AccountDocument', N'AccountId', N'Bagli cari (FK -> CariTanim.Id). | Eski alan: CariTanimBelge.CariTanimId'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'finance', N'AccountDocument', N'DocumentIcerik', N'Imzalanan belge icerigi. | Eski alan: CariTanimBelge.BelgeIcerik'
+EXEC dbo._SetFullSchemaDescription N'finance', N'AccountDocument', N'DocumentContent', N'Imzalanan belge icerigi. | Eski alan: CariTanimBelge.BelgeIcerik'
 GO
 
 EXEC dbo._SetFullSchemaDescription N'finance', N'AccountDocument', N'ApprovalType', N'Onay tipi kodu. | Eski alan: CariTanimBelge.OnayTipi'
@@ -2078,7 +2078,7 @@ CREATE TABLE finance.AccountTransaction (
   TransactionDate datetime NOT NULL,
   DueDate datetime NULL,
   DocumentNo nvarchar(50) COLLATE Turkish_CI_AI NULL,
-  HareketType int NOT NULL,
+  TransactionType int NOT NULL,
   TradeDocumentId bigint NOT NULL,
   Description nvarchar(1000) COLLATE Turkish_CI_AI NULL,
   DebitAmount decimal(18,4) NOT NULL,
@@ -2128,7 +2128,7 @@ GO
 EXEC dbo._SetFullSchemaDescription N'finance', N'AccountTransaction', N'DocumentNo', N'Belge/evrak numarasi. | Eski alan: CariHareket.BelgeNo'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'finance', N'AccountTransaction', N'HareketType', N'SatisFaturasi=100, AlisFaturasi=200, NakitTahsilat=1, NakitOdeme=2, AlinanCek=102, AlinanSenet=103, BankaDekontTahsilat=11, BankaDekontOdeme=21, VerilenFirmaCeki=202, VerilenMusteriCeki=203, VerilenFirmaSenet=204, VerilenMusteriSenet=205 | Eski alan: CariHareket.HareketTipi'
+EXEC dbo._SetFullSchemaDescription N'finance', N'AccountTransaction', N'TransactionType', N'SatisFaturasi=100, AlisFaturasi=200, NakitTahsilat=1, NakitOdeme=2, AlinanCek=102, AlinanSenet=103, BankaDekontTahsilat=11, BankaDekontOdeme=21, VerilenFirmaCeki=202, VerilenMusteriCeki=203, VerilenFirmaSenet=204, VerilenMusteriSenet=205 | Eski alan: CariHareket.HareketTipi'
 GO
 
 EXEC dbo._SetFullSchemaDescription N'finance', N'AccountTransaction', N'TradeDocumentId', N'Iliskili fatura (FK -> Fatura.Id). | Eski alan: CariHareket.FaturaId'
@@ -2329,9 +2329,9 @@ CREATE TABLE finance.CashTransaction (
   GId uniqueidentifier DEFAULT newid() NOT NULL,
   CompanyId bigint NOT NULL,
   CashRegisterId bigint NOT NULL,
-  AccountHareketId bigint NOT NULL,
+  AccountTransactionId bigint NOT NULL,
   TransactionDate datetime NOT NULL,
-  CashRegisterHareketType int NOT NULL,
+  CashRegisterTransactionType int NOT NULL,
   Description nvarchar(1000) COLLATE Turkish_CI_AI NULL,
   DebitAmount decimal(18,4) NOT NULL,
   CreditAmount decimal(18,4) NOT NULL,
@@ -2368,13 +2368,13 @@ GO
 EXEC dbo._SetFullSchemaDescription N'finance', N'CashTransaction', N'CashRegisterId', N'Kasa (FK -> KasaTanim.Id). | Eski alan: KasaHareket.KasaTanimId'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'finance', N'CashTransaction', N'AccountHareketId', N'Bagli cari hareket (FK -> CariHareket.Id). | Eski alan: KasaHareket.CariHareketId'
+EXEC dbo._SetFullSchemaDescription N'finance', N'CashTransaction', N'AccountTransactionId', N'Bagli cari hareket (FK -> CariHareket.Id). | Eski alan: KasaHareket.CariHareketId'
 GO
 
 EXEC dbo._SetFullSchemaDescription N'finance', N'CashTransaction', N'TransactionDate', N'Hareket tarihi. | Eski alan: KasaHareket.Tarih'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'finance', N'CashTransaction', N'CashRegisterHareketType', N'Kasa hareket tipi. | Eski alan: KasaHareket.KasaHareketTipi'
+EXEC dbo._SetFullSchemaDescription N'finance', N'CashTransaction', N'CashRegisterTransactionType', N'Kasa hareket tipi. | Eski alan: KasaHareket.KasaHareketTipi'
 GO
 
 EXEC dbo._SetFullSchemaDescription N'finance', N'CashTransaction', N'Description', N'Hareket aciklamasi. | Eski alan: KasaHareket.Aciklama'
@@ -2428,7 +2428,7 @@ CREATE TABLE finance.CheckNote (
   DocumentStatus int NOT NULL,
   TransactionDate datetime NOT NULL,
   DueDate datetime NOT NULL,
-  HareketType int NOT NULL,
+  NoteType int NOT NULL,
   Amount decimal(18,4) NOT NULL,
   CurrencyCode nvarchar(10) COLLATE Turkish_CI_AI NOT NULL,
   DocumentOriginalOwnerTitle nvarchar(150) COLLATE Turkish_CI_AI NULL,
@@ -2486,7 +2486,7 @@ GO
 EXEC dbo._SetFullSchemaDescription N'finance', N'CheckNote', N'DueDate', N'Vade tarihi. | Eski alan: CekSenetTanim.VadeTarihi'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'finance', N'CheckNote', N'HareketType', N'VerilenFirmaCeki=202, VerilenMusteriCeki=203, VerilenFirmaSenet=204, VerilenMusteriSenet=205 | Eski alan: CekSenetTanim.HareketTipi'
+EXEC dbo._SetFullSchemaDescription N'finance', N'CheckNote', N'NoteType', N'VerilenFirmaCeki=202, VerilenMusteriCeki=203, VerilenFirmaSenet=204, VerilenMusteriSenet=205 | Eski alan: CekSenetTanim.HareketTipi'
 GO
 
 EXEC dbo._SetFullSchemaDescription N'finance', N'CheckNote', N'Amount', N'Tutar. | Eski alan: CekSenetTanim.Tutar'
@@ -2551,13 +2551,13 @@ GO
 CREATE TABLE finance.CheckNoteTransaction (
   Id bigint IDENTITY(1, 1) NOT NULL,
   GId uniqueidentifier DEFAULT newid() NOT NULL,
-  HareketDate datetime NOT NULL,
+  TransactionDate datetime NOT NULL,
   CompanyId bigint NOT NULL,
   CheckNoteId bigint NOT NULL,
   DocumentStatus int NOT NULL,
   AccountId bigint NOT NULL,
-  AccountHareketId bigint NOT NULL,
-  CashRegisterHareketId bigint NOT NULL,
+  AccountTransactionId bigint NOT NULL,
+  CashRegisterTransactionId bigint NOT NULL,
   Label nvarchar(500) COLLATE Turkish_CI_AI NULL,
   InsertDateTime datetime DEFAULT getdate() NOT NULL,
   InsertUser bigint DEFAULT 0 NOT NULL,
@@ -2584,7 +2584,7 @@ GO
 EXEC dbo._SetFullSchemaDescription N'finance', N'CheckNoteTransaction', N'GId', N'Global benzersiz kimlik (GUID). | Eski alan: CekSenetHareket.GId'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'finance', N'CheckNoteTransaction', N'HareketDate', N'Hareket tarihi. | Eski alan: CekSenetHareket.HareketTarihi'
+EXEC dbo._SetFullSchemaDescription N'finance', N'CheckNoteTransaction', N'TransactionDate', N'Hareket tarihi. | Eski alan: CekSenetHareket.HareketTarihi'
 GO
 
 EXEC dbo._SetFullSchemaDescription N'finance', N'CheckNoteTransaction', N'CompanyId', N'Bagli sirket. | Eski alan: CekSenetHareket.SirketTanimId'
@@ -2599,10 +2599,10 @@ GO
 EXEC dbo._SetFullSchemaDescription N'finance', N'CheckNoteTransaction', N'AccountId', N'Iliskili cari. | Eski alan: CekSenetHareket.CariTanimId'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'finance', N'CheckNoteTransaction', N'AccountHareketId', N'Iliskili cari hareket. | Eski alan: CekSenetHareket.CariHareketId'
+EXEC dbo._SetFullSchemaDescription N'finance', N'CheckNoteTransaction', N'AccountTransactionId', N'Iliskili cari hareket. | Eski alan: CekSenetHareket.CariHareketId'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'finance', N'CheckNoteTransaction', N'CashRegisterHareketId', N'Iliskili kasa hareket. | Eski alan: CekSenetHareket.KasaHareketId'
+EXEC dbo._SetFullSchemaDescription N'finance', N'CheckNoteTransaction', N'CashRegisterTransactionId', N'Iliskili kasa hareket. | Eski alan: CekSenetHareket.KasaHareketId'
 GO
 
 EXEC dbo._SetFullSchemaDescription N'finance', N'CheckNoteTransaction', N'Label', N'Etiket. | Eski alan: CekSenetHareket.Etiket'
@@ -2640,7 +2640,7 @@ CREATE TABLE finance.Currency (
   CompanyId bigint NOT NULL,
   SortOrder int NOT NULL,
   CurrencyCode nvarchar(10) COLLATE Turkish_CI_AI NOT NULL,
-  Hassasiyet int NOT NULL,
+  DecimalPrecision int NOT NULL,
   InsertUser bigint DEFAULT 0 NOT NULL,
   InsertDateTime datetime DEFAULT getdate() NOT NULL,
   UpdateUser bigint NULL,
@@ -2675,7 +2675,7 @@ GO
 EXEC dbo._SetFullSchemaDescription N'finance', N'Currency', N'CurrencyCode', N'Doviz kodu (USD, EUR vb.). | Eski alan: DovizTanim.DovizKodu'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'finance', N'Currency', N'Hassasiyet', N'Ondalik hassasiyet. | Eski alan: DovizTanim.Hassasiyet'
+EXEC dbo._SetFullSchemaDescription N'finance', N'Currency', N'DecimalPrecision', N'Ondalik hassasiyet. | Eski alan: DovizTanim.DecimalPrecision'
 GO
 
 EXEC dbo._SetFullSchemaDescription N'finance', N'Currency', N'InsertUser', N'Olusturan kullanici. | Eski alan: DovizTanim.InsertUser'
@@ -2873,7 +2873,7 @@ CREATE TABLE inventory.Product (
   CategoryId bigint NULL,
   CriticalStockQuantity decimal(18,4) NULL,
   InternetCriticalStockQuantity decimal(18,4) NULL,
-  SeriNoTakip bit NOT NULL,
+  SerialCodeNoTakip bit NOT NULL,
   PurchaseVatRate int NOT NULL,
   VatRate int NOT NULL,
   PurchasePrice decimal(18,4) NOT NULL,
@@ -2893,9 +2893,9 @@ CREATE TABLE inventory.Product (
   IsHepsiBuradaActive bit NOT NULL,
   Width int NOT NULL,
   Height int NOT NULL,
-  Derinlik int NOT NULL,
-  Desi decimal(18,4) NOT NULL,
-  Agirlik decimal(18,4) NOT NULL,
+  Depth int NOT NULL,
+  DesiWeight decimal(18,4) NOT NULL,
+  Weight decimal(18,4) NOT NULL,
   Color nvarchar(30) COLLATE Turkish_CI_AI NULL,
   IsAppointmentActive bit NULL,
   IsAppointmentOpen bit NULL,
@@ -2955,7 +2955,7 @@ GO
 EXEC dbo._SetFullSchemaDescription N'inventory', N'Product', N'ColorId', N'Renk (FK -> UrunRenkPaleti.Id). | Eski alan: UrunTanim.RenkId'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'inventory', N'Product', N'IsWeightBarcode', N'Agirlik barkodu mu? | Eski alan: UrunTanim.KgBarkod'
+EXEC dbo._SetFullSchemaDescription N'inventory', N'Product', N'IsWeightBarcode', N'Weight barkodu mu? | Eski alan: UrunTanim.KgBarkod'
 GO
 
 EXEC dbo._SetFullSchemaDescription N'inventory', N'Product', N'UnitId', N'Ana birim (FK -> BirimTanim.Id). | Eski alan: UrunTanim.BirimId'
@@ -2970,7 +2970,7 @@ GO
 EXEC dbo._SetFullSchemaDescription N'inventory', N'Product', N'InternetCriticalStockQuantity', N'E-ticaret kritik stok esigi. | Eski alan: UrunTanim.InternetKritikStokMiktari'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'inventory', N'Product', N'SeriNoTakip', N'Seri numarasi takibi yapilsin mi? | Eski alan: UrunTanim.SeriNoTakip'
+EXEC dbo._SetFullSchemaDescription N'inventory', N'Product', N'SerialCodeNoTakip', N'SerialCode numarasi takibi yapilsin mi? | Eski alan: UrunTanim.SerialCodeNoTakip'
 GO
 
 EXEC dbo._SetFullSchemaDescription N'inventory', N'Product', N'PurchaseVatRate', N'Alis KDV orani (%). | Eski alan: UrunTanim.AlisKdvOrani'
@@ -3030,13 +3030,13 @@ GO
 EXEC dbo._SetFullSchemaDescription N'inventory', N'Product', N'Height', N'Urun yuksekligi (cm). | Eski alan: UrunTanim.Yukseklik'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'inventory', N'Product', N'Derinlik', N'Urun derinligi (cm). | Eski alan: UrunTanim.Derinlik'
+EXEC dbo._SetFullSchemaDescription N'inventory', N'Product', N'Depth', N'Urun derinligi (cm). | Eski alan: UrunTanim.Depth'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'inventory', N'Product', N'Desi', N'Desi degeri (kargo). | Eski alan: UrunTanim.Desi'
+EXEC dbo._SetFullSchemaDescription N'inventory', N'Product', N'DesiWeight', N'DesiWeight degeri (kargo). | Eski alan: UrunTanim.DesiWeight'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'inventory', N'Product', N'Agirlik', N'Agirlik (kg). | Eski alan: UrunTanim.Agirlik'
+EXEC dbo._SetFullSchemaDescription N'inventory', N'Product', N'Weight', N'Weight (kg). | Eski alan: UrunTanim.Weight'
 GO
 
 EXEC dbo._SetFullSchemaDescription N'inventory', N'Product', N'Color', N'Randevu takvim renk kodu. | Eski alan: UrunTanim.Renk'
@@ -3279,7 +3279,7 @@ CREATE TABLE inventory.ProductUnit (
   UnitId bigint NOT NULL,
   Barcode nvarchar(50) COLLATE Turkish_CI_AI NULL,
   Carpan float NOT NULL,
-  Hassasiyet int NOT NULL,
+  DecimalPrecision int NOT NULL,
   Label nvarchar(500) COLLATE Turkish_CI_AI NULL,
   InsertDateTime datetime DEFAULT getdate() NULL,
   InsertUser bigint DEFAULT 0 NULL,
@@ -3319,7 +3319,7 @@ GO
 EXEC dbo._SetFullSchemaDescription N'inventory', N'ProductUnit', N'Carpan', N'- | Eski alan: UrunBirim.Carpan'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'inventory', N'ProductUnit', N'Hassasiyet', N'- | Eski alan: UrunBirim.Hassasiyet'
+EXEC dbo._SetFullSchemaDescription N'inventory', N'ProductUnit', N'DecimalPrecision', N'- | Eski alan: UrunBirim.DecimalPrecision'
 GO
 
 EXEC dbo._SetFullSchemaDescription N'inventory', N'ProductUnit', N'Label', N'- | Eski alan: UrunBirim.Etiket'
@@ -3697,7 +3697,7 @@ CREATE TABLE inventory.Unit (
   CompanyId bigint NOT NULL,
   Code nvarchar(15) COLLATE Turkish_CI_AI NOT NULL,
   Description nvarchar(100) COLLATE Turkish_CI_AI NOT NULL,
-  Hassasiyet int NOT NULL,
+  DecimalPrecision int NOT NULL,
   Label nvarchar(500) COLLATE Turkish_CI_AI NULL,
   InsertDateTime datetime DEFAULT getdate() NULL,
   InsertUser bigint DEFAULT 0 NULL,
@@ -3733,7 +3733,7 @@ GO
 EXEC dbo._SetFullSchemaDescription N'inventory', N'Unit', N'Description', N'Birim aciklamasi. | Eski alan: BirimTanim.Aciklama'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'inventory', N'Unit', N'Hassasiyet', N'Ondalik hassasiyet (hane sayisi). | Eski alan: BirimTanim.Hassasiyet'
+EXEC dbo._SetFullSchemaDescription N'inventory', N'Unit', N'DecimalPrecision', N'Ondalik hassasiyet (hane sayisi). | Eski alan: BirimTanim.DecimalPrecision'
 GO
 
 EXEC dbo._SetFullSchemaDescription N'inventory', N'Unit', N'Label', N'Etiket/barkod metni. | Eski alan: BirimTanim.Etiket'
@@ -3770,20 +3770,20 @@ CREATE TABLE trade.TradeDocument (
   GId uniqueidentifier DEFAULT newid() NOT NULL,
   CompanyId bigint NOT NULL,
   StoreId bigint NOT NULL,
-  StoreTanim1Id bigint NULL,
+  SecondaryStoreId bigint NULL,
   AccountId bigint NOT NULL,
-  HareketType int NOT NULL,
+  DocumentType int NOT NULL,
   TradeDocumentNo nvarchar(50) COLLATE Turkish_CI_AI NOT NULL,
   TransactionDate datetime NOT NULL,
   Saat datetime NULL,
   DueDate datetime NULL,
   CurrencyCode nvarchar(30) COLLATE Turkish_CI_AI NOT NULL,
-  SiparisStatus int NULL,
+  OrderStatus int NULL,
   OrderShippingSlipNumber nvarchar(50) COLLATE Turkish_CI_AI NULL,
-  ShippingFirmaDefId bigint NULL,
-  TradeDocumentTeslimAdSoyadTitle varchar(250) COLLATE Turkish_CI_AI NULL,
-  TradeDocumentTeslimEMail nvarchar(100) COLLATE Turkish_CI_AI NULL,
-  TradeDocumentTeslimPhone nvarchar(30) COLLATE Turkish_CI_AI NULL,
+  ShippingCompanyDefId bigint NULL,
+  BillingFullNameOrTitle varchar(250) COLLATE Turkish_CI_AI NULL,
+  BillingEmail nvarchar(100) COLLATE Turkish_CI_AI NULL,
+  BillingPhone nvarchar(30) COLLATE Turkish_CI_AI NULL,
   Address nvarchar(500) COLLATE Turkish_CI_AI NULL,
   City nvarchar(50) COLLATE Turkish_CI_AI NULL,
   District nvarchar(50) COLLATE Turkish_CI_AI NULL,
@@ -3793,27 +3793,27 @@ CREATE TABLE trade.TradeDocument (
   DeliveryEmail nvarchar(100) COLLATE Turkish_CI_AI NULL,
   DeliveryPhone nvarchar(30) COLLATE Turkish_CI_AI NULL,
   DeliveryAddress nvarchar(500) COLLATE Turkish_CI_AI NULL,
-  TeslimatIl nvarchar(50) COLLATE Turkish_CI_AI NULL,
+  DeliveryCity nvarchar(50) COLLATE Turkish_CI_AI NULL,
   DeliveryDistrict nvarchar(50) COLLATE Turkish_CI_AI NULL,
   DeliveryPostalCode nvarchar(30) COLLATE Turkish_CI_AI NULL,
   TaxOffice nvarchar(50) COLLATE Turkish_CI_AI NULL,
   TaxNumber nvarchar(50) COLLATE Turkish_CI_AI NULL,
   RelatedTradeDocumentId bigint NULL,
   MedicalServiceProductBrandModel nvarchar(250) COLLATE Turkish_CI_AI NULL,
-  MedicalServiceCihazSeriNo nvarchar(50) COLLATE Turkish_CI_AI NULL,
+  MedicalServiceCihazSerialCodeNo nvarchar(50) COLLATE Turkish_CI_AI NULL,
   MedicalServiceSellerCompany nvarchar(100) COLLATE Turkish_CI_AI NULL,
-  MedicalServiceAksesuar nvarchar(750) COLLATE Turkish_CI_AI NULL,
+  ServiceAccessories nvarchar(750) COLLATE Turkish_CI_AI NULL,
   ServiceDeviceDescription nvarchar(750) COLLATE Turkish_CI_AI NULL,
-  MedicalServiceMusteriNotu nvarchar(750) COLLATE Turkish_CI_AI NULL,
+  ServiceCustomerNote nvarchar(750) COLLATE Turkish_CI_AI NULL,
   ServicePersonalNote nvarchar(750) COLLATE Turkish_CI_AI NULL,
-  MedicalServiceGarantiBilgisi bit NULL,
+  ServiceWarrantyInfo bit NULL,
   MedicalServiceStatus int NULL,
   ServiceDeliveryDate datetime NULL,
-  MedicalServiceTeslimAlanKisi nvarchar(100) COLLATE Turkish_CI_AI NULL,
-  TeklifStatus int NULL,
+  ServiceDeliveryRecipient nvarchar(100) COLLATE Turkish_CI_AI NULL,
+  QuoteStatus int NULL,
   Label nvarchar(500) COLLATE Turkish_CI_AI NULL,
-  DocumentKapali bit NOT NULL,
-  ED_SonIslemDate datetime NULL,
+  IsDocumentClosed bit NOT NULL,
+  ED_LastProcessDate datetime NULL,
   ED_Code int NULL,
   ED_Description nvarchar(200) COLLATE Turkish_CI_AI NULL,
   ED_DetailDescription nvarchar(500) COLLATE Turkish_CI_AI NULL,
@@ -3824,8 +3824,8 @@ CREATE TABLE trade.TradeDocument (
   IntegrationId nvarchar(50) COLLATE Turkish_CI_AI NULL,
   IntegrationName nvarchar(30) COLLATE Turkish_CI_AI NULL,
   LineCount int NOT NULL,
-  ToplamVatTutar decimal(18,4) NOT NULL,
-  ToplamTutar decimal(18,4) NOT NULL,
+  TotalVatAmount decimal(18,4) NOT NULL,
+  TotalAmount decimal(18,4) NOT NULL,
   InsertDateTime datetime DEFAULT getdate() NOT NULL,
   InsertUser bigint DEFAULT 0 NOT NULL,
   UpdateDateTime datetime NULL,
@@ -3835,10 +3835,10 @@ CREATE TABLE trade.TradeDocument (
   RecordDateTime datetime DEFAULT getdate() NULL,
   IsDocumentCancelled bit NOT NULL,
   ElectronicDocumentType int NULL,
-  ElektronikBelgeNo nvarchar(50) COLLATE Turkish_CI_AI NULL,
+  ElectronicDocumentNo nvarchar(50) COLLATE Turkish_CI_AI NULL,
   ElectronicDocumentSentDate datetime NULL,
-  ElektronikBelgeHatalari nvarchar(MAX) COLLATE Turkish_CI_AI NULL,
-  ElektronikBelgeGonderimStatus int NULL
+  ElectronicDocumentErrors nvarchar(MAX) COLLATE Turkish_CI_AI NULL,
+  ElectronicDocumentSendStatus int NULL
 ,
   CONSTRAINT TradeDocument_pk PRIMARY KEY CLUSTERED (Id)
     WITH (
@@ -3863,13 +3863,13 @@ GO
 EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocument', N'StoreId', N'Ana depo (FK -> DepoTanim.Id). | Eski alan: Fatura.DepoTanimId'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocument', N'StoreTanim1Id', N'Ikincil/hedef depo. | Eski alan: Fatura.DepoTanim1Id'
+EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocument', N'SecondaryStoreId', N'Ikincil/hedef depo. | Eski alan: Fatura.DepoTanim1Id'
 GO
 
 EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocument', N'AccountId', N'Bagli cari (FK -> CariTanim.Id). | Eski alan: Fatura.CariTanimId'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocument', N'HareketType', N'Tanimsiz=0, SatisFaturasi=100, SatisIrsaliye=101, AlinanSiparis=103, VerilenTeklif=104, VerilenServis=105, DepoCikis=106, AlisIadeFaturasi=107, SayimGiris=108, AlisFaturasi=200, AlisIrsaliye=201, VerilenSiparis=203, AlinanTeklif=204, DepoGiris=206, SatisIadeFaturasi=207, SayimCikis=208 | Eski alan: Fatura.HareketTipi'
+EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocument', N'DocumentType', N'Tanimsiz=0, SatisFaturasi=100, SatisIrsaliye=101, AlinanSiparis=103, VerilenTeklif=104, VerilenServis=105, DepoCikis=106, AlisIadeFaturasi=107, SayimGiris=108, AlisFaturasi=200, AlisIrsaliye=201, VerilenSiparis=203, AlinanTeklif=204, DepoGiris=206, SatisIadeFaturasi=207, SayimCikis=208 | Eski alan: Fatura.HareketTipi'
 GO
 
 EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocument', N'TradeDocumentNo', N'Belge/fatura numarasi. | Eski alan: Fatura.FaturaNo'
@@ -3887,22 +3887,22 @@ GO
 EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocument', N'CurrencyCode', N'Para birimi. | Eski alan: Fatura.DovizKodu'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocument', N'SiparisStatus', N'E-ticaret siparis durumu. | Eski alan: Fatura.SiparisDurumu'
+EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocument', N'OrderStatus', N'E-ticaret siparis durumu. | Eski alan: Fatura.SiparisDurumu'
 GO
 
 EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocument', N'OrderShippingSlipNumber', N'Kargo takip/fis numarasi. | Eski alan: Fatura.SiparisKargoFisNo'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocument', N'ShippingFirmaDefId', N'Kargo firmasi ID. | Eski alan: Fatura.KargoFirmaTanimId'
+EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocument', N'ShippingCompanyDefId', N'Kargo firmasi ID. | Eski alan: Fatura.KargoFirmaTanimId'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocument', N'TradeDocumentTeslimAdSoyadTitle', N'Fatura teslim alici. | Eski alan: Fatura.FaturaTeslimAdSoyadUnvan'
+EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocument', N'BillingFullNameOrTitle', N'Fatura teslim alici. | Eski alan: Fatura.FaturaTeslimAdSoyadUnvan'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocument', N'TradeDocumentTeslimEMail', N'Fatura teslim e-posta. | Eski alan: Fatura.FaturaTeslimEMail'
+EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocument', N'BillingEmail', N'Fatura teslim e-posta. | Eski alan: Fatura.FaturaTeslimEMail'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocument', N'TradeDocumentTeslimPhone', N'Fatura teslim telefon. | Eski alan: Fatura.FaturaTeslimTelefon'
+EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocument', N'BillingPhone', N'Fatura teslim telefon. | Eski alan: Fatura.FaturaTeslimTelefon'
 GO
 
 EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocument', N'Address', N'Fatura adresi. | Eski alan: Fatura.Adres'
@@ -3932,10 +3932,10 @@ GO
 EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocument', N'DeliveryAddress', N'Teslimat adresi. | Eski alan: Fatura.TeslimatAdres'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocument', N'TeslimatIl', N'Teslimat ili. | Eski alan: Fatura.TeslimatIl'
+EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocument', N'DeliveryCity', N'Teslimat ili. | Eski alan: Fatura.DeliveryCity'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocument', N'DeliveryDistrict', N'Teslimat ilcesi. | Eski alan: Fatura.TeslimatIlce'
+EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocument', N'DeliveryDistrict', N'Teslimat ilcesi. | Eski alan: Fatura.DeliveryCityce'
 GO
 
 EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocument', N'DeliveryPostalCode', N'Teslimat posta kodu. | Eski alan: Fatura.TeslimatPostaKodu'
@@ -3953,25 +3953,25 @@ GO
 EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocument', N'MedicalServiceProductBrandModel', N'Servis: urun marka/model. | Eski alan: Fatura.ServisUrunMarkaModel'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocument', N'MedicalServiceCihazSeriNo', N'Servis: cihaz seri no. | Eski alan: Fatura.ServisCihazSeriNo'
+EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocument', N'MedicalServiceCihazSerialCodeNo', N'Servis: cihaz seri no. | Eski alan: Fatura.ServisCihazSerialCodeNo'
 GO
 
 EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocument', N'MedicalServiceSellerCompany', N'Servis: satici firma. | Eski alan: Fatura.ServisSaticiFirma'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocument', N'MedicalServiceAksesuar', N'Servis: aksesuarlar. | Eski alan: Fatura.ServisAksesuar'
+EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocument', N'ServiceAccessories', N'Servis: aksesuarlar. | Eski alan: Fatura.ServisAksesuar'
 GO
 
 EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocument', N'ServiceDeviceDescription', N'Servis: cihaz aciklamasi. | Eski alan: Fatura.ServisCihazAciklama'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocument', N'MedicalServiceMusteriNotu', N'Servis: musteri notu. | Eski alan: Fatura.ServisMusteriNotu'
+EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocument', N'ServiceCustomerNote', N'Servis: musteri notu. | Eski alan: Fatura.ServisMusteriNotu'
 GO
 
 EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocument', N'ServicePersonalNote', N'Servis: personel notu. | Eski alan: Fatura.ServisPersonelNotu'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocument', N'MedicalServiceGarantiBilgisi', N'Servis: garanti bilgisi. | Eski alan: Fatura.ServisGarantiBilgisi'
+EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocument', N'ServiceWarrantyInfo', N'Servis: garanti bilgisi. | Eski alan: Fatura.ServisGarantiBilgisi'
 GO
 
 EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocument', N'MedicalServiceStatus', N'YeniSiparis=0, Hazirlaniyor=100, KargoyaVerildi=200, TeslimEdildi=300, Iade=400, Iptal=500 | Eski alan: Fatura.ServisDurumu'
@@ -3980,19 +3980,19 @@ GO
 EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocument', N'ServiceDeliveryDate', N'Servis teslim tarihi. | Eski alan: Fatura.ServisTeslimTarihi'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocument', N'MedicalServiceTeslimAlanKisi', N'Servisi teslim alan kisi. | Eski alan: Fatura.ServisTeslimAlanKisi'
+EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocument', N'ServiceDeliveryRecipient', N'Servisi teslim alan kisi. | Eski alan: Fatura.ServisTeslimAlanKisi'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocument', N'TeklifStatus', N'-100=TeklifIptal, 100=YeniTeklif, 200=TeklifKabulEdildi, 300=SozlesmeImzalandi, 400=KabulEdilmedi | Eski alan: Fatura.TeklifDurum'
+EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocument', N'QuoteStatus', N'-100=TeklifIptal, 100=YeniTeklif, 200=TeklifKabulEdildi, 300=SozlesmeImzalandi, 400=KabulEdilmedi | Eski alan: Fatura.TeklifDurum'
 GO
 
 EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocument', N'Label', N'Etiket. | Eski alan: Fatura.Etiket'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocument', N'DocumentKapali', N'Belge kapatildi mi (stok/cari kilit)? | Eski alan: Fatura.BelgeKapali'
+EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocument', N'IsDocumentClosed', N'Belge kapatildi mi (stok/cari kilit)? | Eski alan: Fatura.BelgeKapali'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocument', N'ED_SonIslemDate', N'e-Belge son islem tarihi. | Eski alan: Fatura.ED_SonIslemTarihi'
+EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocument', N'ED_LastProcessDate', N'e-Belge son islem tarihi. | Eski alan: Fatura.ED_SonIslemTarihi'
 GO
 
 EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocument', N'ED_Code', N'e-Belge islem kodu. | Eski alan: Fatura.ED_Code'
@@ -4025,10 +4025,10 @@ GO
 EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocument', N'LineCount', N'Toplam kalem sayisi. | Eski alan: Fatura.KalemSayisi'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocument', N'ToplamVatTutar', N'Toplam KDV tutari. | Eski alan: Fatura.ToplamKdvTutar'
+EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocument', N'TotalVatAmount', N'Toplam KDV tutari. | Eski alan: Fatura.ToplamKdvTutar'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocument', N'ToplamTutar', N'Toplam belge tutari. | Eski alan: Fatura.ToplamTutar'
+EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocument', N'TotalAmount', N'Toplam belge tutari. | Eski alan: Fatura.TotalAmount'
 GO
 
 EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocument', N'InsertDateTime', N'Olusturma tarihi. | Eski alan: Fatura.InsertDateTime'
@@ -4058,16 +4058,16 @@ GO
 EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocument', N'ElectronicDocumentType', N'1=EArsiv, 2=EFatura, 3=EIrsaliye | Eski alan: Fatura.ElektronikBelgeTipi'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocument', N'ElektronikBelgeNo', N'e-Belge numarasi. | Eski alan: Fatura.ElektronikBelgeNo'
+EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocument', N'ElectronicDocumentNo', N'e-Belge numarasi. | Eski alan: Fatura.ElectronicDocumentNo'
 GO
 
 EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocument', N'ElectronicDocumentSentDate', N'e-Belge gonderim tarihi. | Eski alan: Fatura.ElektronikBelgeGonderimTarihi'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocument', N'ElektronikBelgeHatalari', N'e-Belge gonderim hata mesajlari. | Eski alan: Fatura.ElektronikBelgeHatalari'
+EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocument', N'ElectronicDocumentErrors', N'e-Belge gonderim hata mesajlari. | Eski alan: Fatura.ElectronicDocumentErrors'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocument', N'ElektronikBelgeGonderimStatus', N'null=Gonderilmemis, -1=Hatali, 1=Basarili | Eski alan: Fatura.ElektronikBelgeGonderimDurumu'
+EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocument', N'ElectronicDocumentSendStatus', N'null=Gonderilmemis, -1=Hatali, 1=Basarili | Eski alan: Fatura.ElektronikBelgeGonderimDurumu'
 GO
 
 --
@@ -4151,20 +4151,20 @@ CREATE TABLE trade.TradeDocumentLine (
   CompanyId bigint NOT NULL,
   TradeDocumentId bigint NOT NULL,
   StoreId bigint NOT NULL,
-  HareketType int NOT NULL,
+  DocumentType int NOT NULL,
   ProductId bigint NOT NULL,
   ProductDescription nvarchar(500) COLLATE Turkish_CI_AI NOT NULL,
-  SeriNo nvarchar(50) COLLATE Turkish_CI_AI NULL,
+  SerialCodeNo nvarchar(50) COLLATE Turkish_CI_AI NULL,
   ColorSize nvarchar(50) COLLATE Turkish_CI_AI NULL,
   Quantity decimal(18,4) NOT NULL,
   UnitId bigint NOT NULL,
-  UnitKatsayi decimal(18,4) NULL,
+  UnitMultiplier decimal(18,4) NULL,
   UnitPrice decimal(18,4) NOT NULL,
   CurrencyCode nvarchar(10) COLLATE Turkish_CI_AI NOT NULL,
   VatRate int NOT NULL,
-  VatTutari decimal(18,4) NOT NULL,
-  SatirTutari decimal(18,4) NOT NULL,
-  StokSayimiDahilEtme bit NULL,
+  VatAmount decimal(18,4) NOT NULL,
+  LineAmount decimal(18,4) NOT NULL,
+  ExcludeFromStockCount bit NULL,
   Label nvarchar(500) COLLATE Turkish_CI_AI NULL,
   InsertDateTime datetime DEFAULT getdate() NULL,
   InsertUser bigint DEFAULT 0 NULL,
@@ -4175,7 +4175,7 @@ CREATE TABLE trade.TradeDocumentLine (
   RecordDateTime datetime DEFAULT getdate() NULL,
   DiscountPercent decimal(18,4) NULL,
   Discount1Percent decimal(18,4) NULL,
-  VadeFarkiPercent decimal(18,4) NULL
+  DeferralPercent decimal(18,4) NULL
 ,
   CONSTRAINT TradeDocumentLine_pk PRIMARY KEY CLUSTERED (Id)
     WITH (
@@ -4203,7 +4203,7 @@ GO
 EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocumentLine', N'StoreId', N'Islem yapilan depo (FK -> DepoTanim.Id). | Eski alan: FaturaHareket.DepoTanimId'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocumentLine', N'HareketType', N'Tanimsiz = 0, | Eski alan: FaturaHareket.HareketTipi'
+EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocumentLine', N'DocumentType', N'Tanimsiz = 0, | Eski alan: FaturaHareket.HareketTipi'
 GO
 
 EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocumentLine', N'ProductId', N'Bagli urun (FK -> UrunTanim.Id). | Eski alan: FaturaHareket.UrunTanimId'
@@ -4212,7 +4212,7 @@ GO
 EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocumentLine', N'ProductDescription', N'Satir urun aciklamasi. | Eski alan: FaturaHareket.UrunAciklama'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocumentLine', N'SeriNo', N'Seri numarasi. | Eski alan: FaturaHareket.SeriNo'
+EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocumentLine', N'SerialCodeNo', N'SerialCode numarasi. | Eski alan: FaturaHareket.SerialCodeNo'
 GO
 
 EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocumentLine', N'ColorSize', N'Renk/beden bilgisi. | Eski alan: FaturaHareket.RenkBeden'
@@ -4224,7 +4224,7 @@ GO
 EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocumentLine', N'UnitId', N'Birim (FK -> BirimTanim.Id). | Eski alan: FaturaHareket.BirimId'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocumentLine', N'UnitKatsayi', N'Birim donusum katsayisi. | Eski alan: FaturaHareket.BirimKatsayi'
+EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocumentLine', N'UnitMultiplier', N'Birim donusum katsayisi. | Eski alan: FaturaHareket.BirimKatsayi'
 GO
 
 EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocumentLine', N'UnitPrice', N'Birim fiyati. | Eski alan: FaturaHareket.BirimFiyati'
@@ -4236,13 +4236,13 @@ GO
 EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocumentLine', N'VatRate', N'KDV orani (%). | Eski alan: FaturaHareket.KdvOrani'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocumentLine', N'VatTutari', N'KDV tutari. | Eski alan: FaturaHareket.KdvTutari'
+EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocumentLine', N'VatAmount', N'KDV tutari. | Eski alan: FaturaHareket.KdvTutari'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocumentLine', N'SatirTutari', N'Satir tutari (KDV haric). | Eski alan: FaturaHareket.SatirTutari'
+EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocumentLine', N'LineAmount', N'Satir tutari (KDV haric). | Eski alan: FaturaHareket.LineAmount'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocumentLine', N'StokSayimiDahilEtme', N'rsaliye faturaya dnnce irsaliye iinde kalan kalemler stok saymna dahil edilmesin diye bu yaplmtr. | Eski alan: FaturaHareket.StokSayimiDahilEtme'
+EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocumentLine', N'ExcludeFromStockCount', N'rsaliye faturaya dnnce irsaliye iinde kalan kalemler stok saymna dahil edilmesin diye bu yaplmtr. | Eski alan: FaturaHareket.ExcludeFromStockCount'
 GO
 
 EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocumentLine', N'Label', N'Etiket. | Eski alan: FaturaHareket.Etiket'
@@ -4275,7 +4275,7 @@ GO
 EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocumentLine', N'Discount1Percent', N'Ikinci iskonto yuzdesi. | Eski alan: FaturaHareket.Iskonto1Yuzde'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocumentLine', N'VadeFarkiPercent', N'Vade farki yuzdesi. | Eski alan: FaturaHareket.VadeFarkiYuzde'
+EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocumentLine', N'DeferralPercent', N'Vade farki yuzdesi. | Eski alan: FaturaHareket.VadeFarkiYuzde'
 GO
 
 --
@@ -4287,32 +4287,32 @@ CREATE TABLE trade.TradeDocumentLineTemp (
   Id bigint IDENTITY(1, 1) NOT NULL,
   GId uniqueidentifier DEFAULT newid() NOT NULL,
   PersonalGId uniqueidentifier NOT NULL,
-  SepetId bigint NULL,
+  CartId bigint NULL,
   CompanyId bigint NOT NULL,
-  HareketType int NOT NULL,
+  DocumentType int NOT NULL,
   ProductGId uniqueidentifier NOT NULL,
   ProductDescription nvarchar(500) COLLATE Turkish_CI_AI NOT NULL,
-  SeriNo nvarchar(50) COLLATE Turkish_CI_AI NULL,
+  SerialCodeNo nvarchar(50) COLLATE Turkish_CI_AI NULL,
   ColorSize nvarchar(50) COLLATE Turkish_CI_AI NULL,
   Quantity decimal(18,4) NOT NULL,
   UnitId bigint NOT NULL,
-  UnitKatsayi decimal(18,4) NULL,
+  UnitMultiplier decimal(18,4) NULL,
   UnitPrice decimal(18,4) NOT NULL,
   UnitPriceVatIncluded decimal(18,4) NOT NULL,
   CurrencyCode nvarchar(10) COLLATE Turkish_CI_AI NOT NULL,
   VatRate int NOT NULL,
   VatDH nvarchar(1) COLLATE Turkish_CI_AI NULL,
-  ToplamTutarVatHaric decimal(18,4) NULL,
-  ToplamTutar decimal(18,4) NOT NULL,
+  TotalAmountExVat decimal(18,4) NULL,
+  TotalAmount decimal(18,4) NOT NULL,
   TradeDocumentGId uniqueidentifier NULL,
-  TradeDocumentHareketGId uniqueidentifier NULL,
+  TradeDocumentTypeGId uniqueidentifier NULL,
   InsertDateTime datetime DEFAULT getdate() NOT NULL,
   EcommercePaymentId nvarchar(50) COLLATE Turkish_CI_AI NULL,
-  Tukenmis bit NOT NULL,
-  StoreTanimGId uniqueidentifier NULL,
+  IsSoldOut bit NOT NULL,
+  StoreGId uniqueidentifier NULL,
   DiscountPercent decimal(18,4) NULL,
   Discount1Percent decimal(18,4) NULL,
-  VadeFarkiPercent decimal(18,4) NULL
+  DeferralPercent decimal(18,4) NULL
 ,
   CONSTRAINT TradeDocumentLineTemp_pk PRIMARY KEY CLUSTERED (Id)
     WITH (
@@ -4334,13 +4334,13 @@ GO
 EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocumentLineTemp', N'PersonalGId', N'Personel/kullanici GUID (sepet sahibi). | Eski alan: FaturaHareketTemp.PersonelGId'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocumentLineTemp', N'SepetId', N'Sepet oturum ID. | Eski alan: FaturaHareketTemp.SepetId'
+EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocumentLineTemp', N'CartId', N'Sepet oturum ID. | Eski alan: FaturaHareketTemp.CartId'
 GO
 
 EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocumentLineTemp', N'CompanyId', N'Bagli sirket. | Eski alan: FaturaHareketTemp.SirketTanimId'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocumentLineTemp', N'HareketType', N'Belge hareket tipi. | Eski alan: FaturaHareketTemp.HareketTipi'
+EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocumentLineTemp', N'DocumentType', N'Belge hareket tipi. | Eski alan: FaturaHareketTemp.HareketTipi'
 GO
 
 EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocumentLineTemp', N'ProductGId', N'Urun GUID. | Eski alan: FaturaHareketTemp.UrunGId'
@@ -4349,7 +4349,7 @@ GO
 EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocumentLineTemp', N'ProductDescription', N'Satir urun aciklamasi. | Eski alan: FaturaHareketTemp.UrunAciklama'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocumentLineTemp', N'SeriNo', N'Seri numarasi. | Eski alan: FaturaHareketTemp.SeriNo'
+EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocumentLineTemp', N'SerialCodeNo', N'SerialCode numarasi. | Eski alan: FaturaHareketTemp.SerialCodeNo'
 GO
 
 EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocumentLineTemp', N'ColorSize', N'Renk/beden bilgisi. | Eski alan: FaturaHareketTemp.RenkBeden'
@@ -4361,7 +4361,7 @@ GO
 EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocumentLineTemp', N'UnitId', N'Birim (FK -> BirimTanim.Id). | Eski alan: FaturaHareketTemp.BirimId'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocumentLineTemp', N'UnitKatsayi', N'Birim donusum katsayisi. | Eski alan: FaturaHareketTemp.BirimKatsayi'
+EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocumentLineTemp', N'UnitMultiplier', N'Birim donusum katsayisi. | Eski alan: FaturaHareketTemp.BirimKatsayi'
 GO
 
 EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocumentLineTemp', N'UnitPrice', N'Birim fiyati (KDV haric). | Eski alan: FaturaHareketTemp.BirimFiyati'
@@ -4379,16 +4379,16 @@ GO
 EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocumentLineTemp', N'VatDH', N'KDV durumu: D=Dahil, H=Haric. | Eski alan: FaturaHareketTemp.KdvDH'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocumentLineTemp', N'ToplamTutarVatHaric', N'Toplam tutar (KDV haric). | Eski alan: FaturaHareketTemp.ToplamTutarKdvHaric'
+EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocumentLineTemp', N'TotalAmountExVat', N'Toplam tutar (KDV haric). | Eski alan: FaturaHareketTemp.TotalAmountKdvHaric'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocumentLineTemp', N'ToplamTutar', N'Toplam tutar (KDV dahil). | Eski alan: FaturaHareketTemp.ToplamTutar'
+EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocumentLineTemp', N'TotalAmount', N'Toplam tutar (KDV dahil). | Eski alan: FaturaHareketTemp.TotalAmount'
 GO
 
 EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocumentLineTemp', N'TradeDocumentGId', N'Bagli fatura GUID. | Eski alan: FaturaHareketTemp.FaturaGId'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocumentLineTemp', N'TradeDocumentHareketGId', N'Bagli fatura satir GUID. | Eski alan: FaturaHareketTemp.FaturaHareketGId'
+EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocumentLineTemp', N'TradeDocumentTypeGId', N'Bagli fatura satir GUID. | Eski alan: FaturaHareketTemp.FaturaHareketGId'
 GO
 
 EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocumentLineTemp', N'InsertDateTime', N'Olusturma tarihi. | Eski alan: FaturaHareketTemp.InsertDateTime'
@@ -4397,10 +4397,10 @@ GO
 EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocumentLineTemp', N'EcommercePaymentId', N'E-ticaret odeme referans ID. | Eski alan: FaturaHareketTemp.ETicaretOdemeId'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocumentLineTemp', N'Tukenmis', N'Stok tukendi mi? | Eski alan: FaturaHareketTemp.Tukenmis'
+EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocumentLineTemp', N'IsSoldOut', N'Stok tukendi mi? | Eski alan: FaturaHareketTemp.IsSoldOut'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocumentLineTemp', N'StoreTanimGId', N'Depo GUID. | Eski alan: FaturaHareketTemp.DepoTanimGId'
+EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocumentLineTemp', N'StoreGId', N'Depo GUID. | Eski alan: FaturaHareketTemp.DepoTanimGId'
 GO
 
 EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocumentLineTemp', N'DiscountPercent', N'Iskonto yuzdesi. | Eski alan: FaturaHareketTemp.IskontoYuzde'
@@ -4409,7 +4409,7 @@ GO
 EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocumentLineTemp', N'Discount1Percent', N'Ikinci iskonto yuzdesi. | Eski alan: FaturaHareketTemp.Iskonto1Yuzde'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocumentLineTemp', N'VadeFarkiPercent', N'Vade farki yuzdesi. | Eski alan: FaturaHareketTemp.VadeFarkiYuzde'
+EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocumentLineTemp', N'DeferralPercent', N'Vade farki yuzdesi. | Eski alan: FaturaHareketTemp.VadeFarkiYuzde'
 GO
 
 --
@@ -4422,7 +4422,7 @@ CREATE TABLE trade.TradeDocumentTemp (
   GId uniqueidentifier DEFAULT newid() NOT NULL,
   CompanyId bigint NOT NULL,
   PersonalGId uniqueidentifier NOT NULL,
-  HareketType int NOT NULL,
+  DocumentType int NOT NULL,
   AccountId bigint NULL,
   TradeDocumentNo nvarchar(50) COLLATE Turkish_CI_AI NULL,
   TransactionDate datetime NULL,
@@ -4452,7 +4452,7 @@ GO
 EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocumentTemp', N'PersonalGId', N'Personel/kullanici GUID. | Eski alan: FaturaTemp.PersonelGId'
 GO
 
-EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocumentTemp', N'HareketType', N'Belge hareket tipi. | Eski alan: FaturaTemp.HareketTipi'
+EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocumentTemp', N'DocumentType', N'Belge hareket tipi. | Eski alan: FaturaTemp.HareketTipi'
 GO
 
 EXEC dbo._SetFullSchemaDescription N'trade', N'TradeDocumentTemp', N'AccountId', N'Bagli cari (FK -> CariTanim.Id). | Eski alan: FaturaTemp.CariTanimId'

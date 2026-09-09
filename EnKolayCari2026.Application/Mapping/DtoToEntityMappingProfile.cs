@@ -2,29 +2,15 @@ using AutoMapper;
 using EnKolayCari2026.Domain.Model.Common;
 using EnKolayCari2026.Domain.Model.Dbo;
 using EnKolayCari2026.Domain.Model.Finance;
-using EnKolayCari2026.Domain.Model.HangFire;
 using EnKolayCari2026.Domain.Model.Inventory;
 using EnKolayCari2026.Domain.Model.Report;
 using EnKolayCari2026.Domain.Model.Trade;
 using EnKolayCari2026.Application.Model.DTO.Common;
 using EnKolayCari2026.Application.Model.DTO.Dbo;
 using EnKolayCari2026.Application.Model.DTO.Finance;
-using EnKolayCari2026.Application.Model.DTO.HangFire;
 using EnKolayCari2026.Application.Model.DTO.Inventory;
 using EnKolayCari2026.Application.Model.DTO.Report;
 using EnKolayCari2026.Application.Model.DTO.Trade;
-using CommonCounter = EnKolayCari2026.Domain.Model.Common.Counter;
-using HangFireCounter = EnKolayCari2026.Domain.Model.HangFire.Counter;
-using HangFireHash = EnKolayCari2026.Domain.Model.HangFire.Hash;
-using HangFireJob = EnKolayCari2026.Domain.Model.HangFire.Job;
-using HangFireList = EnKolayCari2026.Domain.Model.HangFire.List;
-using HangFireSchema = EnKolayCari2026.Domain.Model.HangFire.Schema;
-using HangFireServer = EnKolayCari2026.Domain.Model.HangFire.Server;
-using HangFireSet = EnKolayCari2026.Domain.Model.HangFire.Set;
-using HangFireState = EnKolayCari2026.Domain.Model.HangFire.State;
-using CommonCounterDto = EnKolayCari2026.Application.Model.DTO.Common.CounterDto;
-using HangFireCounterDto = EnKolayCari2026.Application.Model.DTO.HangFire.CounterDto;
-
 namespace EnKolayCari2026.Application.Mapping
 {
     public class DtoToEntityMappingProfile : Profile
@@ -40,7 +26,7 @@ namespace EnKolayCari2026.Application.Mapping
             CreateMap<CityDto, City>();
             CreateMap<CodeDefDto, CodeDef>();
             CreateMap<CompanyDto, Company>();
-            CreateMap<CommonCounterDto, CommonCounter>();
+            CreateMap<CounterDto, Counter>();
             CreateMap<CounterReferenceDto, CounterReference>();
             CreateMap<CountryDto, Country>();
             CreateMap<CountryHolidaysDto, CountryHolidays>();
@@ -92,18 +78,6 @@ namespace EnKolayCari2026.Application.Mapping
             CreateMap<CheckNoteTransactionDto, CheckNoteTransaction>();
             CreateMap<CurrencyDto, Currency>();
             CreateMap<CurrencyRateDto, CurrencyRate>();
-            //HangFire
-            CreateMap<AggregatedCounterDto, AggregatedCounter>();
-            CreateMap<HangFireCounterDto, HangFireCounter>();
-            CreateMap<HashDto, HangFireHash>();
-            CreateMap<JobDto, HangFireJob>();
-            CreateMap<JobParameterDto, JobParameter>();
-            CreateMap<JobQueueDto, JobQueue>();
-            CreateMap<ListDto, HangFireList>();
-            CreateMap<SchemaDto, HangFireSchema>();
-            CreateMap<ServerDto, HangFireServer>();
-            CreateMap<SetDto, HangFireSet>();
-            CreateMap<StateDto, HangFireState>();
             //Inventory
             CreateMap<BrandDto, Brand>();
             CreateMap<ProductDto, Product>();

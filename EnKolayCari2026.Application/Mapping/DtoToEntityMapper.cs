@@ -3,29 +3,15 @@ using Microsoft.Extensions.Logging.Abstractions;
 using EnKolayCari2026.Domain.Model.Common;
 using EnKolayCari2026.Domain.Model.Dbo;
 using EnKolayCari2026.Domain.Model.Finance;
-using EnKolayCari2026.Domain.Model.HangFire;
 using EnKolayCari2026.Domain.Model.Inventory;
 using EnKolayCari2026.Domain.Model.Report;
 using EnKolayCari2026.Domain.Model.Trade;
 using EnKolayCari2026.Application.Model.DTO.Common;
 using EnKolayCari2026.Application.Model.DTO.Dbo;
 using EnKolayCari2026.Application.Model.DTO.Finance;
-using EnKolayCari2026.Application.Model.DTO.HangFire;
 using EnKolayCari2026.Application.Model.DTO.Inventory;
 using EnKolayCari2026.Application.Model.DTO.Report;
 using EnKolayCari2026.Application.Model.DTO.Trade;
-
-using CommonCounter = EnKolayCari2026.Domain.Model.Common.Counter;
-using HangFireCounter = EnKolayCari2026.Domain.Model.HangFire.Counter;
-using HangFireHash = EnKolayCari2026.Domain.Model.HangFire.Hash;
-using HangFireJob = EnKolayCari2026.Domain.Model.HangFire.Job;
-using HangFireList = EnKolayCari2026.Domain.Model.HangFire.List;
-using HangFireSchema = EnKolayCari2026.Domain.Model.HangFire.Schema;
-using HangFireServer = EnKolayCari2026.Domain.Model.HangFire.Server;
-using HangFireSet = EnKolayCari2026.Domain.Model.HangFire.Set;
-using HangFireState = EnKolayCari2026.Domain.Model.HangFire.State;
-using CommonCounterDto = EnKolayCari2026.Application.Model.DTO.Common.CounterDto;
-using HangFireCounterDto = EnKolayCari2026.Application.Model.DTO.HangFire.CounterDto;
 
 namespace EnKolayCari2026.Application.Mapping
 {
@@ -83,9 +69,9 @@ namespace EnKolayCari2026.Application.Mapping
             return _mapper.Map<Company>(dto);
         }
 
-        public static CommonCounter ToEntity(this CommonCounterDto dto)
+        public static Counter ToEntity(this CounterDto dto)
         {
-            return _mapper.Map<CommonCounter>(dto);
+            return _mapper.Map<Counter>(dto);
         }
 
         public static CounterReference ToEntity(this CounterReferenceDto dto)
@@ -333,62 +319,6 @@ namespace EnKolayCari2026.Application.Mapping
         public static CurrencyRate ToEntity(this CurrencyRateDto dto)
         {
             return _mapper.Map<CurrencyRate>(dto);
-        }
-
-        //HangFire
-        public static AggregatedCounter ToEntity(this AggregatedCounterDto dto)
-        {
-            return _mapper.Map<AggregatedCounter>(dto);
-        }
-
-        public static HangFireCounter ToEntity(this HangFireCounterDto dto)
-        {
-            return _mapper.Map<HangFireCounter>(dto);
-        }
-
-        public static HangFireHash ToEntity(this HashDto dto)
-        {
-            return _mapper.Map<HangFireHash>(dto);
-        }
-
-        public static HangFireJob ToEntity(this JobDto dto)
-        {
-            return _mapper.Map<HangFireJob>(dto);
-        }
-
-        public static JobParameter ToEntity(this JobParameterDto dto)
-        {
-            return _mapper.Map<JobParameter>(dto);
-        }
-
-        public static JobQueue ToEntity(this JobQueueDto dto)
-        {
-            return _mapper.Map<JobQueue>(dto);
-        }
-
-        public static HangFireList ToEntity(this ListDto dto)
-        {
-            return _mapper.Map<HangFireList>(dto);
-        }
-
-        public static HangFireSchema ToEntity(this SchemaDto dto)
-        {
-            return _mapper.Map<HangFireSchema>(dto);
-        }
-
-        public static HangFireServer ToEntity(this ServerDto dto)
-        {
-            return _mapper.Map<HangFireServer>(dto);
-        }
-
-        public static HangFireSet ToEntity(this SetDto dto)
-        {
-            return _mapper.Map<HangFireSet>(dto);
-        }
-
-        public static HangFireState ToEntity(this StateDto dto)
-        {
-            return _mapper.Map<HangFireState>(dto);
         }
 
         //Inventory

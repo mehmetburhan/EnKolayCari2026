@@ -1,0 +1,159 @@
+﻿<Window x:Class="EnKolayCari2026.DataBridge.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="EnKolayCari2026 — Legacy Transfer"
+        Height="820" Width="1100" MinHeight="640" MinWidth="900"
+        WindowStartupLocation="CenterScreen"
+        Loaded="MainWindow_OnLoaded">
+    <Grid Margin="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Baslık + Bağlantılar -->
+        <StackPanel Grid.Row="0">
+            <DockPanel Margin="0,0,0,6">
+                <TextBlock Text="EnKolayCari2026 Veri Transfer" FontSize="20" FontWeight="SemiBold" VerticalAlignment="Center" />
+                <TextBlock DockPanel.Dock="Right" Text="MASTER / SLAVE → EKCN2026"
+                           Foreground="#666" VerticalAlignment="Center" Margin="12,0,0,0" />
+            </DockPanel>
+
+            <GroupBox x:Name="ConnectionsBox" Header="Bağlantılar" Padding="8" Margin="0,0,0,6">
+                <DockPanel>
+                    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,0,8">
+                        <Button Content="Bağlantıları test et" Padding="12,6" Margin="0,0,8,0" Click="BtnTest_OnClick" />
+                        <Button x:Name="BtnConnect" Content="Bağlan" Padding="16,6" FontWeight="SemiBold" Click="BtnConnect_OnClick" />
+                    </StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" Margin="0,0,8,0">
+                            <TextBlock FontWeight="SemiBold" Text="MASTER" Margin="0,0,0,4" />
+                            <TextBox x:Name="TxtMasterServer" Margin="0,2" Padding="4" />
+                            <TextBox x:Name="TxtMasterDb" Margin="0,2" Padding="4" />
+                            <TextBox x:Name="TxtMasterUser" Margin="0,2" Padding="4" />
+                            <PasswordBox x:Name="TxtMasterPassword" Margin="0,2" Padding="4" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Margin="0,0,8,0">
+                            <TextBlock FontWeight="SemiBold" Text="SLAVE" Margin="0,0,0,4" />
+                            <TextBox x:Name="TxtSlaveServer" Margin="0,2" Padding="4" />
+                            <TextBox x:Name="TxtSlaveDb" Margin="0,2" Padding="4" />
+                            <TextBox x:Name="TxtSlaveUser" Margin="0,2" Padding="4" />
+                            <PasswordBox x:Name="TxtSlavePassword" Margin="0,2" Padding="4" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="2">
+                            <TextBlock FontWeight="SemiBold" Text="HEDEF (EKCN2026)" Margin="0,0,0,4" />
+                            <TextBox x:Name="TxtTargetServer" Margin="0,2" Padding="4" />
+                            <TextBox x:Name="TxtTargetDb" Margin="0,2" Padding="4" />
+                            <TextBox x:Name="TxtTargetUser" Margin="0,2" Padding="4" />
+                            <PasswordBox x:Name="TxtTargetPassword" Margin="0,2" Padding="4" />
+                        </StackPanel>
+                    </Grid>
+                </DockPanel>
+            </GroupBox>
+        </StackPanel>
+
+        <!-- Çalışma alanı -->
+        <Grid x:Name="WorkspacePanel" Grid.Row="1" Visibility="Collapsed">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <!-- Araç çubuğu -->
+            <DockPanel Grid.Row="0" Margin="0,0,0,6" LastChildFill="True">
+                <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,6">
+                    <Button Content="Şirketleri yükle" Padding="10,5" Margin="0,0,8,0" Click="BtnLoadCompanies_OnClick" />
+                    <Button x:Name="BtnPreview" Content="Önizleme" Padding="10,5" Margin="0,0,8,0" Click="BtnPreview_OnClick" />
+                    <Button x:Name="BtnTransfer" Content="Aktarımı başlat" Padding="12,5" FontWeight="SemiBold" Click="BtnTransfer_OnClick" />
+                    <Button x:Name="BtnCancel" Content="İptal" Padding="10,5" Margin="8,0,0,0" IsEnabled="False" Click="BtnCancel_OnClick" />
+                    <Button x:Name="BtnReset"
+                            Content="⚠ Sil Baştan"
+                            Padding="10,5"
+                            Margin="16,0,0,0"
+                            Foreground="White"
+                            Background="#C62828"
+                            FontWeight="SemiBold"
+                            ToolTip="Hedef DB'den seçili şirkete ait TÜM verileri siler, ardından yeniden aktarım başlatır."
+                            Click="BtnReset_OnClick" />
+                    <Button x:Name="BtnToggleConnections" Content="Bağlantıları gizle"
+                            Padding="10,5" Margin="16,0,0,0" Click="BtnToggleConnections_OnClick" />
+                </StackPanel>
+                <ComboBox x:Name="CmbCompanies" DockPanel.Dock="Top" DisplayMemberPath="Display"
+                          MinHeight="28" Margin="0,0,0,4" IsEditable="False"
+                          SelectionChanged="CmbCompanies_OnSelectionChanged" />
+                <StackPanel Margin="0,0,0,4">
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                        <TextBlock Text="Success:" FontWeight="SemiBold" Margin="0,0,4,0" />
+                        <TextBlock x:Name="TxtStatSuccess" Text="0" FontWeight="Bold" Foreground="#1B7A3A" Margin="0,0,16,0" MinWidth="56" />
+                        <TextBlock Text="Skip:" FontWeight="SemiBold" Margin="0,0,4,0" />
+                        <TextBlock x:Name="TxtStatSkip" Text="0" FontWeight="Bold" Foreground="#B8860B" Margin="0,0,16,0" MinWidth="56" />
+                        <TextBlock Text="Fail:" FontWeight="SemiBold" Margin="0,0,4,0" />
+                        <TextBlock x:Name="TxtStatFail" Text="0" FontWeight="Bold" Foreground="#C62828" MinWidth="56" />
+                    </StackPanel>
+                    <TextBlock x:Name="TxtProgress" Text="Hazır." Margin="0,0,0,2" TextTrimming="CharacterEllipsis" />
+                    <ProgressBar x:Name="ProgressBar" Height="10" Minimum="0" Maximum="1" Value="0" />
+                </StackPanel>
+            </DockPanel>
+
+            <!-- Önizleme üst / Log alt -->
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1.2*" MinHeight="140" />
+                    <RowDefinition Height="6" />
+                    <RowDefinition Height="*" MinHeight="120" />
+                </Grid.RowDefinitions>
+
+                <!-- Önizleme -->
+                <GroupBox Grid.Row="0" Header="Önizleme / sonuç" Padding="6">
+                    <DockPanel>
+                        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,0,4">
+                            <Button Content="Seçimi kopyala" Padding="8,3" Margin="0,0,6,0" Click="BtnCopyPreviewSelection_OnClick" />
+                            <Button Content="Sonucu panoya kopyala" Padding="8,3" Click="BtnCopyPreview_OnClick" />
+                        </StackPanel>
+                        <RichTextBox x:Name="TxtPreview" IsReadOnly="True"
+                                     VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
+                                     FontFamily="Consolas" FontSize="12"
+                                     BorderThickness="1" BorderBrush="#DDD" Background="#FAFAFA" Padding="6" />
+                    </DockPanel>
+                </GroupBox>
+
+                <GridSplitter Grid.Row="1" Height="6"
+                              HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                              Background="#E0E0E0" ResizeDirection="Rows" ShowsPreview="True" />
+
+                <!-- Log -->
+                <GroupBox Grid.Row="2" Header="Log" Padding="6">
+                    <DockPanel>
+                        <!-- Log araç çubuğu: sol=filtre, sağ=butonlar -->
+                        <DockPanel DockPanel.Dock="Top" Margin="0,0,0,4">
+                            <CheckBox x:Name="ChkFailOnly"
+                                      Content="Sadece FAIL"
+                                      Foreground="#C62828"
+                                      FontWeight="SemiBold"
+                                      VerticalAlignment="Center"
+                                      Checked="ChkFailOnly_Changed"
+                                      Unchecked="ChkFailOnly_Changed" />
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                <Button Content="Seçimi kopyala" Padding="8,3" Margin="0,0,6,0"
+                                        ToolTip="İşaretlediğiniz metni panoya alır (Ctrl+C)"
+                                        Click="BtnCopyLogSelection_OnClick" />
+                                <Button Content="Tümünü kopyala" Padding="8,3" Margin="0,0,6,0"
+                                        Click="BtnCopyLog_OnClick" />
+                                <Button Content="Temizle" Padding="8,3" Click="BtnClearLog_OnClick" />
+                            </StackPanel>
+                        </DockPanel>
+                        <RichTextBox x:Name="TxtLog" IsReadOnly="True"
+                                     VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"
+                                     FontFamily="Consolas" FontSize="12"
+                                     BorderThickness="1" BorderBrush="#DDD" Background="#FAFAFA" Padding="6" />
+                    </DockPanel>
+                </GroupBox>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>

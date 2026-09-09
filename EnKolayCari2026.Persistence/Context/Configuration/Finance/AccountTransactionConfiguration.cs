@@ -48,7 +48,7 @@ namespace EnKolayCari2026.Persistence.Context.Configuration.Finance
                 .HasColumnName("HareketType");
 
             entity.Property(e => e.TradeDocumentId)
-                .IsRequired(true)
+                .IsRequired(false)
                 .HasColumnName("TradeDocumentId");
 
             entity.Property(e => e.Description)
