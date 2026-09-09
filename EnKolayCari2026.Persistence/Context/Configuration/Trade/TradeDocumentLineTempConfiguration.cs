@@ -26,17 +26,17 @@ namespace EnKolayCari2026.Persistence.Context.Configuration.Trade
                 .IsRequired(true)
                 .HasColumnName("PersonalGId");
 
-            entity.Property(e => e.SepetId)
+            entity.Property(e => e.CartId)
                 .IsRequired(false)
-                .HasColumnName("SepetId");
+                .HasColumnName("CartId");
 
             entity.Property(e => e.CompanyId)
                 .IsRequired(true)
                 .HasColumnName("CompanyId");
 
-            entity.Property(e => e.HareketType)
+            entity.Property(e => e.DocumentType)
                 .IsRequired(true)
-                .HasColumnName("HareketType");
+                .HasColumnName("DocumentType");
 
             entity.Property(e => e.ProductGId)
                 .IsRequired(true)
@@ -47,10 +47,10 @@ namespace EnKolayCari2026.Persistence.Context.Configuration.Trade
                 .HasMaxLength(500)
                 .HasColumnName("ProductDescription");
 
-            entity.Property(e => e.SeriNo)
+            entity.Property(e => e.SerialNo)
                 .IsRequired(false)
                 .HasMaxLength(50)
-                .HasColumnName("SeriNo");
+                .HasColumnName("SerialNo");
 
             entity.Property(e => e.ColorSize)
                 .IsRequired(false)
@@ -66,10 +66,10 @@ namespace EnKolayCari2026.Persistence.Context.Configuration.Trade
                 .IsRequired(true)
                 .HasColumnName("UnitId");
 
-            entity.Property(e => e.UnitKatsayi)
+            entity.Property(e => e.UnitMultiplier)
                 .IsRequired(false)
                 .HasPrecision(18,4)
-                .HasColumnName("UnitKatsayi");
+                .HasColumnName("UnitMultiplier");
 
             entity.Property(e => e.UnitPrice)
                 .IsRequired(true)
@@ -95,23 +95,23 @@ namespace EnKolayCari2026.Persistence.Context.Configuration.Trade
                 .HasMaxLength(1)
                 .HasColumnName("VatDH");
 
-            entity.Property(e => e.ToplamTutarVatHaric)
+            entity.Property(e => e.TotalAmountExVat)
                 .IsRequired(false)
                 .HasPrecision(18,4)
-                .HasColumnName("ToplamTutarVatHaric");
+                .HasColumnName("TotalAmountExVat");
 
-            entity.Property(e => e.ToplamTutar)
+            entity.Property(e => e.TotalAmount)
                 .IsRequired(true)
                 .HasPrecision(18,4)
-                .HasColumnName("ToplamTutar");
+                .HasColumnName("TotalAmount");
 
             entity.Property(e => e.TradeDocumentGId)
                 .IsRequired(false)
                 .HasColumnName("TradeDocumentGId");
 
-            entity.Property(e => e.TradeDocumentHareketGId)
+            entity.Property(e => e.TradeDocumentTypeGId)
                 .IsRequired(false)
-                .HasColumnName("TradeDocumentHareketGId");
+                .HasColumnName("TradeDocumentTypeGId");
 
             entity.Property(e => e.InsertDateTime)
                 .IsRequired(true)
@@ -123,13 +123,13 @@ namespace EnKolayCari2026.Persistence.Context.Configuration.Trade
                 .HasMaxLength(50)
                 .HasColumnName("EcommercePaymentId");
 
-            entity.Property(e => e.Tukenmis)
+            entity.Property(e => e.IsSoldOut)
                 .IsRequired(true)
-                .HasColumnName("Tukenmis");
+                .HasColumnName("IsSoldOut");
 
-            entity.Property(e => e.StoreTanimGId)
+            entity.Property(e => e.StoreGId)
                 .IsRequired(false)
-                .HasColumnName("StoreTanimGId");
+                .HasColumnName("StoreGId");
 
             entity.Property(e => e.DiscountPercent)
                 .IsRequired(false)
@@ -141,10 +141,10 @@ namespace EnKolayCari2026.Persistence.Context.Configuration.Trade
                 .HasPrecision(18,4)
                 .HasColumnName("Discount1Percent");
 
-            entity.Property(e => e.VadeFarkiPercent)
+            entity.Property(e => e.DeferralPercent)
                 .IsRequired(false)
                 .HasPrecision(18,4)
-                .HasColumnName("VadeFarkiPercent");
+                .HasColumnName("DeferralPercent");
 
             //Foreign Key
             entity.HasOne(d => d.Company)

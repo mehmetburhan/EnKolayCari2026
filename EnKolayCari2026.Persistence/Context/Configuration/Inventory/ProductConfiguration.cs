@@ -86,9 +86,9 @@ namespace EnKolayCari2026.Persistence.Context.Configuration.Inventory
                 .HasPrecision(18,4)
                 .HasColumnName("InternetCriticalStockQuantity");
 
-            entity.Property(e => e.SeriNoTakip)
+            entity.Property(e => e.SerialNumberTracking)
                 .IsRequired(true)
-                .HasColumnName("SeriNoTakip");
+                .HasColumnName("SerialNumberTracking");
 
             entity.Property(e => e.PurchaseVatRate)
                 .IsRequired(true)
@@ -176,19 +176,19 @@ namespace EnKolayCari2026.Persistence.Context.Configuration.Inventory
                 .IsRequired(true)
                 .HasColumnName("Height");
 
-            entity.Property(e => e.Derinlik)
+            entity.Property(e => e.Depth)
                 .IsRequired(true)
-                .HasColumnName("Derinlik");
+                .HasColumnName("Depth");
 
-            entity.Property(e => e.Desi)
+            entity.Property(e => e.DesiWeight)
                 .IsRequired(true)
                 .HasPrecision(18,4)
-                .HasColumnName("Desi");
+                .HasColumnName("DesiWeight");
 
-            entity.Property(e => e.Agirlik)
+            entity.Property(e => e.Weight)
                 .IsRequired(true)
                 .HasPrecision(18,4)
-                .HasColumnName("Agirlik");
+                .HasColumnName("Weight");
 
             entity.Property(e => e.Color)
                 .IsRequired(false)

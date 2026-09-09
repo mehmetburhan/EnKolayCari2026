@@ -1,6 +1,7 @@
 using System;
 using EnKolayCari2026.Domain.Model.Common;
 using EnKolayCari2026.Domain.Model.Dbo;
+using EnKolayCari2026.Domain.Model.HangFire;
 using EnKolayCari2026.Domain.Model.Inventory;
 using EnKolayCari2026.Domain.Model.Report;
 using EnKolayCari2026.Domain.Model.Trade;
@@ -11,13 +12,13 @@ namespace EnKolayCari2026.Domain.Model.Finance
     {
         public long Id { get; set; }  //Birincil anahtar. | Eski alan: CekSenetHareket.Id
         public Guid GId { get; set; }  //Global benzersiz kimlik (GUID). | Eski alan: CekSenetHareket.GId
-        public DateTime HareketDate { get; set; }  //Hareket tarihi. | Eski alan: CekSenetHareket.HareketTarihi
+        public DateTime TransactionDate { get; set; }  //Hareket tarihi. | Eski alan: CekSenetHareket.HareketTarihi
         public long CompanyId { get; set; }  //Bagli sirket. | Eski alan: CekSenetHareket.SirketTanimId
         public long CheckNoteId { get; set; }  //Bagli cek/senet (FK). | Eski alan: CekSenetHareket.CekSenetId
         public int DocumentStatus { get; set; }  //Yeni belge durumu. | Eski alan: CekSenetHareket.BelgeDurum
         public long AccountId { get; set; }  //Iliskili cari. | Eski alan: CekSenetHareket.CariTanimId
-        public long AccountHareketId { get; set; }  //Iliskili cari hareket. | Eski alan: CekSenetHareket.CariHareketId
-        public long CashRegisterHareketId { get; set; }  //Iliskili kasa hareket. | Eski alan: CekSenetHareket.KasaHareketId
+        public long AccountTransactionId { get; set; }  //Iliskili cari hareket. | Eski alan: CekSenetHareket.CariHareketId
+        public long CashRegisterTransactionId { get; set; }  //Iliskili kasa hareket. | Eski alan: CekSenetHareket.KasaHareketId
         public string Label { get; set; }  //Etiket. | Eski alan: CekSenetHareket.Etiket
         public DateTime InsertDateTime { get; set; }  //Olusturma tarihi. | Eski alan: CekSenetHareket.InsertDateTime
         public long InsertUser { get; set; }  //Olusturan kullanici. | Eski alan: CekSenetHareket.InsertUser

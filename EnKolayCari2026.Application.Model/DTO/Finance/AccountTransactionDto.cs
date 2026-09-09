@@ -11,7 +11,7 @@ namespace EnKolayCari2026.Application.Model.DTO.Finance
         public DateTime TransactionDate { get; set; }
         public DateTime? DueDate { get; set; }
         public string DocumentNo { get; set; }
-        public int HareketType { get; set; }
+        public int TransactionType { get; set; }
         public long? TradeDocumentId { get; set; }
         public string Description { get; set; }
         public decimal DebitAmount { get; set; }

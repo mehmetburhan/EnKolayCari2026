@@ -45,9 +45,9 @@ namespace EnKolayCari2026.Persistence.Context.Configuration.Inventory
                 .IsRequired(true)
                 .HasColumnName("Carpan");
 
-            entity.Property(e => e.Hassasiyet)
+            entity.Property(e => e.DecimalPrecision)
                 .IsRequired(true)
-                .HasColumnName("Hassasiyet");
+                .HasColumnName("DecimalPrecision");
 
             entity.Property(e => e.Label)
                 .IsRequired(false)

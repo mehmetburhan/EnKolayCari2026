@@ -20,7 +20,7 @@ namespace EnKolayCari2026.Application.Model.DTO.Inventory
         public long? CategoryId { get; set; }
         public decimal? CriticalStockQuantity { get; set; }
         public decimal? InternetCriticalStockQuantity { get; set; }
-        public bool SeriNoTakip { get; set; }
+        public bool SerialNumberTracking { get; set; }
         public int PurchaseVatRate { get; set; }
         public int VatRate { get; set; }
         public decimal PurchasePrice { get; set; }
@@ -40,9 +40,9 @@ namespace EnKolayCari2026.Application.Model.DTO.Inventory
         public bool IsHepsiBuradaActive { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
-        public int Derinlik { get; set; }
-        public decimal Desi { get; set; }
-        public decimal Agirlik { get; set; }
+        public int Depth { get; set; }
+        public decimal DesiWeight { get; set; }
+        public decimal Weight { get; set; }
         public string Color { get; set; }
         public bool? IsAppointmentActive { get; set; }
         public bool? IsAppointmentOpen { get; set; }

@@ -1,6 +1,7 @@
 using System;
 using EnKolayCari2026.Domain.Model.Common;
 using EnKolayCari2026.Domain.Model.Dbo;
+using EnKolayCari2026.Domain.Model.HangFire;
 using EnKolayCari2026.Domain.Model.Inventory;
 using EnKolayCari2026.Domain.Model.Report;
 using EnKolayCari2026.Domain.Model.Trade;
@@ -18,7 +19,7 @@ namespace EnKolayCari2026.Domain.Model.Finance
         public int DocumentStatus { get; set; }  //Portfoyde=100, BankadaTahsilde=200, BankadaTeminatta=300, MusteriyeVerildi=400, Cirolandi=500, Karsiliksiz=900, TahsilEdildi=1000 | Eski alan: CekSenetTanim.BelgeDurum
         public DateTime TransactionDate { get; set; }  //Duzenleme tarihi. | Eski alan: CekSenetTanim.Tarih
         public DateTime DueDate { get; set; }  //Vade tarihi. | Eski alan: CekSenetTanim.VadeTarihi
-        public int HareketType { get; set; }  //VerilenFirmaCeki=202, VerilenMusteriCeki=203, VerilenFirmaSenet=204, VerilenMusteriSenet=205 | Eski alan: CekSenetTanim.HareketTipi
+        public int NoteType { get; set; }  //VerilenFirmaCeki=202, VerilenMusteriCeki=203, VerilenFirmaSenet=204, VerilenMusteriSenet=205 | Eski alan: CekSenetTanim.HareketTipi
         public decimal Amount { get; set; }  //Tutar. | Eski alan: CekSenetTanim.Tutar
         public string CurrencyCode { get; set; }  //Para birimi. | Eski alan: CekSenetTanim.DovizKodu
         public string DocumentOriginalOwnerTitle { get; set; }  //Belgenin ilk sahibi unvani. | Eski alan: CekSenetTanim.BelgeIlkSahibiUnvan

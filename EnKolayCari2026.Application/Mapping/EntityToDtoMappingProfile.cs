@@ -2,12 +2,14 @@ using AutoMapper;
 using EnKolayCari2026.Domain.Model.Common;
 using EnKolayCari2026.Domain.Model.Dbo;
 using EnKolayCari2026.Domain.Model.Finance;
+using EnKolayCari2026.Domain.Model.HangFire;
 using EnKolayCari2026.Domain.Model.Inventory;
 using EnKolayCari2026.Domain.Model.Report;
 using EnKolayCari2026.Domain.Model.Trade;
 using EnKolayCari2026.Application.Model.DTO.Common;
 using EnKolayCari2026.Application.Model.DTO.Dbo;
 using EnKolayCari2026.Application.Model.DTO.Finance;
+using EnKolayCari2026.Application.Model.DTO.HangFire;
 using EnKolayCari2026.Application.Model.DTO.Inventory;
 using EnKolayCari2026.Application.Model.DTO.Report;
 using EnKolayCari2026.Application.Model.DTO.Trade;
@@ -79,6 +81,18 @@ namespace EnKolayCari2026.Application.Mapping
             CreateMap<CheckNoteTransaction, CheckNoteTransactionDto>();
             CreateMap<Currency, CurrencyDto>();
             CreateMap<CurrencyRate, CurrencyRateDto>();
+            //HangFire
+            CreateMap<AggregatedCounter, AggregatedCounterDto>();
+            CreateMap<Counter, CounterDto>();
+            CreateMap<Hash, HashDto>();
+            CreateMap<Job, JobDto>();
+            CreateMap<JobParameter, JobParameterDto>();
+            CreateMap<JobQueue, JobQueueDto>();
+            CreateMap<List, ListDto>();
+            CreateMap<Schema, SchemaDto>();
+            CreateMap<Server, ServerDto>();
+            CreateMap<Set, SetDto>();
+            CreateMap<State, StateDto>();
             //Inventory
             CreateMap<Brand, BrandDto>();
             CreateMap<Product, ProductDto>();

@@ -31,18 +31,18 @@ namespace EnKolayCari2026.Persistence.Context.Configuration.Common
                 .HasMaxLength(15)
                 .HasColumnName("Type");
 
-            entity.Property(e => e.Seri)
+            entity.Property(e => e.SerialCode)
                 .IsRequired(false)
                 .HasMaxLength(10)
-                .HasColumnName("Seri");
+                .HasColumnName("SerialCode");
 
-            entity.Property(e => e.BaslangicNo)
+            entity.Property(e => e.StartNumber)
                 .IsRequired(true)
-                .HasColumnName("BaslangicNo");
+                .HasColumnName("StartNumber");
 
-            entity.Property(e => e.BitisNo)
+            entity.Property(e => e.EndNumber)
                 .IsRequired(true)
-                .HasColumnName("BitisNo");
+                .HasColumnName("EndNumber");
 
             entity.Property(e => e.NextNumber)
                 .IsRequired(true)

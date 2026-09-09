@@ -8,9 +8,9 @@ namespace EnKolayCari2026.Application.Model.DTO.Finance
         public Guid GId { get; set; }
         public long CompanyId { get; set; }
         public long DocumentDefId { get; set; }
-        public string DocumentTanimDescription { get; set; }
+        public string DocumentTypeDescription { get; set; }
         public long AccountId { get; set; }
-        public string DocumentIcerik { get; set; }
+        public string DocumentContent { get; set; }
         public string ApprovalType { get; set; }
         public long InsertUser { get; set; }
         public DateTime InsertDateTime { get; set; }

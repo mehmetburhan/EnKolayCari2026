@@ -2,6 +2,7 @@ using System;
 using EnKolayCari2026.Domain.Model.Common;
 using EnKolayCari2026.Domain.Model.Dbo;
 using EnKolayCari2026.Domain.Model.Finance;
+using EnKolayCari2026.Domain.Model.HangFire;
 using EnKolayCari2026.Domain.Model.Report;
 using EnKolayCari2026.Domain.Model.Trade;
 
@@ -14,7 +15,7 @@ namespace EnKolayCari2026.Domain.Model.Inventory
         public long CompanyId { get; set; }  //Bagli sirket. | Eski alan: BirimTanim.SirketTanimId
         public string Code { get; set; }  //Birim kodu. | Eski alan: BirimTanim.Kod
         public string Description { get; set; }  //Birim aciklamasi. | Eski alan: BirimTanim.Aciklama
-        public int Hassasiyet { get; set; }  //Ondalik hassasiyet (hane sayisi). | Eski alan: BirimTanim.Hassasiyet
+        public int DecimalPrecision { get; set; }  //Ondalik hassasiyet (hane sayisi). | Eski alan: BirimTanim.Hassasiyet
         public string Label { get; set; }  //Etiket/barkod metni. | Eski alan: BirimTanim.Etiket
         public DateTime? InsertDateTime { get; set; }  //Olusturma tarihi. | Eski alan: BirimTanim.InsertDateTime
         public long? InsertUser { get; set; }  //Olusturan kullanici. | Eski alan: BirimTanim.InsertUser

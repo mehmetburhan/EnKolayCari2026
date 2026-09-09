@@ -1,6 +1,7 @@
 using System;
 using EnKolayCari2026.Domain.Model.Common;
 using EnKolayCari2026.Domain.Model.Dbo;
+using EnKolayCari2026.Domain.Model.HangFire;
 using EnKolayCari2026.Domain.Model.Inventory;
 using EnKolayCari2026.Domain.Model.Report;
 using EnKolayCari2026.Domain.Model.Trade;
@@ -14,7 +15,7 @@ namespace EnKolayCari2026.Domain.Model.Finance
         public long CompanyId { get; set; }  //Bagli sirket. | Eski alan: DovizTanim.SirketTanimId
         public int SortOrder { get; set; }  //Listeleme sirasi. | Eski alan: DovizTanim.Sira
         public string CurrencyCode { get; set; }  //Doviz kodu (USD, EUR vb.). | Eski alan: DovizTanim.DovizKodu
-        public int Hassasiyet { get; set; }  //Ondalik hassasiyet. | Eski alan: DovizTanim.Hassasiyet
+        public int DecimalPrecision { get; set; }  //Ondalik hassasiyet. | Eski alan: DovizTanim.Hassasiyet
         public long InsertUser { get; set; }  //Olusturan kullanici. | Eski alan: DovizTanim.InsertUser
         public DateTime InsertDateTime { get; set; }  //Olusturma tarihi. | Eski alan: DovizTanim.InsertDateTime
         public long? UpdateUser { get; set; }  //Guncelleyen kullanici. | Eski alan: DovizTanim.UpdateUser

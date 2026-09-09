@@ -22,9 +22,9 @@ namespace EnKolayCari2026.Persistence.Context.Configuration.Finance
                 .HasDefaultValueSql("(newid())")
                 .HasColumnName("GId");
 
-            entity.Property(e => e.HareketDate)
+            entity.Property(e => e.TransactionDate)
                 .IsRequired(true)
-                .HasColumnName("HareketDate");
+                .HasColumnName("TransactionDate");
 
             entity.Property(e => e.CompanyId)
                 .IsRequired(true)
@@ -42,13 +42,13 @@ namespace EnKolayCari2026.Persistence.Context.Configuration.Finance
                 .IsRequired(true)
                 .HasColumnName("AccountId");
 
-            entity.Property(e => e.AccountHareketId)
+            entity.Property(e => e.AccountTransactionId)
                 .IsRequired(true)
-                .HasColumnName("AccountHareketId");
+                .HasColumnName("AccountTransactionId");
 
-            entity.Property(e => e.CashRegisterHareketId)
+            entity.Property(e => e.CashRegisterTransactionId)
                 .IsRequired(true)
-                .HasColumnName("CashRegisterHareketId");
+                .HasColumnName("CashRegisterTransactionId");
 
             entity.Property(e => e.Label)
                 .IsRequired(false)

@@ -3,12 +3,14 @@ using Microsoft.Extensions.Logging.Abstractions;
 using EnKolayCari2026.Domain.Model.Common;
 using EnKolayCari2026.Domain.Model.Dbo;
 using EnKolayCari2026.Domain.Model.Finance;
+using EnKolayCari2026.Domain.Model.HangFire;
 using EnKolayCari2026.Domain.Model.Inventory;
 using EnKolayCari2026.Domain.Model.Report;
 using EnKolayCari2026.Domain.Model.Trade;
 using EnKolayCari2026.Application.Model.DTO.Common;
 using EnKolayCari2026.Application.Model.DTO.Dbo;
 using EnKolayCari2026.Application.Model.DTO.Finance;
+using EnKolayCari2026.Application.Model.DTO.HangFire;
 using EnKolayCari2026.Application.Model.DTO.Inventory;
 using EnKolayCari2026.Application.Model.DTO.Report;
 using EnKolayCari2026.Application.Model.DTO.Trade;
@@ -319,6 +321,62 @@ namespace EnKolayCari2026.Application.Mapping
         public static CurrencyRate ToEntity(this CurrencyRateDto dto)
         {
             return _mapper.Map<CurrencyRate>(dto);
+        }
+
+        //HangFire
+        public static AggregatedCounter ToEntity(this AggregatedCounterDto dto)
+        {
+            return _mapper.Map<AggregatedCounter>(dto);
+        }
+
+        public static Counter ToEntity(this CounterDto dto)
+        {
+            return _mapper.Map<Counter>(dto);
+        }
+
+        public static Hash ToEntity(this HashDto dto)
+        {
+            return _mapper.Map<Hash>(dto);
+        }
+
+        public static Job ToEntity(this JobDto dto)
+        {
+            return _mapper.Map<Job>(dto);
+        }
+
+        public static JobParameter ToEntity(this JobParameterDto dto)
+        {
+            return _mapper.Map<JobParameter>(dto);
+        }
+
+        public static JobQueue ToEntity(this JobQueueDto dto)
+        {
+            return _mapper.Map<JobQueue>(dto);
+        }
+
+        public static List ToEntity(this ListDto dto)
+        {
+            return _mapper.Map<List>(dto);
+        }
+
+        public static Schema ToEntity(this SchemaDto dto)
+        {
+            return _mapper.Map<Schema>(dto);
+        }
+
+        public static Server ToEntity(this ServerDto dto)
+        {
+            return _mapper.Map<Server>(dto);
+        }
+
+        public static Set ToEntity(this SetDto dto)
+        {
+            return _mapper.Map<Set>(dto);
+        }
+
+        public static State ToEntity(this StateDto dto)
+        {
+            return _mapper.Map<State>(dto);
         }
 
         //Inventory

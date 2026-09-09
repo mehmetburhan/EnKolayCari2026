@@ -1,6 +1,7 @@
 using System;
 using EnKolayCari2026.Domain.Model.Dbo;
 using EnKolayCari2026.Domain.Model.Finance;
+using EnKolayCari2026.Domain.Model.HangFire;
 using EnKolayCari2026.Domain.Model.Inventory;
 using EnKolayCari2026.Domain.Model.Report;
 using EnKolayCari2026.Domain.Model.Trade;
@@ -11,14 +12,14 @@ namespace EnKolayCari2026.Domain.Model.Common
     {
         public string Code { get; set; }  //Paket kodu (PK). | Eski alan: LisansTipi.Kod
         public int Value { get; set; }  //Paket oncelik degeri (bitmask). | Eski alan: LisansTipi.Deger
-        public bool? ProductTakip { get; set; }  //Urun/stok modulu dahil mi? | Eski alan: LisansTipi.UrunTakip
-        public bool? AccountTakip { get; set; }  //Cari modulu dahil mi? | Eski alan: LisansTipi.CariTakip
-        public bool? CheckNoteTakip { get; set; }  //Cek/senet modulu dahil mi? | Eski alan: LisansTipi.CekSenetTakip
-        public bool? TradeDocumentTakip { get; set; }  //Fatura modulu dahil mi? | Eski alan: LisansTipi.FaturaTakip
+        public bool? ProductTracking { get; set; }  //Urun/stok modulu dahil mi? | Eski alan: LisansTipi.UrunTakip
+        public bool? AccountTracking { get; set; }  //Cari modulu dahil mi? | Eski alan: LisansTipi.CariTakip
+        public bool? CheckNoteTracking { get; set; }  //Cek/senet modulu dahil mi? | Eski alan: LisansTipi.CekSenetTakip
+        public bool? TradeDocumentTracking { get; set; }  //Fatura modulu dahil mi? | Eski alan: LisansTipi.FaturaTakip
         public bool? PaymentTracking { get; set; }  //Odeme modulu dahil mi? | Eski alan: LisansTipi.OdemeTakip
         public bool? BankTracking { get; set; }  //Banka modulu dahil mi? | Eski alan: LisansTipi.BankaTakip
-        public bool? IrsaliyeTakip { get; set; }  //Irsaliye modulu dahil mi? | Eski alan: LisansTipi.IrsaliyeTakip
-        public bool? TeklifSiparisTakip { get; set; }  //Teklif/siparis modulu dahil mi? | Eski alan: LisansTipi.TeklifSiparisTakip
+        public bool? ShippingNoteTracking { get; set; }  //Irsaliye modulu dahil mi? | Eski alan: LisansTipi.IrsaliyeTakip
+        public bool? QuoteOrderTracking { get; set; }  //Teklif/siparis modulu dahil mi? | Eski alan: LisansTipi.TeklifSiparisTakip
         public bool? EArchiveEInvoice { get; set; }  //e-Arsiv/e-Fatura modulu dahil mi? | Eski alan: LisansTipi.EArsivEFatura
         public bool? MedicalService { get; set; }  //Servis modulu dahil mi? | Eski alan: LisansTipi.Servis
         public bool? IsEcommerce { get; set; }  //E-ticaret modulu dahil mi? | Eski alan: LisansTipi.ETicaret

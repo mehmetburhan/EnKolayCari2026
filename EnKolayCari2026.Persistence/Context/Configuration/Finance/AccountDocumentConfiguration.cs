@@ -30,18 +30,18 @@ namespace EnKolayCari2026.Persistence.Context.Configuration.Finance
                 .IsRequired(true)
                 .HasColumnName("DocumentDefId");
 
-            entity.Property(e => e.DocumentTanimDescription)
+            entity.Property(e => e.DocumentTypeDescription)
                 .IsRequired(true)
                 .HasMaxLength(100)
-                .HasColumnName("DocumentTanimDescription");
+                .HasColumnName("DocumentTypeDescription");
 
             entity.Property(e => e.AccountId)
                 .IsRequired(true)
                 .HasColumnName("AccountId");
 
-            entity.Property(e => e.DocumentIcerik)
+            entity.Property(e => e.DocumentContent)
                 .IsRequired(true)
-                .HasColumnName("DocumentIcerik");
+                .HasColumnName("DocumentContent");
 
             entity.Property(e => e.ApprovalType)
                 .IsRequired(false)

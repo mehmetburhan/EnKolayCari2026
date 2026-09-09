@@ -51,9 +51,9 @@ namespace EnKolayCari2026.Persistence.Context.Configuration.Finance
                 .IsRequired(true)
                 .HasColumnName("DueDate");
 
-            entity.Property(e => e.HareketType)
+            entity.Property(e => e.NoteType)
                 .IsRequired(true)
-                .HasColumnName("HareketType");
+                .HasColumnName("NoteType");
 
             entity.Property(e => e.Amount)
                 .IsRequired(true)

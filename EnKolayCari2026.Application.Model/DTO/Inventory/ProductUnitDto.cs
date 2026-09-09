@@ -12,7 +12,7 @@ namespace EnKolayCari2026.Application.Model.DTO.Inventory
         public long UnitId { get; set; }
         public string Barcode { get; set; }
         public double Carpan { get; set; }
-        public int Hassasiyet { get; set; }
+        public int DecimalPrecision { get; set; }
         public string Label { get; set; }
         public DateTime? InsertDateTime { get; set; }
         public long? InsertUser { get; set; }

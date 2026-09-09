@@ -1,6 +1,7 @@
 using System;
 using EnKolayCari2026.Domain.Model.Common;
 using EnKolayCari2026.Domain.Model.Dbo;
+using EnKolayCari2026.Domain.Model.HangFire;
 using EnKolayCari2026.Domain.Model.Inventory;
 using EnKolayCari2026.Domain.Model.Report;
 using EnKolayCari2026.Domain.Model.Trade;
@@ -13,9 +14,9 @@ namespace EnKolayCari2026.Domain.Model.Finance
         public Guid GId { get; set; }  //Global benzersiz kimlik (GUID). | Eski alan: KasaHareket.GId
         public long CompanyId { get; set; }  //Bagli sirket. | Eski alan: KasaHareket.SirketTanimId
         public long CashRegisterId { get; set; }  //Kasa (FK -> KasaTanim.Id). | Eski alan: KasaHareket.KasaTanimId
-        public long AccountHareketId { get; set; }  //Bagli cari hareket (FK -> CariHareket.Id). | Eski alan: KasaHareket.CariHareketId
+        public long AccountTransactionId { get; set; }  //Bagli cari hareket (FK -> CariHareket.Id). | Eski alan: KasaHareket.CariHareketId
         public DateTime TransactionDate { get; set; }  //Hareket tarihi. | Eski alan: KasaHareket.Tarih
-        public int CashRegisterHareketType { get; set; }  //Kasa hareket tipi. | Eski alan: KasaHareket.KasaHareketTipi
+        public int CashRegisterTransactionType { get; set; }  //Kasa hareket tipi. | Eski alan: KasaHareket.KasaHareketTipi
         public string Description { get; set; }  //Hareket aciklamasi. | Eski alan: KasaHareket.Aciklama
         public decimal DebitAmount { get; set; }  //Borc tutari. | Eski alan: KasaHareket.Borc
         public decimal CreditAmount { get; set; }  //Alacak tutari. | Eski alan: KasaHareket.Alacak

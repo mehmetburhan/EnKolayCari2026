@@ -8,9 +8,9 @@ namespace EnKolayCari2026.Application.Model.DTO.Finance
         public Guid GId { get; set; }
         public long CompanyId { get; set; }
         public long CashRegisterId { get; set; }
-        public long AccountHareketId { get; set; }
+        public long AccountTransactionId { get; set; }
         public DateTime TransactionDate { get; set; }
-        public int CashRegisterHareketType { get; set; }
+        public int CashRegisterTransactionType { get; set; }
         public string Description { get; set; }
         public decimal DebitAmount { get; set; }
         public decimal CreditAmount { get; set; }

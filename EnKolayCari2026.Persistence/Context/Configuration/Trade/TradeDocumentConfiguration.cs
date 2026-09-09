@@ -30,17 +30,17 @@ namespace EnKolayCari2026.Persistence.Context.Configuration.Trade
                 .IsRequired(true)
                 .HasColumnName("StoreId");
 
-            entity.Property(e => e.StoreTanim1Id)
+            entity.Property(e => e.SecondaryStoreId)
                 .IsRequired(false)
-                .HasColumnName("StoreTanim1Id");
+                .HasColumnName("SecondaryStoreId");
 
             entity.Property(e => e.AccountId)
                 .IsRequired(true)
                 .HasColumnName("AccountId");
 
-            entity.Property(e => e.HareketType)
+            entity.Property(e => e.DocumentType)
                 .IsRequired(true)
-                .HasColumnName("HareketType");
+                .HasColumnName("DocumentType");
 
             entity.Property(e => e.TradeDocumentNo)
                 .IsRequired(true)
@@ -51,9 +51,9 @@ namespace EnKolayCari2026.Persistence.Context.Configuration.Trade
                 .IsRequired(true)
                 .HasColumnName("TransactionDate");
 
-            entity.Property(e => e.Saat)
+            entity.Property(e => e.TransactionTime)
                 .IsRequired(false)
-                .HasColumnName("Saat");
+                .HasColumnName("TransactionTime");
 
             entity.Property(e => e.DueDate)
                 .IsRequired(false)
@@ -64,33 +64,33 @@ namespace EnKolayCari2026.Persistence.Context.Configuration.Trade
                 .HasMaxLength(30)
                 .HasColumnName("CurrencyCode");
 
-            entity.Property(e => e.SiparisStatus)
+            entity.Property(e => e.OrderStatus)
                 .IsRequired(false)
-                .HasColumnName("SiparisStatus");
+                .HasColumnName("OrderStatus");
 
             entity.Property(e => e.OrderShippingSlipNumber)
                 .IsRequired(false)
                 .HasMaxLength(50)
                 .HasColumnName("OrderShippingSlipNumber");
 
-            entity.Property(e => e.ShippingFirmaDefId)
+            entity.Property(e => e.ShippingCompanyDefId)
                 .IsRequired(false)
-                .HasColumnName("ShippingFirmaDefId");
+                .HasColumnName("ShippingCompanyDefId");
 
-            entity.Property(e => e.TradeDocumentTeslimAdSoyadTitle)
+            entity.Property(e => e.BillingFullNameOrTitle)
                 .IsRequired(false)
                 .HasMaxLength(250)
-                .HasColumnName("TradeDocumentTeslimAdSoyadTitle");
+                .HasColumnName("BillingFullNameOrTitle");
 
-            entity.Property(e => e.TradeDocumentTeslimEMail)
+            entity.Property(e => e.BillingEmail)
                 .IsRequired(false)
                 .HasMaxLength(100)
-                .HasColumnName("TradeDocumentTeslimEMail");
+                .HasColumnName("BillingEmail");
 
-            entity.Property(e => e.TradeDocumentTeslimPhone)
+            entity.Property(e => e.BillingPhone)
                 .IsRequired(false)
                 .HasMaxLength(30)
-                .HasColumnName("TradeDocumentTeslimPhone");
+                .HasColumnName("BillingPhone");
 
             entity.Property(e => e.Address)
                 .IsRequired(false)
@@ -136,10 +136,10 @@ namespace EnKolayCari2026.Persistence.Context.Configuration.Trade
                 .HasMaxLength(500)
                 .HasColumnName("DeliveryAddress");
 
-            entity.Property(e => e.TeslimatIl)
+            entity.Property(e => e.DeliveryCity)
                 .IsRequired(false)
                 .HasMaxLength(50)
-                .HasColumnName("TeslimatIl");
+                .HasColumnName("DeliveryCity");
 
             entity.Property(e => e.DeliveryDistrict)
                 .IsRequired(false)
@@ -170,39 +170,39 @@ namespace EnKolayCari2026.Persistence.Context.Configuration.Trade
                 .HasMaxLength(250)
                 .HasColumnName("MedicalServiceProductBrandModel");
 
-            entity.Property(e => e.MedicalServiceCihazSeriNo)
+            entity.Property(e => e.ServiceDeviceSerialNo)
                 .IsRequired(false)
                 .HasMaxLength(50)
-                .HasColumnName("MedicalServiceCihazSeriNo");
+                .HasColumnName("ServiceDeviceSerialNo");
 
             entity.Property(e => e.MedicalServiceSellerCompany)
                 .IsRequired(false)
                 .HasMaxLength(100)
                 .HasColumnName("MedicalServiceSellerCompany");
 
-            entity.Property(e => e.MedicalServiceAksesuar)
+            entity.Property(e => e.ServiceAccessories)
                 .IsRequired(false)
                 .HasMaxLength(750)
-                .HasColumnName("MedicalServiceAksesuar");
+                .HasColumnName("ServiceAccessories");
 
             entity.Property(e => e.ServiceDeviceDescription)
                 .IsRequired(false)
                 .HasMaxLength(750)
                 .HasColumnName("ServiceDeviceDescription");
 
-            entity.Property(e => e.MedicalServiceMusteriNotu)
+            entity.Property(e => e.ServiceCustomerNote)
                 .IsRequired(false)
                 .HasMaxLength(750)
-                .HasColumnName("MedicalServiceMusteriNotu");
+                .HasColumnName("ServiceCustomerNote");
 
             entity.Property(e => e.ServicePersonalNote)
                 .IsRequired(false)
                 .HasMaxLength(750)
                 .HasColumnName("ServicePersonalNote");
 
-            entity.Property(e => e.MedicalServiceGarantiBilgisi)
+            entity.Property(e => e.ServiceWarrantyInfo)
                 .IsRequired(false)
-                .HasColumnName("MedicalServiceGarantiBilgisi");
+                .HasColumnName("ServiceWarrantyInfo");
 
             entity.Property(e => e.MedicalServiceStatus)
                 .IsRequired(false)
@@ -212,27 +212,27 @@ namespace EnKolayCari2026.Persistence.Context.Configuration.Trade
                 .IsRequired(false)
                 .HasColumnName("ServiceDeliveryDate");
 
-            entity.Property(e => e.MedicalServiceTeslimAlanKisi)
+            entity.Property(e => e.ServiceDeliveryRecipient)
                 .IsRequired(false)
                 .HasMaxLength(100)
-                .HasColumnName("MedicalServiceTeslimAlanKisi");
+                .HasColumnName("ServiceDeliveryRecipient");
 
-            entity.Property(e => e.TeklifStatus)
+            entity.Property(e => e.QuoteStatus)
                 .IsRequired(false)
-                .HasColumnName("TeklifStatus");
+                .HasColumnName("QuoteStatus");
 
             entity.Property(e => e.Label)
                 .IsRequired(false)
                 .HasMaxLength(500)
                 .HasColumnName("Label");
 
-            entity.Property(e => e.DocumentKapali)
+            entity.Property(e => e.IsDocumentClosed)
                 .IsRequired(true)
-                .HasColumnName("DocumentKapali");
+                .HasColumnName("IsDocumentClosed");
 
-            entity.Property(e => e.ED_SonIslemDate)
+            entity.Property(e => e.ED_LastProcessDate)
                 .IsRequired(false)
-                .HasColumnName("ED_SonIslemDate");
+                .HasColumnName("ED_LastProcessDate");
 
             entity.Property(e => e.ED_Code)
                 .IsRequired(false)
@@ -280,15 +280,15 @@ namespace EnKolayCari2026.Persistence.Context.Configuration.Trade
                 .IsRequired(true)
                 .HasColumnName("LineCount");
 
-            entity.Property(e => e.ToplamVatTutar)
+            entity.Property(e => e.TotalVatAmount)
                 .IsRequired(true)
                 .HasPrecision(18,4)
-                .HasColumnName("ToplamVatTutar");
+                .HasColumnName("TotalVatAmount");
 
-            entity.Property(e => e.ToplamTutar)
+            entity.Property(e => e.TotalAmount)
                 .IsRequired(true)
                 .HasPrecision(18,4)
-                .HasColumnName("ToplamTutar");
+                .HasColumnName("TotalAmount");
 
             entity.Property(e => e.InsertDateTime)
                 .IsRequired(true)
@@ -329,22 +329,22 @@ namespace EnKolayCari2026.Persistence.Context.Configuration.Trade
                 .IsRequired(false)
                 .HasColumnName("ElectronicDocumentType");
 
-            entity.Property(e => e.ElektronikBelgeNo)
+            entity.Property(e => e.ElectronicDocumentNo)
                 .IsRequired(false)
                 .HasMaxLength(50)
-                .HasColumnName("ElektronikBelgeNo");
+                .HasColumnName("ElectronicDocumentNo");
 
             entity.Property(e => e.ElectronicDocumentSentDate)
                 .IsRequired(false)
                 .HasColumnName("ElectronicDocumentSentDate");
 
-            entity.Property(e => e.ElektronikBelgeHatalari)
+            entity.Property(e => e.ElectronicDocumentErrors)
                 .IsRequired(false)
-                .HasColumnName("ElektronikBelgeHatalari");
+                .HasColumnName("ElectronicDocumentErrors");
 
-            entity.Property(e => e.ElektronikBelgeGonderimStatus)
+            entity.Property(e => e.ElectronicDocumentSendStatus)
                 .IsRequired(false)
-                .HasColumnName("ElektronikBelgeGonderimStatus");
+                .HasColumnName("ElectronicDocumentSendStatus");
 
             //Foreign Key
             entity.HasOne(d => d.Company)

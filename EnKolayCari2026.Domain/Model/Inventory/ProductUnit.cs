@@ -2,6 +2,7 @@ using System;
 using EnKolayCari2026.Domain.Model.Common;
 using EnKolayCari2026.Domain.Model.Dbo;
 using EnKolayCari2026.Domain.Model.Finance;
+using EnKolayCari2026.Domain.Model.HangFire;
 using EnKolayCari2026.Domain.Model.Report;
 using EnKolayCari2026.Domain.Model.Trade;
 
@@ -17,7 +18,7 @@ namespace EnKolayCari2026.Domain.Model.Inventory
         public long UnitId { get; set; }  //- | Eski alan: UrunBirim.BirimId
         public string Barcode { get; set; }  //- | Eski alan: UrunBirim.Barkod
         public double Carpan { get; set; }  //- | Eski alan: UrunBirim.Carpan
-        public int Hassasiyet { get; set; }  //- | Eski alan: UrunBirim.Hassasiyet
+        public int DecimalPrecision { get; set; }  //- | Eski alan: UrunBirim.Hassasiyet
         public string Label { get; set; }  //- | Eski alan: UrunBirim.Etiket
         public DateTime? InsertDateTime { get; set; }  //- | Eski alan: UrunBirim.InsertDateTime
         public long? InsertUser { get; set; }  //- | Eski alan: UrunBirim.InsertUser

@@ -34,9 +34,9 @@ namespace EnKolayCari2026.Persistence.Context.Configuration.Trade
                 .IsRequired(true)
                 .HasColumnName("StoreId");
 
-            entity.Property(e => e.HareketType)
+            entity.Property(e => e.DocumentType)
                 .IsRequired(true)
-                .HasColumnName("HareketType");
+                .HasColumnName("DocumentType");
 
             entity.Property(e => e.ProductId)
                 .IsRequired(true)
@@ -47,10 +47,10 @@ namespace EnKolayCari2026.Persistence.Context.Configuration.Trade
                 .HasMaxLength(500)
                 .HasColumnName("ProductDescription");
 
-            entity.Property(e => e.SeriNo)
+            entity.Property(e => e.SerialNo)
                 .IsRequired(false)
                 .HasMaxLength(50)
-                .HasColumnName("SeriNo");
+                .HasColumnName("SerialNo");
 
             entity.Property(e => e.ColorSize)
                 .IsRequired(false)
@@ -66,10 +66,10 @@ namespace EnKolayCari2026.Persistence.Context.Configuration.Trade
                 .IsRequired(true)
                 .HasColumnName("UnitId");
 
-            entity.Property(e => e.UnitKatsayi)
+            entity.Property(e => e.UnitMultiplier)
                 .IsRequired(false)
                 .HasPrecision(18,4)
-                .HasColumnName("UnitKatsayi");
+                .HasColumnName("UnitMultiplier");
 
             entity.Property(e => e.UnitPrice)
                 .IsRequired(true)
@@ -85,19 +85,19 @@ namespace EnKolayCari2026.Persistence.Context.Configuration.Trade
                 .IsRequired(true)
                 .HasColumnName("VatRate");
 
-            entity.Property(e => e.VatTutari)
+            entity.Property(e => e.VatAmount)
                 .IsRequired(true)
                 .HasPrecision(18,4)
-                .HasColumnName("VatTutari");
+                .HasColumnName("VatAmount");
 
-            entity.Property(e => e.SatirTutari)
+            entity.Property(e => e.LineAmount)
                 .IsRequired(true)
                 .HasPrecision(18,4)
-                .HasColumnName("SatirTutari");
+                .HasColumnName("LineAmount");
 
-            entity.Property(e => e.StokSayimiDahilEtme)
+            entity.Property(e => e.ExcludeFromStockCount)
                 .IsRequired(false)
-                .HasColumnName("StokSayimiDahilEtme");
+                .HasColumnName("ExcludeFromStockCount");
 
             entity.Property(e => e.Label)
                 .IsRequired(false)
@@ -145,10 +145,10 @@ namespace EnKolayCari2026.Persistence.Context.Configuration.Trade
                 .HasPrecision(18,4)
                 .HasColumnName("Discount1Percent");
 
-            entity.Property(e => e.VadeFarkiPercent)
+            entity.Property(e => e.DeferralPercent)
                 .IsRequired(false)
                 .HasPrecision(18,4)
-                .HasColumnName("VadeFarkiPercent");
+                .HasColumnName("DeferralPercent");
 
             //Foreign Key
             entity.HasOne(d => d.Company)

@@ -9,7 +9,7 @@ namespace EnKolayCari2026.Application.Model.DTO.Inventory
         public long CompanyId { get; set; }
         public string Code { get; set; }
         public string Description { get; set; }
-        public int Hassasiyet { get; set; }
+        public int DecimalPrecision { get; set; }
         public string Label { get; set; }
         public DateTime? InsertDateTime { get; set; }
         public long? InsertUser { get; set; }

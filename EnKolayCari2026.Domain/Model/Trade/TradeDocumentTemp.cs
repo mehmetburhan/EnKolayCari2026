@@ -2,6 +2,7 @@ using System;
 using EnKolayCari2026.Domain.Model.Common;
 using EnKolayCari2026.Domain.Model.Dbo;
 using EnKolayCari2026.Domain.Model.Finance;
+using EnKolayCari2026.Domain.Model.HangFire;
 using EnKolayCari2026.Domain.Model.Inventory;
 using EnKolayCari2026.Domain.Model.Report;
 
@@ -13,7 +14,7 @@ namespace EnKolayCari2026.Domain.Model.Trade
         public Guid GId { get; set; }  //Global benzersiz kimlik (GUID). | Eski alan: FaturaTemp.GId
         public long CompanyId { get; set; }  //Bagli sirket. | Eski alan: FaturaTemp.SirketTanimId
         public Guid PersonalGId { get; set; }  //Personel/kullanici GUID. | Eski alan: FaturaTemp.PersonelGId
-        public int HareketType { get; set; }  //Belge hareket tipi. | Eski alan: FaturaTemp.HareketTipi
+        public int DocumentType { get; set; }  //Belge hareket tipi. | Eski alan: FaturaTemp.HareketTipi
         public long? AccountId { get; set; }  //Bagli cari (FK -> CariTanim.Id). | Eski alan: FaturaTemp.CariTanimId
         public string TradeDocumentNo { get; set; }  //Belge/fatura numarasi. | Eski alan: FaturaTemp.FaturaNo
         public DateTime? TransactionDate { get; set; }  //Belge tarihi. | Eski alan: FaturaTemp.Tarih

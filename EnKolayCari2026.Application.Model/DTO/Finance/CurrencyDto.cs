@@ -9,7 +9,7 @@ namespace EnKolayCari2026.Application.Model.DTO.Finance
         public long CompanyId { get; set; }
         public int SortOrder { get; set; }
         public string CurrencyCode { get; set; }
-        public int Hassasiyet { get; set; }
+        public int DecimalPrecision { get; set; }
         public long InsertUser { get; set; }
         public DateTime InsertDateTime { get; set; }
         public long? UpdateUser { get; set; }

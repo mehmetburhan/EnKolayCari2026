@@ -30,9 +30,9 @@ namespace EnKolayCari2026.Persistence.Context.Configuration.Trade
                 .IsRequired(true)
                 .HasColumnName("PersonalGId");
 
-            entity.Property(e => e.HareketType)
+            entity.Property(e => e.DocumentType)
                 .IsRequired(true)
-                .HasColumnName("HareketType");
+                .HasColumnName("DocumentType");
 
             entity.Property(e => e.AccountId)
                 .IsRequired(false)

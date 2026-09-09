@@ -6,13 +6,13 @@ namespace EnKolayCari2026.Application.Model.DTO.Finance
     {
         public long Id { get; set; }
         public Guid GId { get; set; }
-        public DateTime HareketDate { get; set; }
+        public DateTime TransactionDate { get; set; }
         public long CompanyId { get; set; }
         public long CheckNoteId { get; set; }
         public int DocumentStatus { get; set; }
         public long AccountId { get; set; }
-        public long AccountHareketId { get; set; }
-        public long CashRegisterHareketId { get; set; }
+        public long AccountTransactionId { get; set; }
+        public long CashRegisterTransactionId { get; set; }
         public string Label { get; set; }
         public DateTime InsertDateTime { get; set; }
         public long InsertUser { get; set; }

@@ -26,9 +26,9 @@ namespace EnKolayCari2026.Persistence.Context.Configuration.Common
                 .IsRequired(true)
                 .HasColumnName("CompanyId");
 
-            entity.Property(e => e.Hediye)
+            entity.Property(e => e.IsGift)
                 .IsRequired(false)
-                .HasColumnName("Hediye");
+                .HasColumnName("IsGift");
 
             entity.Property(e => e.LicenseType)
                 .IsRequired(true)
@@ -43,14 +43,14 @@ namespace EnKolayCari2026.Persistence.Context.Configuration.Common
                 .IsRequired(true)
                 .HasColumnName("EndDate");
 
-            entity.Property(e => e.TahsilatSekli)
+            entity.Property(e => e.CollectionMethod)
                 .IsRequired(false)
-                .HasColumnName("TahsilatSekli");
+                .HasColumnName("CollectionMethod");
 
-            entity.Property(e => e.TahsilatTutari)
+            entity.Property(e => e.CollectionAmount)
                 .IsRequired(true)
                 .HasPrecision(18,2)
-                .HasColumnName("TahsilatTutari");
+                .HasColumnName("CollectionAmount");
 
             entity.Property(e => e.InsertDateTime)
                 .IsRequired(true)

@@ -5,12 +5,14 @@ using Microsoft.EntityFrameworkCore;
 using EnKolayCari2026.Domain.Model.Common;
 using EnKolayCari2026.Domain.Model.Dbo;
 using EnKolayCari2026.Domain.Model.Finance;
+using EnKolayCari2026.Domain.Model.HangFire;
 using EnKolayCari2026.Domain.Model.Inventory;
 using EnKolayCari2026.Domain.Model.Report;
 using EnKolayCari2026.Domain.Model.Trade;
 using EnKolayCari2026.Persistence.Context.Configuration.Common;
 using EnKolayCari2026.Persistence.Context.Configuration.Dbo;
 using EnKolayCari2026.Persistence.Context.Configuration.Finance;
+using EnKolayCari2026.Persistence.Context.Configuration.HangFire;
 using EnKolayCari2026.Persistence.Context.Configuration.Inventory;
 using EnKolayCari2026.Persistence.Context.Configuration.Report;
 using EnKolayCari2026.Persistence.Context.Configuration.Trade;
@@ -85,6 +87,19 @@ public partial class EnKolayCari2026Context : IdentityDbContext<AspNetUsers,AspN
     public virtual DbSet<CheckNoteTransaction> CheckNoteTransaction { get; set; }
     public virtual DbSet<Currency> Currency { get; set; }
     public virtual DbSet<CurrencyRate> CurrencyRate { get; set; }
+
+    //HangFire
+    public virtual DbSet<AggregatedCounter> AggregatedCounter { get; set; }
+    public virtual DbSet<Counter> Counter { get; set; }
+    public virtual DbSet<Hash> Hash { get; set; }
+    public virtual DbSet<Job> Job { get; set; }
+    public virtual DbSet<JobParameter> JobParameter { get; set; }
+    public virtual DbSet<JobQueue> JobQueue { get; set; }
+    public virtual DbSet<List> List { get; set; }
+    public virtual DbSet<Schema> Schema { get; set; }
+    public virtual DbSet<Server> Server { get; set; }
+    public virtual DbSet<Set> Set { get; set; }
+    public virtual DbSet<State> State { get; set; }
 
     //inventory
     public virtual DbSet<Brand> Brand { get; set; }
@@ -178,6 +193,19 @@ public partial class EnKolayCari2026Context : IdentityDbContext<AspNetUsers,AspN
         modelBuilder.ApplyConfiguration(new CheckNoteTransactionConfiguration());
         modelBuilder.ApplyConfiguration(new CurrencyConfiguration());
         modelBuilder.ApplyConfiguration(new CurrencyRateConfiguration());
+
+        //Table HangFire
+        modelBuilder.ApplyConfiguration(new AggregatedCounterConfiguration());
+        modelBuilder.ApplyConfiguration(new CounterConfiguration());
+        modelBuilder.ApplyConfiguration(new HashConfiguration());
+        modelBuilder.ApplyConfiguration(new JobConfiguration());
+        modelBuilder.ApplyConfiguration(new JobParameterConfiguration());
+        modelBuilder.ApplyConfiguration(new JobQueueConfiguration());
+        modelBuilder.ApplyConfiguration(new ListConfiguration());
+        modelBuilder.ApplyConfiguration(new SchemaConfiguration());
+        modelBuilder.ApplyConfiguration(new ServerConfiguration());
+        modelBuilder.ApplyConfiguration(new SetConfiguration());
+        modelBuilder.ApplyConfiguration(new StateConfiguration());
 
         //Table Inventory
         modelBuilder.ApplyConfiguration(new BrandConfiguration());

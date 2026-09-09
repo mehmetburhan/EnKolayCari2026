@@ -13,7 +13,7 @@ namespace EnKolayCari2026.Application.Model.DTO.Finance
         public int DocumentStatus { get; set; }
         public DateTime TransactionDate { get; set; }
         public DateTime DueDate { get; set; }
-        public int HareketType { get; set; }
+        public int NoteType { get; set; }
         public decimal Amount { get; set; }
         public string CurrencyCode { get; set; }
         public string DocumentOriginalOwnerTitle { get; set; }

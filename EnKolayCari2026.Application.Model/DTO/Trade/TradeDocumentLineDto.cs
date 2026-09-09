@@ -9,20 +9,20 @@ namespace EnKolayCari2026.Application.Model.DTO.Trade
         public long CompanyId { get; set; }
         public long TradeDocumentId { get; set; }
         public long StoreId { get; set; }
-        public int HareketType { get; set; }
+        public int DocumentType { get; set; }
         public long ProductId { get; set; }
         public string ProductDescription { get; set; }
-        public string SeriNo { get; set; }
+        public string SerialNo { get; set; }
         public string ColorSize { get; set; }
         public decimal Quantity { get; set; }
         public long UnitId { get; set; }
-        public decimal? UnitKatsayi { get; set; }
+        public decimal? UnitMultiplier { get; set; }
         public decimal UnitPrice { get; set; }
         public string CurrencyCode { get; set; }
         public int VatRate { get; set; }
-        public decimal VatTutari { get; set; }
-        public decimal SatirTutari { get; set; }
-        public bool? StokSayimiDahilEtme { get; set; }
+        public decimal VatAmount { get; set; }
+        public decimal LineAmount { get; set; }
+        public bool? ExcludeFromStockCount { get; set; }
         public string Label { get; set; }
         public DateTime? InsertDateTime { get; set; }
         public long? InsertUser { get; set; }
@@ -33,6 +33,6 @@ namespace EnKolayCari2026.Application.Model.DTO.Trade
         public DateTime? RecordDateTime { get; set; }
         public decimal? DiscountPercent { get; set; }
         public decimal? Discount1Percent { get; set; }
-        public decimal? VadeFarkiPercent { get; set; }
+        public decimal? DeferralPercent { get; set; }
     }
 }

@@ -9,7 +9,7 @@ namespace EnKolayCari2026.Application.Model.DTO.Common
         public long CompanyId { get; set; }
         public bool Stat { get; set; }
         public string Konu { get; set; }
-        public string Metin { get; set; }
+        public string Body { get; set; }
         public DateTime InsertDateTime { get; set; }
         public long InsertUser { get; set; }
         public DateTime? UpdateDateTime { get; set; }

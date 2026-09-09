@@ -2,6 +2,7 @@ using System;
 using EnKolayCari2026.Domain.Model.Common;
 using EnKolayCari2026.Domain.Model.Dbo;
 using EnKolayCari2026.Domain.Model.Finance;
+using EnKolayCari2026.Domain.Model.HangFire;
 using EnKolayCari2026.Domain.Model.Report;
 using EnKolayCari2026.Domain.Model.Trade;
 
@@ -25,7 +26,7 @@ namespace EnKolayCari2026.Domain.Model.Inventory
         public long? CategoryId { get; set; }  //Kategori/beden (FK -> KategoriTanim.Id). | Eski alan: UrunTanim.KategoriTanimId
         public decimal? CriticalStockQuantity { get; set; }  //Kritik stok esik miktari. | Eski alan: UrunTanim.KritikStokMiktari
         public decimal? InternetCriticalStockQuantity { get; set; }  //E-ticaret kritik stok esigi. | Eski alan: UrunTanim.InternetKritikStokMiktari
-        public bool SeriNoTakip { get; set; }  //Seri numarasi takibi yapilsin mi? | Eski alan: UrunTanim.SeriNoTakip
+        public bool SerialNumberTracking { get; set; }  //Seri numarasi takibi yapilsin mi? | Eski alan: UrunTanim.SeriNoTakip
         public int PurchaseVatRate { get; set; }  //Alis KDV orani (%). | Eski alan: UrunTanim.AlisKdvOrani
         public int VatRate { get; set; }  //Satis KDV orani (%). | Eski alan: UrunTanim.KdvOrani
         public decimal PurchasePrice { get; set; }  //Alis fiyati. | Eski alan: UrunTanim.AlisFiyati
@@ -45,9 +46,9 @@ namespace EnKolayCari2026.Domain.Model.Inventory
         public bool IsHepsiBuradaActive { get; set; }  //Hepsiburada entegrasyonu aktif mi? | Eski alan: UrunTanim.HepsiburadaAktif
         public int Width { get; set; }  //Urun genisligi (cm). | Eski alan: UrunTanim.Genislik
         public int Height { get; set; }  //Urun yuksekligi (cm). | Eski alan: UrunTanim.Yukseklik
-        public int Derinlik { get; set; }  //Urun derinligi (cm). | Eski alan: UrunTanim.Derinlik
-        public decimal Desi { get; set; }  //Desi degeri (kargo). | Eski alan: UrunTanim.Desi
-        public decimal Agirlik { get; set; }  //Agirlik (kg). | Eski alan: UrunTanim.Agirlik
+        public int Depth { get; set; }  //Urun derinligi (cm). | Eski alan: UrunTanim.Derinlik
+        public decimal DesiWeight { get; set; }  //Desi degeri (kargo). | Eski alan: UrunTanim.Desi
+        public decimal Weight { get; set; }  //Agirlik (kg). | Eski alan: UrunTanim.Agirlik
         public string Color { get; set; }  //Randevu takvim renk kodu. | Eski alan: UrunTanim.Renk
         public bool? IsAppointmentActive { get; set; }  //Randevu modulu aktif mi? | Eski alan: UrunTanim.RandevuAktif
         public bool? IsAppointmentOpen { get; set; }  //Randevu almaya acik mi? | Eski alan: UrunTanim.RandevuAcik

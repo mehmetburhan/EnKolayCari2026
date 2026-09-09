@@ -35,9 +35,9 @@ namespace EnKolayCari2026.Persistence.Context.Configuration.Finance
                 .HasMaxLength(10)
                 .HasColumnName("CurrencyCode");
 
-            entity.Property(e => e.Hassasiyet)
+            entity.Property(e => e.DecimalPrecision)
                 .IsRequired(true)
-                .HasColumnName("Hassasiyet");
+                .HasColumnName("DecimalPrecision");
 
             entity.Property(e => e.InsertUser)
                 .IsRequired(true)

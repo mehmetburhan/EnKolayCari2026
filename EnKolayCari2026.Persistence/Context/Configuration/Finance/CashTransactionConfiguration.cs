@@ -30,17 +30,17 @@ namespace EnKolayCari2026.Persistence.Context.Configuration.Finance
                 .IsRequired(true)
                 .HasColumnName("CashRegisterId");
 
-            entity.Property(e => e.AccountHareketId)
+            entity.Property(e => e.AccountTransactionId)
                 .IsRequired(true)
-                .HasColumnName("AccountHareketId");
+                .HasColumnName("AccountTransactionId");
 
             entity.Property(e => e.TransactionDate)
                 .IsRequired(true)
                 .HasColumnName("TransactionDate");
 
-            entity.Property(e => e.CashRegisterHareketType)
+            entity.Property(e => e.CashRegisterTransactionType)
                 .IsRequired(true)
-                .HasColumnName("CashRegisterHareketType");
+                .HasColumnName("CashRegisterTransactionType");
 
             entity.Property(e => e.Description)
                 .IsRequired(false)

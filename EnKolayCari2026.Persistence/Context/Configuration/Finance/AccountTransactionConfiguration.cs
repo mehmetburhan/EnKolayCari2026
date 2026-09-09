@@ -43,9 +43,9 @@ namespace EnKolayCari2026.Persistence.Context.Configuration.Finance
                 .HasMaxLength(50)
                 .HasColumnName("DocumentNo");
 
-            entity.Property(e => e.HareketType)
+            entity.Property(e => e.TransactionType)
                 .IsRequired(true)
-                .HasColumnName("HareketType");
+                .HasColumnName("TransactionType");
 
             entity.Property(e => e.TradeDocumentId)
                 .IsRequired(false)

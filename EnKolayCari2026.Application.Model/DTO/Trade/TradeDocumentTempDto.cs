@@ -8,7 +8,7 @@ namespace EnKolayCari2026.Application.Model.DTO.Trade
         public Guid GId { get; set; }
         public long CompanyId { get; set; }
         public Guid PersonalGId { get; set; }
-        public int HareketType { get; set; }
+        public int DocumentType { get; set; }
         public long? AccountId { get; set; }
         public string TradeDocumentNo { get; set; }
         public DateTime? TransactionDate { get; set; }

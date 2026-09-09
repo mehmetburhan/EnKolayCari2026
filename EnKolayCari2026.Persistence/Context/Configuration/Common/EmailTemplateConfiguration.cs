@@ -36,9 +36,9 @@ namespace EnKolayCari2026.Persistence.Context.Configuration.Common
                 .HasMaxLength(200)
                 .HasColumnName("Konu");
 
-            entity.Property(e => e.Metin)
+            entity.Property(e => e.Body)
                 .IsRequired(false)
-                .HasColumnName("Metin");
+                .HasColumnName("Body");
 
             entity.Property(e => e.InsertDateTime)
                 .IsRequired(true)

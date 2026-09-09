@@ -7,12 +7,12 @@ namespace EnKolayCari2026.Application.Model.DTO.Common
         public long Id { get; set; }
         public Guid? GId { get; set; }
         public long CompanyId { get; set; }
-        public bool? Hediye { get; set; }
+        public bool? IsGift { get; set; }
         public string LicenseType { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public int? TahsilatSekli { get; set; }
-        public decimal TahsilatTutari { get; set; }
+        public int? CollectionMethod { get; set; }
+        public decimal CollectionAmount { get; set; }
         public DateTime InsertDateTime { get; set; }
         public long InsertUser { get; set; }
         public DateTime? UpdateDateTime { get; set; }

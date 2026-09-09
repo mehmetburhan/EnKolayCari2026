@@ -19,21 +19,21 @@ namespace EnKolayCari2026.Persistence.Context.Configuration.Common
                 .IsRequired(true)
                 .HasColumnName("Value");
 
-            entity.Property(e => e.ProductTakip)
+            entity.Property(e => e.ProductTracking)
                 .IsRequired(false)
-                .HasColumnName("ProductTakip");
+                .HasColumnName("ProductTracking");
 
-            entity.Property(e => e.AccountTakip)
+            entity.Property(e => e.AccountTracking)
                 .IsRequired(false)
-                .HasColumnName("AccountTakip");
+                .HasColumnName("AccountTracking");
 
-            entity.Property(e => e.CheckNoteTakip)
+            entity.Property(e => e.CheckNoteTracking)
                 .IsRequired(false)
-                .HasColumnName("CheckNoteTakip");
+                .HasColumnName("CheckNoteTracking");
 
-            entity.Property(e => e.TradeDocumentTakip)
+            entity.Property(e => e.TradeDocumentTracking)
                 .IsRequired(false)
-                .HasColumnName("TradeDocumentTakip");
+                .HasColumnName("TradeDocumentTracking");
 
             entity.Property(e => e.PaymentTracking)
                 .IsRequired(false)
@@ -43,13 +43,13 @@ namespace EnKolayCari2026.Persistence.Context.Configuration.Common
                 .IsRequired(false)
                 .HasColumnName("BankTracking");
 
-            entity.Property(e => e.IrsaliyeTakip)
+            entity.Property(e => e.ShippingNoteTracking)
                 .IsRequired(false)
-                .HasColumnName("IrsaliyeTakip");
+                .HasColumnName("ShippingNoteTracking");
 
-            entity.Property(e => e.TeklifSiparisTakip)
+            entity.Property(e => e.QuoteOrderTracking)
                 .IsRequired(false)
-                .HasColumnName("TeklifSiparisTakip");
+                .HasColumnName("QuoteOrderTracking");
 
             entity.Property(e => e.EArchiveEInvoice)
                 .IsRequired(false)
