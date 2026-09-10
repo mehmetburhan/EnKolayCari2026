@@ -1,4 +1,6 @@
 @page "/customers-suppliers"
+@inject CustomerSupplierStore Store
+@inject NavigationManager Navigation
 
 <PageTitle>Müşteri & Tedarikçi - EnKolayCari</PageTitle>
 <PageHeading Title="Müşteri & Tedarikçi" Subtitle="Cari hesap kartlarınızı görüntüleyin ve yönetin." />
@@ -7,22 +9,22 @@
     <div class="flex items-center justify-between">
         <div>
             <h2 class="text-base font-semibold text-slate-900">Cari Hesaplar</h2>
-            <p class="text-xs text-slate-500">Mockup veri &middot; @_accounts.Count kayıt</p>
+            <p class="text-xs text-slate-500">Mockup veri &middot; @Store.Accounts.Count kayıt</p>
         </div>
         <button type="button" class="dashboard-button-primary" @onclick="OpenCreateModal">
             <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
-            Yeni Cari
+            Yeni Müşteri & Tedarikçi
         </button>
     </div>
 
     <div class="mt-4">
-        <AppDataGrid TItem="CustomerSupplier" Items="@_accounts" Columns="@_columns" ExportFileName="musteri-tedarikci" SheetName="Cari Hesaplar" EmptyText="Cari hesap bulunamadı." />
+        <AppDataGrid TItem="CustomerSupplierStore.Account" Items="@Store.Accounts" Columns="@_columns" ExportFileName="musteri-tedarikci" SheetName="Cari Hesaplar" EmptyText="Cari hesap bulunamadı." OnEdit="@(item => Navigation.NavigateTo($"/customer/edit/{Uri.EscapeDataString(item.Code)}"))" />
     </div>
 </div>
 
 <LumexModal Open="@_showCreateModal" OpenChanged="@OnCreateModalOpenChanged" Size="ModalSize.Medium">
     <LumexModalContent>
-        <LumexModalHeader>Yeni Cari</LumexModalHeader>
+        <LumexModalHeader>Yeni Müşteri & Tedarikçi</LumexModalHeader>
         <LumexModalBody>
             <div>
                 <span class="form-label">Müşteri Tipi</span>
@@ -57,14 +59,14 @@
             {
                 <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
                     <div class="sm:col-span-2">
-                        <label class="form-label" for="new-cari-firma">Firma Adı</label>
-                        <input id="new-cari-firma" type="text" class="form-input" placeholder="Firma Ünvanı" @bind="_form.CompanyName" @bind:event="oninput" />
-                    </div>
-                    <div>
                         <label class="form-label" for="new-cari-vergino">Vergi No</label>
                         <input id="new-cari-vergino" type="text" inputmode="numeric" maxlength="10" class="form-input" placeholder="1234567890" @bind="_form.TaxNumber" @bind:event="oninput" />
                     </div>
-                    <div>
+                    <div class="sm:col-span-2">
+                        <label class="form-label" for="new-cari-firma">Firma Adı</label>
+                        <input id="new-cari-firma" type="text" class="form-input" placeholder="Firma Ünvanı" @bind="_form.CompanyName" @bind:event="oninput" />
+                    </div>                  
+                    <div class="sm:col-span-2">
                         <label class="form-label" for="new-cari-vergidairesi">Vergi Dairesi</label>
                         <input id="new-cari-vergidairesi" type="text" class="form-input" placeholder="Vergi Dairesi" @bind="_form.TaxOffice" @bind:event="oninput" />
                     </div>
@@ -79,21 +81,7 @@
 </LumexModal>
 
 @code {
-    private record CustomerSupplier(string Code, string Name, string Type, string City, string BalanceLabel, string Status);
-
-    private readonly List<CustomerSupplier> _accounts =
-    [
-        new("120.001", "ABC Ticaret Ltd. Şti.", "Müşteri", "İstanbul", "₺24.560,75", "Aktif"),
-        new("120.002", "XYZ Sanayi A.Ş.", "Müşteri", "Bursa", "₺11.500,00", "Aktif"),
-        new("320.001", "Mavi Tedarik Ltd.", "Tedarikçi", "Ankara", "-₺3.205,00", "Aktif"),
-        new("120.003", "Deniz Yapı Market", "Müşteri", "İzmir", "₺890,00", "Pasif"),
-        new("320.002", "Kartal Lojistik A.Ş.", "Tedarikçi", "Kocaeli", "-₺7.420,50", "Aktif"),
-        new("120.004", "Yıldız Elektronik", "Müşteri", "Antalya", "₺15.230,00", "Aktif"),
-        new("320.003", "Orkide Kırtasiye", "Tedarikçi", "İstanbul", "-₺459,90", "Aktif"),
-        new("120.005", "Güneş Tekstil San.", "Müşteri", "Denizli", "₺6.780,40", "Pasif"),
-    ];
-
-    private readonly List<GridColumn<CustomerSupplier>> _columns =
+    private readonly List<GridColumn<CustomerSupplierStore.Account>> _columns =
     [
         new() { Title = "Kod", Property = x => x.Code, Filterable = false },
         new() { Title = "Ünvan", Property = x => x.Name, Filterable = false },
@@ -143,10 +131,13 @@
             return;
         }
 
-        var name = _form.Type == CustomerType.Individual ? _form.FullName.Trim() : _form.CompanyName.Trim();
-        var nextCode = $"120.{_accounts.Count + 1:000}";
+        // Bu modal yalnızca hesabı başlatır: girilen bilgilerle birlikte tüm sekmelerin
+        // (Genel, İletişim, Banka Bilgileri, Diğer Özellikler) doldurulacağı tam sayfaya yönlendirir.
+        var query = _form.Type == CustomerType.Individual
+            ? $"type=individual&nationalId={Uri.EscapeDataString(_form.NationalId.Trim())}&fullName={Uri.EscapeDataString(_form.FullName.Trim())}"
+            : $"type=corporate&taxNumber={Uri.EscapeDataString(_form.TaxNumber.Trim())}&companyName={Uri.EscapeDataString(_form.CompanyName.Trim())}&taxOffice={Uri.EscapeDataString(_form.TaxOffice.Trim())}";
 
-        _accounts.Insert(0, new CustomerSupplier(nextCode, name, "Müşteri", "-", "₺0,00", "Aktif"));
         _showCreateModal = false;
+        Navigation.NavigateTo($"/customer/new?{query}");
     }
 }

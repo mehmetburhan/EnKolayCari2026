@@ -12,6 +12,7 @@ builder.Services.AddLumexServices();
 
 builder.Services.AddScoped<PageHeadingState>();
 builder.Services.AddScoped<SessionState>();
+builder.Services.AddScoped<CustomerSupplierStore>();
 builder.Services.AddSingleton<ExcelExportService>();
 
 var app = builder.Build();

@@ -1,0 +1,472 @@
+@page "/customer/new"
+@page "/customer/edit/{Code}"
+@inject CustomerSupplierStore Store
+@inject NavigationManager Navigation
+
+<PageTitle>@(_isEdit ? "Cari Hesabı Düzenle" : "Yeni Müşteri & Tedarikçi") - EnKolayCari</PageTitle>
+<PageHeading Title="@(_isEdit ? "Cari Hesabı Düzenle" : "Yeni Müşteri & Tedarikçi")" Subtitle="@(_isEdit ? "Cari hesap kartını sekmeler halinde güncelleyin." : "Cari hesap kartını sekmeler halinde oluşturun.")" />
+
+<div class="mb-4">
+    <LumexLink Href="/customers-suppliers" Color="ThemeColor.Default" Underline="Underline.Hover" Class="inline-flex items-center gap-1.5 text-xs font-semibold">
+        <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg>
+        Müşteri & Tedarikçi listesine dön
+    </LumexLink>
+</div>
+
+<LumexCard FullWidth Shadow="Shadow.Small">
+    <LumexCardBody>
+        <LumexTabs @bind-SelectedId="_activeTabId" Color="ThemeColor.Primary" Variant="TabVariant.Underlined" FullWidth>
+            <LumexTab Id="general" Title="Genel">
+                <div class="space-y-5 pt-4">
+                    <LumexAlert Color="ThemeColor.Default" Variant="AlertVariant.Flat" HideIcon="false">
+                        Cari kod, kayıt tamamlandığında hesap türüne göre otomatik olarak atanacaktır.
+                    </LumexAlert>
+
+                    <LumexRadioGroup TValue="AccountRole" @bind-Value="_form.Role" Label="Hesap Türü" Orientation="Orientation.Horizontal" Color="ThemeColor.Primary">
+                        <LumexRadio TValue="AccountRole" Value="AccountRole.Customer">Müşteri</LumexRadio>
+                        <LumexRadio TValue="AccountRole" Value="AccountRole.Supplier">Tedarikçi</LumexRadio>
+                        <LumexRadio TValue="AccountRole" Value="AccountRole.Both">Her İkisi de</LumexRadio>
+                    </LumexRadioGroup>
+
+                    <LumexRadioGroup TValue="CustomerKind" @bind-Value="_form.Kind" Label="Müşteri Tipi" Orientation="Orientation.Horizontal" Color="ThemeColor.Primary">
+                        <LumexRadio TValue="CustomerKind" Value="CustomerKind.Individual">Bireysel</LumexRadio>
+                        <LumexRadio TValue="CustomerKind" Value="CustomerKind.Corporate">Kurumsal</LumexRadio>
+                    </LumexRadioGroup>
+
+                    @if (_form.Kind == CustomerKind.Individual)
+                    {
+                        <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                            <LumexTextbox @bind-Value="_form.NationalId" Label="T.C. Kimlik No" Placeholder="12345678901" Required FullWidth maxlength="11" inputmode="numeric" />
+                            <LumexTextbox @bind-Value="_form.FullName" Label="Ad Soyad" Placeholder="Ad Soyad" Required FullWidth />
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                            <LumexTextbox @bind-Value="_form.TaxNumber" Label="Vergi No" Placeholder="1234567890" Required FullWidth maxlength="10" inputmode="numeric" />
+                            <LumexTextbox @bind-Value="_form.TaxOffice" Label="Vergi Dairesi" Placeholder="Vergi Dairesi" Required FullWidth />
+                            <LumexTextbox @bind-Value="_form.CompanyName" Label="Firma Ünvanı" Placeholder="Firma Ünvanı" Required FullWidth Class="sm:col-span-2" />
+                            <LumexTextbox @bind-Value="_form.ContactPerson" Label="Yetkili Kişi" Placeholder="Yetkili Ad Soyad" FullWidth Class="sm:col-span-2" />
+                        </div>
+                    }
+
+                    <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                        <LumexTextbox @bind-Value="_form.Phone" Label="Telefon" Placeholder="0 (5xx) xxx xx xx" Type="InputType.Telephone" FullWidth />
+                        <LumexTextbox @bind-Value="_form.Email" Label="E-posta" Placeholder="ornek@firma.com" Type="InputType.Email" FullWidth />
+                        <LumexTextbox @bind-Value="_form.Website" Label="Web Sitesi" Placeholder="www.firma.com" FullWidth />
+
+                        <LumexSelect TValue="string" @bind-Value="_form.Currency" Label="Para Birimi" FullWidth>
+                            @foreach (var currency in Currencies)
+                            {
+                                <LumexSelectItem TValue="string" Value="@currency">@currency</LumexSelectItem>
+                            }
+                        </LumexSelect>
+
+                        <LumexSelect TValue="string" @bind-Value="_form.Group" Label="Cari Grup" FullWidth>
+                            @foreach (var group in AccountGroups)
+                            {
+                                <LumexSelectItem TValue="string" Value="@group">@group</LumexSelectItem>
+                            }
+                        </LumexSelect>
+
+                        <div class="flex items-end">
+                            <LumexSwitch @bind-Value="_form.IsActive" Color="ThemeColor.Success">@(_form.IsActive ? "Aktif" : "Pasif")</LumexSwitch>
+                        </div>
+                    </div>
+
+                    <LumexTextarea @bind-Value="_form.Description" Label="Açıklama" Placeholder="Cari hesapla ilgili notunuz..." MinRows="3" FullWidth />
+                </div>
+            </LumexTab>
+
+            <LumexTab Id="contact">
+                <TitleContent>
+                    <span class="inline-flex items-center gap-1.5">İletişim <LumexChip Size="Size.Small" Color="ThemeColor.Primary" Variant="ChipVariant.Flat">@_addresses.Count</LumexChip></span>
+                </TitleContent>
+                <ChildContent>
+                <div class="space-y-6 pt-6">
+                    <div class="flex flex-wrap items-start justify-between gap-3 pr-2">
+                        <p class="text-xs text-slate-500">Birden fazla adres tanımlayabilir, her biri için fatura ve/veya teslimat adresi olarak varsayılan işaretleyebilirsiniz.</p>
+                        <button type="button" class="dashboard-button-primary flex-none" @onclick="AddAddress">
+                            <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+                            Yeni Adres Ekle
+                        </button>
+                    </div>
+
+                    @if (_addresses.Count == 0)
+                    {
+                        <p class="rounded-xl border border-dashed border-[var(--nexora-border)] py-8 text-center text-sm text-slate-500">Henüz adres eklenmedi.</p>
+                    }
+                    else
+                    {
+                        @for (var i = 0; i < _addresses.Count; i++)
+                        {
+                            var index = i;
+                            var address = _addresses[index];
+                            <LumexCard Shadow="Shadow.None" Class="border border-[var(--nexora-border)]">
+                                <LumexCardBody>
+                                    <div class="flex items-center justify-between">
+                                        <h3 class="text-sm font-semibold text-slate-800">Adres @(index + 1)@(string.IsNullOrWhiteSpace(address.Title) ? "" : $" · {address.Title}")</h3>
+                                        <LumexButton IconOnly Variant="Variant.Light" Color="ThemeColor.Danger" OnClick="@(() => _addresses.RemoveAt(index))" title="Sil">
+                                            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">@((MarkupString)MenuIcons.Trash)</svg>
+                                        </LumexButton>
+                                    </div>
+
+                                    <div class="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                                        <LumexTextbox @bind-Value="address.Title" Label="Adres Başlığı" Placeholder="Örn. Merkez Adres" FullWidth />
+
+                                        <LumexSelect TValue="string" @bind-Value="address.Kind" Label="Adres Tipi" FullWidth>
+                                            @foreach (var kind in AddressKinds)
+                                            {
+                                                <LumexSelectItem TValue="string" Value="@kind">@kind</LumexSelectItem>
+                                            }
+                                        </LumexSelect>
+
+                                        <LumexTextbox @bind-Value="address.Country" Label="Ülke" FullWidth />
+                                        <LumexTextbox @bind-Value="address.City" Label="İl" Placeholder="İl" FullWidth />
+                                        <LumexTextbox @bind-Value="address.District" Label="İlçe" Placeholder="İlçe" FullWidth />
+                                        <LumexTextbox @bind-Value="address.PostalCode" Label="Posta Kodu" FullWidth />
+                                        <LumexTextbox @bind-Value="address.Phone" Label="Telefon" Type="InputType.Telephone" FullWidth />
+                                        <LumexTextbox @bind-Value="address.Email" Label="E-posta" Type="InputType.Email" FullWidth />
+                                        <LumexTextarea @bind-Value="address.Line" Label="Açık Adres" Placeholder="Mahalle, cadde, sokak, no..." MinRows="2" FullWidth Class="sm:col-span-2" />
+                                    </div>
+
+                                    <div class="mt-3 flex flex-wrap gap-4">
+                                        <LumexCheckbox @bind-Value="address.IsDefaultBilling">Varsayılan Fatura Adresi</LumexCheckbox>
+                                        <LumexCheckbox @bind-Value="address.IsDefaultShipping">Varsayılan Teslimat (Kargo) Adresi</LumexCheckbox>
+                                    </div>
+                                </LumexCardBody>
+                            </LumexCard>
+                        }
+                    }
+                </div>
+                </ChildContent>
+            </LumexTab>
+
+            <LumexTab Id="bank">
+                <TitleContent>
+                    <span class="inline-flex items-center gap-1.5">Banka Bilgileri <LumexChip Size="Size.Small" Color="ThemeColor.Primary" Variant="ChipVariant.Flat">@_bankAccounts.Count</LumexChip></span>
+                </TitleContent>
+                <ChildContent>
+                <div class="space-y-6 pt-6">
+                    <div class="flex flex-wrap items-start justify-between gap-3 pr-2">
+                        <p class="text-xs text-slate-500">Cari hesaba birden fazla banka hesabı tanımlayabilir, tahsilat/ödemelerde kullanılacak hesabı varsayılan yapabilirsiniz.</p>
+                        <button type="button" class="dashboard-button-primary flex-none" @onclick="AddBankAccount">
+                            <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+                            Yeni Banka Hesabı Ekle
+                        </button>
+                    </div>
+
+                    @if (_bankAccounts.Count == 0)
+                    {
+                        <p class="rounded-xl border border-dashed border-[var(--nexora-border)] py-8 text-center text-sm text-slate-500">Henüz banka hesabı eklenmedi.</p>
+                    }
+                    else
+                    {
+                        @for (var i = 0; i < _bankAccounts.Count; i++)
+                        {
+                            var index = i;
+                            var account = _bankAccounts[index];
+                            <LumexCard Shadow="Shadow.None" Class="border border-[var(--nexora-border)]">
+                                <LumexCardBody>
+                                    <div class="flex items-center justify-between">
+                                        <h3 class="flex items-center gap-2 text-sm font-semibold text-slate-800">
+                                            <svg class="h-4 w-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">@((MarkupString)MenuIcons.BuildingLibrary)</svg>
+                                            Banka Hesabı @(index + 1)
+                                        </h3>
+                                        <LumexButton IconOnly Variant="Variant.Light" Color="ThemeColor.Danger" OnClick="@(() => _bankAccounts.RemoveAt(index))" title="Sil">
+                                            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">@((MarkupString)MenuIcons.Trash)</svg>
+                                        </LumexButton>
+                                    </div>
+
+                                    <div class="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                                        <LumexSelect TValue="string" @bind-Value="account.BankName" Label="Banka" FullWidth>
+                                            @foreach (var bank in BankList)
+                                            {
+                                                <LumexSelectItem TValue="string" Value="@bank">@bank</LumexSelectItem>
+                                            }
+                                        </LumexSelect>
+
+                                        <LumexTextbox @bind-Value="account.Branch" Label="Şube" Placeholder="Şube adı" FullWidth />
+                                        <LumexTextbox @bind-Value="account.AccountName" Label="Hesap Adı" Placeholder="Hesap sahibi / açıklaması" FullWidth />
+                                        <LumexTextbox @bind-Value="account.AccountNumber" Label="Hesap No" FullWidth />
+                                        <LumexTextbox @bind-Value="account.Iban" Label="IBAN" Placeholder="TR00 0000 0000 0000 0000 0000 00" FullWidth Class="sm:col-span-2" />
+
+                                        <LumexSelect TValue="string" @bind-Value="account.Currency" Label="Para Birimi" FullWidth>
+                                            @foreach (var currency in Currencies)
+                                            {
+                                                <LumexSelectItem TValue="string" Value="@currency">@currency</LumexSelectItem>
+                                            }
+                                        </LumexSelect>
+                                    </div>
+
+                                    <LumexCheckbox @bind-Value="account.IsDefault" Class="mt-3">Varsayılan Hesap</LumexCheckbox>
+                                </LumexCardBody>
+                            </LumexCard>
+                        }
+                    }
+                </div>
+                </ChildContent>
+            </LumexTab>
+
+            <LumexTab Id="other" Title="Diğer Özellikler">
+                <div class="space-y-5 pt-4">
+                    <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                        <LumexNumbox TValue="int?" @bind-Value="_form.PaymentTermDays" Label="Ödeme Vadesi (gün)" Placeholder="0" FullWidth />
+                        <LumexTextbox @bind-Value="_form.CreditLimit" Label="Risk / Kredi Limiti (₺)" Placeholder="0,00" FullWidth />
+
+                        <LumexSelect TValue="string" @bind-Value="_form.PriceList" Label="Fiyat Listesi" FullWidth>
+                            @foreach (var priceList in PriceLists)
+                            {
+                                <LumexSelectItem TValue="string" Value="@priceList">@priceList</LumexSelectItem>
+                            }
+                        </LumexSelect>
+
+                        <LumexNumbox TValue="int?" @bind-Value="_form.DiscountRate" Label="İskonto Oranı (%)" Placeholder="0" FullWidth />
+                        <LumexTextbox @bind-Value="_form.SalesRep" Label="Satış Temsilcisi" Placeholder="Satış temsilcisi" FullWidth />
+                        <LumexTextbox @bind-Value="_form.Tags" Label="Etiketler" Placeholder="vip, yıllık-sözleşme" FullWidth />
+                    </div>
+
+                    <LumexCheckboxGroup Label="Ek Özellikler" Orientation="Orientation.Horizontal">
+                        <LumexCheckbox @bind-Value="_form.IsEInvoicePayer">E-Fatura Mükellefi</LumexCheckbox>
+                        <LumexCheckbox @bind-Value="_form.IsVatExempt">KDV Muafiyeti</LumexCheckbox>
+                        <LumexCheckbox @bind-Value="_form.RequiresWaybill">İrsaliye Zorunlu</LumexCheckbox>
+                    </LumexCheckboxGroup>
+
+                    <LumexTextarea @bind-Value="_form.Notes" Label="Notlar" Placeholder="Cari hesapla ilgili ek notlarınız..." MinRows="4" FullWidth />
+                </div>
+            </LumexTab>
+        </LumexTabs>
+    </LumexCardBody>
+
+    <LumexCardFooter Class="flex items-center justify-between gap-3 border-t border-[var(--nexora-border)]">
+        <span class="text-xs @(_saved ? "font-semibold text-emerald-600" : "text-transparent")">Kaydedildi, listeye yönlendiriliyorsunuz...</span>
+        <div class="flex items-center gap-2">
+            <LumexButton Variant="Variant.Flat" OnClick="Cancel">Vazgeç</LumexButton>
+            <LumexButton Color="ThemeColor.Primary" Disabled="@(!_form.IsValid || _saved)" OnClick="SaveAccountAsync">
+                <StartContent>
+                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">@((MarkupString)MenuIcons.Check)</svg>
+                </StartContent>
+                <ChildContent>Kaydet</ChildContent>
+            </LumexButton>
+        </div>
+    </LumexCardFooter>
+</LumexCard>
+
+@code {
+    private enum CustomerKind { Individual, Corporate }
+    private enum AccountRole { Customer, Supplier, Both }
+
+    private static readonly string[] Currencies = ["TRY", "USD", "EUR", "GBP"];
+    private static readonly string[] AccountGroups = ["Genel", "VIP", "Bayi", "Perakende"];
+    private static readonly string[] AddressKinds = ["Fatura Adresi", "Teslimat Adresi", "Diğer"];
+    private static readonly string[] PriceLists = ["Genel Fiyat Listesi", "Bayi Fiyat Listesi", "VIP Fiyat Listesi"];
+    private static readonly string[] BankList =
+    [
+        "Ziraat Bankası", "Türkiye İş Bankası", "Garanti BBVA", "Yapı Kredi", "Akbank",
+        "QNB", "DenizBank", "TEB", "HSBC", "ING", "Halkbank", "VakıfBank",
+    ];
+
+    private sealed class AddressItem
+    {
+        public string Title { get; set; } = "";
+        public string Kind { get; set; } = AddressKinds[0];
+        public string Country { get; set; } = "Türkiye";
+        public string City { get; set; } = "";
+        public string District { get; set; } = "";
+        public string PostalCode { get; set; } = "";
+        public string Line { get; set; } = "";
+        public string Phone { get; set; } = "";
+        public string Email { get; set; } = "";
+        public bool IsDefaultBilling { get; set; }
+        public bool IsDefaultShipping { get; set; }
+    }
+
+    private sealed class BankAccountItem
+    {
+        public string BankName { get; set; } = BankList[0];
+        public string Branch { get; set; } = "";
+        public string AccountName { get; set; } = "";
+        public string AccountNumber { get; set; } = "";
+        public string Iban { get; set; } = "";
+        public string Currency { get; set; } = "TRY";
+        public bool IsDefault { get; set; }
+    }
+
+    private sealed class GeneralForm
+    {
+        public AccountRole Role { get; set; } = AccountRole.Customer;
+        public CustomerKind Kind { get; set; } = CustomerKind.Individual;
+        public string NationalId { get; set; } = "";
+        public string FullName { get; set; } = "";
+        public string CompanyName { get; set; } = "";
+        public string TaxNumber { get; set; } = "";
+        public string TaxOffice { get; set; } = "";
+        public string ContactPerson { get; set; } = "";
+        public string Phone { get; set; } = "";
+        public string Email { get; set; } = "";
+        public string Website { get; set; } = "";
+        public string Currency { get; set; } = Currencies[0];
+        public string Group { get; set; } = AccountGroups[0];
+        public bool IsActive { get; set; } = true;
+        public string Description { get; set; } = "";
+
+        public int? PaymentTermDays { get; set; }
+        public string CreditLimit { get; set; } = "";
+        public string PriceList { get; set; } = PriceLists[0];
+        public int? DiscountRate { get; set; }
+        public string SalesRep { get; set; } = "";
+        public string Tags { get; set; } = "";
+        public bool IsEInvoicePayer { get; set; }
+        public bool IsVatExempt { get; set; }
+        public bool RequiresWaybill { get; set; }
+        public string Notes { get; set; } = "";
+
+        public bool IsValid => Kind == CustomerKind.Individual
+            ? !string.IsNullOrWhiteSpace(NationalId) && !string.IsNullOrWhiteSpace(FullName)
+            : !string.IsNullOrWhiteSpace(CompanyName) && !string.IsNullOrWhiteSpace(TaxNumber) && !string.IsNullOrWhiteSpace(TaxOffice);
+    }
+
+    [SupplyParameterFromQuery(Name = "type")]
+    [Parameter]
+    public string? QueryKind { get; set; }
+
+    [SupplyParameterFromQuery(Name = "nationalId")]
+    [Parameter]
+    public string? QueryNationalId { get; set; }
+
+    [SupplyParameterFromQuery(Name = "fullName")]
+    [Parameter]
+    public string? QueryFullName { get; set; }
+
+    [SupplyParameterFromQuery(Name = "taxNumber")]
+    [Parameter]
+    public string? QueryTaxNumber { get; set; }
+
+    [SupplyParameterFromQuery(Name = "companyName")]
+    [Parameter]
+    public string? QueryCompanyName { get; set; }
+
+    [SupplyParameterFromQuery(Name = "taxOffice")]
+    [Parameter]
+    public string? QueryTaxOffice { get; set; }
+
+    [Parameter]
+    public string? Code { get; set; }
+
+    private static readonly string[] CorporateNameHints = ["A.Ş", "Ltd", "Şti", "San.", "Tic.", "Sanayi", "Ticaret", "Kolektif", "Kooperatif"];
+
+    private string _activeTabId = "general";
+    private GeneralForm _form = new();
+    private readonly List<AddressItem> _addresses = [];
+    private readonly List<BankAccountItem> _bankAccounts = [];
+    private bool _saved;
+    private bool _isEdit;
+
+    protected override void OnInitialized()
+    {
+        _isEdit = !string.IsNullOrWhiteSpace(Code);
+
+        // Mockup: yeni kayıtlar için tek bir merkez adres ile başlanır, kullanıcı ihtiyaç halinde çoğaltabilir.
+        _addresses.Add(new AddressItem
+        {
+            Title = "Merkez Adres",
+            Kind = AddressKinds[0],
+            IsDefaultBilling = true,
+            IsDefaultShipping = true,
+        });
+
+        if (_isEdit)
+        {
+            var account = Store.FindByCode(Code!);
+            if (account is null)
+            {
+                Navigation.NavigateTo("/customers-suppliers");
+                return;
+            }
+
+            _form.Role = account.Type switch
+            {
+                "Tedarikçi" => AccountRole.Supplier,
+                "Müşteri & Tedarikçi" => AccountRole.Both,
+                _ => AccountRole.Customer,
+            };
+            _form.IsActive = account.Status == "Aktif";
+
+            var isCorporate = !string.IsNullOrWhiteSpace(account.TaxNumber)
+                || (string.IsNullOrWhiteSpace(account.NationalId) && CorporateNameHints.Any(hint => account.Name.Contains(hint, StringComparison.OrdinalIgnoreCase)));
+
+            if (isCorporate)
+            {
+                _form.Kind = CustomerKind.Corporate;
+                _form.CompanyName = account.Name;
+                _form.TaxNumber = account.TaxNumber;
+                _form.TaxOffice = account.TaxOffice;
+            }
+            else
+            {
+                _form.Kind = CustomerKind.Individual;
+                _form.FullName = account.Name;
+                _form.NationalId = account.NationalId;
+            }
+
+            _addresses[0].City = account.City == "-" ? "" : account.City;
+            return;
+        }
+
+        if (string.Equals(QueryKind, "corporate", StringComparison.OrdinalIgnoreCase))
+        {
+            _form.Kind = CustomerKind.Corporate;
+            _form.TaxNumber = QueryTaxNumber ?? "";
+            _form.CompanyName = QueryCompanyName ?? "";
+            _form.TaxOffice = QueryTaxOffice ?? "";
+        }
+        else if (string.Equals(QueryKind, "individual", StringComparison.OrdinalIgnoreCase))
+        {
+            _form.Kind = CustomerKind.Individual;
+            _form.NationalId = QueryNationalId ?? "";
+            _form.FullName = QueryFullName ?? "";
+        }
+    }
+
+    private void AddAddress() => _addresses.Add(new AddressItem { Title = $"Adres {_addresses.Count + 1}" });
+
+    private void AddBankAccount() => _bankAccounts.Add(new BankAccountItem());
+
+    private void Cancel() => Navigation.NavigateTo("/customers-suppliers");
+
+    private async Task SaveAccountAsync()
+    {
+        if (!_form.IsValid)
+        {
+            _activeTabId = "general";
+            return;
+        }
+
+        var name = _form.Kind == CustomerKind.Individual ? _form.FullName.Trim() : _form.CompanyName.Trim();
+        var typeLabel = _form.Role switch
+        {
+            AccountRole.Supplier => "Tedarikçi",
+            AccountRole.Both => "Müşteri & Tedarikçi",
+            _ => "Müşteri",
+        };
+        var city = _addresses.FirstOrDefault(a => !string.IsNullOrWhiteSpace(a.City))?.City ?? "-";
+        var status = _form.IsActive ? "Aktif" : "Pasif";
+        var nationalId = _form.Kind == CustomerKind.Individual ? _form.NationalId.Trim() : "";
+        var taxNumber = _form.Kind == CustomerKind.Corporate ? _form.TaxNumber.Trim() : "";
+        var taxOffice = _form.Kind == CustomerKind.Corporate ? _form.TaxOffice.Trim() : "";
+
+        if (_isEdit)
+        {
+            Store.Update(Code!, name, typeLabel, city, status, nationalId, taxNumber, taxOffice);
+        }
+        else
+        {
+            Store.Add(name, typeLabel, city, status, nationalId, taxNumber, taxOffice);
+        }
+
+        _saved = true;
+        StateHasChanged();
+        await Task.Delay(600);
+        Navigation.NavigateTo("/customers-suppliers");
+    }
+}
