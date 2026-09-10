@@ -1,0 +1,345 @@
+@page "/product/new"
+@page "/product/edit/{Sku}"
+@inject ProductStore Store
+@inject NavigationManager Navigation
+
+<PageTitle>@(_isEdit ? "Ürünü Düzenle" : "Yeni Ürün") - EnKolayCari</PageTitle>
+<PageHeading Title="@(_isEdit ? "Ürünü Düzenle" : "Yeni Ürün")" Subtitle="@(_isEdit ? "Ürün kartını sekmeler halinde güncelleyin." : "Ürün kartını sekmeler halinde oluşturun.")" />
+
+<div class="mb-4">
+    <LumexLink Href="/products" Color="ThemeColor.Default" Underline="Underline.Hover" Class="inline-flex items-center gap-1.5 text-xs font-semibold">
+        <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg>
+        Ürün listesine dön
+    </LumexLink>
+</div>
+
+<LumexCard FullWidth Shadow="Shadow.Small">
+    <LumexCardBody>
+        <LumexTabs @bind-SelectedId="_activeTabId" Color="ThemeColor.Primary" Variant="TabVariant.Underlined" FullWidth>
+            <LumexTab Id="general" Title="Genel Bilgiler">
+                <div class="space-y-5 pt-4">
+                    <div class="grid grid-cols-1 gap-3 sm:grid-cols-3">
+                        <LumexTextbox @bind-Value="_form.ProductCode" Label="Ürün Kodu" Placeholder="P-1009" FullWidth />
+                        <LumexTextbox @bind-Value="_form.Sku" Label="Stok Kodu" Placeholder="URN-1009" Required FullWidth />
+                        <LumexTextbox @bind-Value="_form.Barcode" Label="Barkod" Placeholder="8690000000000" FullWidth />
+                    </div>
+
+                    <LumexTextbox @bind-Value="_form.Name" Label="Ürün Adı" Placeholder="Ürün adı" Required FullWidth />
+                    <LumexTextbox @bind-Value="_form.Name2" Label="Ürün Adı (2. Seçenek)" Placeholder="Alternatif / İngilizce ad" FullWidth />
+                    <LumexTextarea @bind-Value="_form.Description" Label="Açıklama" Placeholder="Ürünle ilgili notunuz..." MinRows="3" FullWidth />
+
+                    <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                        <LumexTextbox @bind-Value="_form.Brand" Label="Marka" Placeholder="Marka" FullWidth />
+                        <LumexTextbox @bind-Value="_form.Model" Label="Model" Placeholder="Model" FullWidth />
+
+                        <LumexSelect TValue="string" @bind-Value="_form.Category" Label="Kategori" FullWidth>
+                            @foreach (var category in Categories)
+                            {
+                                <LumexSelectItem TValue="string" Value="@category">@category</LumexSelectItem>
+                            }
+                        </LumexSelect>
+
+                        <LumexSelect TValue="string" @bind-Value="_form.Unit" Label="Birim" FullWidth>
+                            @foreach (var unit in Units)
+                            {
+                                <LumexSelectItem TValue="string" Value="@unit">@unit</LumexSelectItem>
+                            }
+                        </LumexSelect>
+                    </div>
+
+                    <LumexSwitch @bind-Value="_form.IsActive" Color="ThemeColor.Success">@(_form.IsActive ? "Aktif" : "Pasif")</LumexSwitch>
+                </div>
+            </LumexTab>
+
+            <LumexTab Id="stock" Title="Stok Bilgileri">
+                <div class="space-y-5 pt-4">
+                    <LumexAlert Color="ThemeColor.Default" Variant="AlertVariant.Flat" HideIcon="false">
+                        Anlık stok miktarı bu ekrandan değişmez; stok hareketleri ekranından yönetilir.
+                    </LumexAlert>
+
+                    <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                        <LumexNumbox TValue="int?" @bind-Value="_form.CriticalStockQty" Label="Kritik Stok Miktarı" Placeholder="0" FullWidth />
+                        <LumexNumbox TValue="int?" @bind-Value="_form.MinSaleQty" Label="Min. Satış Mik." Placeholder="0" FullWidth />
+                    </div>
+                </div>
+            </LumexTab>
+
+            <LumexTab Id="price" Title="Fiyat Bilgileri">
+                <div class="space-y-6 pt-4">
+                    <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                        <LumexSelect TValue="string" @bind-Value="_form.Currency" Label="Para Birimi" FullWidth>
+                            @foreach (var currency in Currencies)
+                            {
+                                <LumexSelectItem TValue="string" Value="@currency">@currency</LumexSelectItem>
+                            }
+                        </LumexSelect>
+                    </div>
+
+                    <div>
+                        <h3 class="mb-3 text-sm font-semibold text-slate-800">Satış</h3>
+                        <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                            <LumexTextbox @bind-Value="_form.SalePriceIncludingVat" Label="Birim Fiyat (KDV Dahil)" Placeholder="0,00" FullWidth />
+                            <LumexTextbox @bind-Value="_form.SalePriceExcludingVat" Label="Birim Fiyat (KDV Hariç)" Placeholder="0,00" FullWidth />
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="mb-3 text-sm font-semibold text-slate-800">Alış</h3>
+                        <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                            <LumexTextbox @bind-Value="_form.PurchasePriceIncludingVat" Label="Birim Fiyat (KDV Dahil)" Placeholder="0,00" FullWidth />
+                            <LumexTextbox @bind-Value="_form.PurchasePriceExcludingVat" Label="Birim Fiyat (KDV Hariç)" Placeholder="0,00" FullWidth />
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                        <LumexSelect TValue="string" @bind-Value="_form.WithholdingType" Label="Tevkifat Tipi" FullWidth>
+                            @foreach (var type in WithholdingTypes)
+                            {
+                                <LumexSelectItem TValue="string" Value="@type">@type</LumexSelectItem>
+                            }
+                        </LumexSelect>
+
+                        <LumexTextbox @bind-Value="_form.WithholdingRate" Label="Tevkifat Oranı" Placeholder="Örn. 9/10" FullWidth />
+
+                        <LumexTextbox @bind-Value="_form.AdditionalTax" Label="Ek Vergi" Placeholder="Örn. ÖTV %10" FullWidth Class="sm:col-span-2" />
+                    </div>
+                </div>
+            </LumexTab>
+
+            <LumexTab Id="features">
+                <TitleContent>
+                    <span class="inline-flex items-center gap-1.5">Diğer Özellikler <LumexChip Size="Size.Small" Color="ThemeColor.Primary" Variant="ChipVariant.Flat">@_features.Count</LumexChip></span>
+                </TitleContent>
+                <ChildContent>
+                <div class="space-y-6 pt-6">
+                    <div class="flex flex-wrap items-start justify-between gap-3 pr-2">
+                        <p class="text-xs text-slate-500">Ürüne özel ek nitelikleri (renk, ölçü, malzeme vb.) tanımlayabilirsiniz.</p>
+                        <button type="button" class="dashboard-button-primary flex-none" @onclick="AddFeature">
+                            <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+                            Yeni Özellik Ekle
+                        </button>
+                    </div>
+
+                    @if (_features.Count == 0)
+                    {
+                        <p class="rounded-xl border border-dashed border-[var(--nexora-border)] py-8 text-center text-sm text-slate-500">Henüz özellik eklenmedi.</p>
+                    }
+                    else
+                    {
+                        @for (var i = 0; i < _features.Count; i++)
+                        {
+                            var index = i;
+                            var feature = _features[index];
+                            <LumexCard Shadow="Shadow.None" Class="border border-[var(--nexora-border)]">
+                                <LumexCardBody>
+                                    <div class="flex items-center justify-between">
+                                        <h3 class="text-sm font-semibold text-slate-800">Özellik @(index + 1)@(string.IsNullOrWhiteSpace(feature.Name) ? "" : $" · {feature.Name}")</h3>
+                                        <LumexButton IconOnly Variant="Variant.Light" Color="ThemeColor.Danger" OnClick="@(() => _features.RemoveAt(index))" title="Sil">
+                                            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">@((MarkupString)MenuIcons.Trash)</svg>
+                                        </LumexButton>
+                                    </div>
+
+                                    <div class="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                                        <LumexTextbox @bind-Value="feature.Name" Label="Özellik Adı" Placeholder="Örn. Renk" FullWidth />
+
+                                        <LumexSelect TValue="string" @bind-Value="feature.Type" Label="Tipi" FullWidth>
+                                            @foreach (var type in FeatureTypes)
+                                            {
+                                                <LumexSelectItem TValue="string" Value="@type">@type</LumexSelectItem>
+                                            }
+                                        </LumexSelect>
+
+                                        <LumexTextbox @bind-Value="feature.Value" Label="Değeri" Placeholder="Örn. Kırmızı" FullWidth />
+
+                                        <LumexSelect TValue="string" @bind-Value="feature.Status" Label="Statüsü" FullWidth>
+                                            @foreach (var status in FeatureStatuses)
+                                            {
+                                                <LumexSelectItem TValue="string" Value="@status">@status</LumexSelectItem>
+                                            }
+                                        </LumexSelect>
+                                    </div>
+                                </LumexCardBody>
+                            </LumexCard>
+                        }
+                    }
+                </div>
+                </ChildContent>
+            </LumexTab>
+        </LumexTabs>
+    </LumexCardBody>
+
+    <LumexCardFooter Class="flex items-center justify-between gap-3 border-t border-[var(--nexora-border)]">
+        <span class="text-xs @(_saved ? "font-semibold text-emerald-600" : "text-transparent")">Kaydedildi, listeye yönlendiriliyorsunuz...</span>
+        <div class="flex items-center gap-2">
+            <LumexButton Variant="Variant.Flat" OnClick="Cancel">Vazgeç</LumexButton>
+            <LumexButton Color="ThemeColor.Primary" Disabled="@(!_form.IsValid || _saved)" OnClick="SaveProductAsync">
+                <StartContent>
+                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">@((MarkupString)MenuIcons.Check)</svg>
+                </StartContent>
+                <ChildContent>Kaydet</ChildContent>
+            </LumexButton>
+        </div>
+    </LumexCardFooter>
+</LumexCard>
+
+@code {
+    private static readonly string[] Categories = ["Kırtasiye", "Elektronik", "Mobilya", "Tekstil", "Aksesuar", "Depo Ekipmanı", "Diğer"];
+    private static readonly string[] Units = ["Adet", "Kutu", "Koli", "Set", "Kg", "Lt", "M", "Paket"];
+    private static readonly string[] WithholdingTypes = ["Tevkifat Yok", "9/10", "7/10", "5/10", "4/10", "3/10", "2/10", "1/10"];
+    private static readonly string[] FeatureTypes = ["Metin", "Sayı", "Liste", "Evet/Hayır"];
+    private static readonly string[] FeatureStatuses = ["Aktif", "Pasif"];
+    private static readonly string[] Currencies = ["TRY", "USD", "EUR", "GBP"];
+
+    private sealed class FeatureItem
+    {
+        public string Name { get; set; } = "";
+        public string Type { get; set; } = FeatureTypes[0];
+        public string Value { get; set; } = "";
+        public string Status { get; set; } = FeatureStatuses[0];
+    }
+
+    private sealed class ProductForm
+    {
+        public string ProductCode { get; set; } = "";
+        public string Sku { get; set; } = "";
+        public string Barcode { get; set; } = "";
+        public string Name { get; set; } = "";
+        public string Name2 { get; set; } = "";
+        public string Description { get; set; } = "";
+        public string Brand { get; set; } = "";
+        public string Model { get; set; } = "";
+        public string Category { get; set; } = Categories[0];
+        public string Unit { get; set; } = Units[0];
+        public bool IsActive { get; set; } = true;
+
+        public int? CriticalStockQty { get; set; }
+        public int? MinSaleQty { get; set; }
+
+        public string Currency { get; set; } = Currencies[0];
+        public string SalePriceIncludingVat { get; set; } = "";
+        public string SalePriceExcludingVat { get; set; } = "";
+        public string PurchasePriceIncludingVat { get; set; } = "";
+        public string PurchasePriceExcludingVat { get; set; } = "";
+        public string WithholdingType { get; set; } = WithholdingTypes[0];
+        public string WithholdingRate { get; set; } = "";
+        public string AdditionalTax { get; set; } = "";
+
+        public bool IsValid => !string.IsNullOrWhiteSpace(Name) && !string.IsNullOrWhiteSpace(Sku);
+    }
+
+    [Parameter]
+    public string? Sku { get; set; }
+
+    private string _activeTabId = "general";
+    private ProductForm _form = new();
+    private readonly List<FeatureItem> _features = [];
+    private bool _saved;
+    private bool _isEdit;
+
+    protected override void OnInitialized()
+    {
+        _isEdit = !string.IsNullOrWhiteSpace(Sku);
+
+        if (!_isEdit)
+        {
+            return;
+        }
+
+        var product = Store.FindBySku(Sku!);
+        if (product is null)
+        {
+            Navigation.NavigateTo("/products");
+            return;
+        }
+
+        _form.ProductCode = product.ProductCode;
+        _form.Sku = product.Sku;
+        _form.Barcode = product.Barcode;
+        _form.Name = product.Name;
+        _form.Name2 = product.Name2;
+        _form.Description = product.Description;
+        _form.Brand = product.Brand;
+        _form.Model = product.Model;
+        _form.Category = product.Category;
+        _form.Unit = product.Unit;
+        _form.IsActive = product.Status == "Aktif";
+        _form.CriticalStockQty = product.CriticalStockQty == 0 ? null : product.CriticalStockQty;
+        _form.MinSaleQty = product.MinSaleQty == 0 ? null : product.MinSaleQty;
+        _form.Currency = string.IsNullOrWhiteSpace(product.Currency) ? Currencies[0] : product.Currency;
+        _form.SalePriceIncludingVat = product.SalePriceIncludingVat;
+        _form.SalePriceExcludingVat = product.SalePriceExcludingVat;
+        _form.PurchasePriceIncludingVat = product.PurchasePriceIncludingVat;
+        _form.PurchasePriceExcludingVat = product.PurchasePriceExcludingVat;
+        _form.WithholdingType = string.IsNullOrWhiteSpace(product.WithholdingType) ? WithholdingTypes[0] : product.WithholdingType;
+        _form.WithholdingRate = product.WithholdingRate;
+        _form.AdditionalTax = product.AdditionalTax;
+
+        if (product.Features is { Count: > 0 })
+        {
+            _features.AddRange(product.Features.Select(f => new FeatureItem { Name = f.Name, Type = f.Type, Value = f.Value, Status = f.Status }));
+        }
+    }
+
+    private void AddFeature() => _features.Add(new FeatureItem());
+
+    private void Cancel() => Navigation.NavigateTo("/products");
+
+    private async Task SaveProductAsync()
+    {
+        if (!_form.IsValid)
+        {
+            _activeTabId = "general";
+            return;
+        }
+
+        var status = _form.IsActive ? "Aktif" : "Pasif";
+        var currencySymbol = _form.Currency switch
+        {
+            "USD" => "$",
+            "EUR" => "€",
+            "GBP" => "£",
+            _ => "₺",
+        };
+        var priceLabel = string.IsNullOrWhiteSpace(_form.SalePriceIncludingVat) ? $"{currencySymbol}0,00" : $"{currencySymbol}{_form.SalePriceIncludingVat.Trim()}";
+
+        var product = new ProductStore.Product(
+            Sku: _form.Sku.Trim(),
+            Name: _form.Name.Trim(),
+            Category: _form.Category,
+            Unit: _form.Unit,
+            StockQty: 0,
+            PriceLabel: priceLabel,
+            Status: status,
+            ProductCode: _form.ProductCode.Trim(),
+            Barcode: _form.Barcode.Trim(),
+            Name2: _form.Name2.Trim(),
+            Description: _form.Description.Trim(),
+            Brand: _form.Brand.Trim(),
+            Model: _form.Model.Trim(),
+            CriticalStockQty: _form.CriticalStockQty ?? 0,
+            MinSaleQty: _form.MinSaleQty ?? 0,
+            Currency: _form.Currency,
+            SalePriceIncludingVat: _form.SalePriceIncludingVat.Trim(),
+            SalePriceExcludingVat: _form.SalePriceExcludingVat.Trim(),
+            PurchasePriceIncludingVat: _form.PurchasePriceIncludingVat.Trim(),
+            PurchasePriceExcludingVat: _form.PurchasePriceExcludingVat.Trim(),
+            WithholdingType: _form.WithholdingType,
+            WithholdingRate: _form.WithholdingRate.Trim(),
+            AdditionalTax: _form.AdditionalTax.Trim(),
+            Features: _features.Select(f => new ProductStore.Feature(f.Name.Trim(), f.Type, f.Value.Trim(), f.Status)).ToList());
+
+        if (_isEdit)
+        {
+            Store.Update(Sku!, product);
+        }
+        else
+        {
+            Store.Add(product);
+        }
+
+        _saved = true;
+        StateHasChanged();
+        await Task.Delay(600);
+        Navigation.NavigateTo("/products");
+    }
+}

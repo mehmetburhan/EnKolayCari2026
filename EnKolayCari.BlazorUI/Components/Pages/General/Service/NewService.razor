@@ -1,0 +1,395 @@
+@page "/service/new"
+@page "/service/edit/{Code}"
+@inject ServiceStore Store
+@inject NavigationManager Navigation
+
+<PageTitle>@(_isEdit ? "Hizmeti Düzenle" : "Yeni Hizmet") - EnKolayCari</PageTitle>
+<PageHeading Title="@(_isEdit ? "Hizmeti Düzenle" : "Yeni Hizmet")" Subtitle="@(_isEdit ? "Hizmet kartını sekmeler halinde güncelleyin." : "Hizmet kartını sekmeler halinde oluşturun.")" />
+
+<div class="mb-4">
+    <LumexLink Href="/services" Color="ThemeColor.Default" Underline="Underline.Hover" Class="inline-flex items-center gap-1.5 text-xs font-semibold">
+        <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg>
+        Hizmet listesine dön
+    </LumexLink>
+</div>
+
+<LumexCard FullWidth Shadow="Shadow.Small">
+    <LumexCardBody>
+        <LumexTabs @bind-SelectedId="_activeTabId" Color="ThemeColor.Primary" Variant="TabVariant.Underlined" FullWidth>
+            <LumexTab Id="general" Title="Genel Bilgiler">
+                <div class="space-y-5 pt-4">
+                    <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                        <LumexTextbox @bind-Value="_form.Code" Label="Hizmet Kodu" Placeholder="HZM-007" Required FullWidth />
+                        <LumexTextbox @bind-Value="_form.Name" Label="Hizmet Adı" Placeholder="Hizmet adı" Required FullWidth />
+                    </div>
+
+                    <LumexTextarea @bind-Value="_form.Description" Label="Açıklama" Placeholder="Hizmetle ilgili notunuz..." MinRows="3" FullWidth />
+
+                    <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                        <LumexSelect TValue="string" @bind-Value="_form.Unit" Label="Birim" FullWidth>
+                            @foreach (var unit in Units)
+                            {
+                                <LumexSelectItem TValue="string" Value="@unit">@unit</LumexSelectItem>
+                            }
+                        </LumexSelect>
+
+                        <LumexSelect TValue="string" @bind-Value="_form.Category" Label="Kategori" FullWidth>
+                            @foreach (var category in Categories)
+                            {
+                                <LumexSelectItem TValue="string" Value="@category">@category</LumexSelectItem>
+                            }
+                        </LumexSelect>
+
+                        <LumexSelect TValue="string" @bind-Value="_form.ServiceGroup" Label="Hizmet Grubu" FullWidth>
+                            @foreach (var group in ServiceGroups)
+                            {
+                                <LumexSelectItem TValue="string" Value="@group">@group</LumexSelectItem>
+                            }
+                        </LumexSelect>
+
+                        <LumexSelect TValue="string" @bind-Value="_form.ExpenseType" Label="Harcama Tipi" FullWidth>
+                            @foreach (var type in ExpenseTypes)
+                            {
+                                <LumexSelectItem TValue="string" Value="@type">@type</LumexSelectItem>
+                            }
+                        </LumexSelect>
+                    </div>
+
+                    <LumexSwitch @bind-Value="_form.IsActive" Color="ThemeColor.Success">@(_form.IsActive ? "Aktif" : "Pasif")</LumexSwitch>
+                </div>
+            </LumexTab>
+
+            <LumexTab Id="price" Title="Fiyat Bilgileri">
+                <div class="space-y-6 pt-4">
+                    <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                        <LumexSelect TValue="string" @bind-Value="_form.Currency" Label="Para Birimi" FullWidth>
+                            @foreach (var currency in Currencies)
+                            {
+                                <LumexSelectItem TValue="string" Value="@currency">@currency</LumexSelectItem>
+                            }
+                        </LumexSelect>
+                    </div>
+
+                    <div>
+                        <h3 class="mb-3 text-sm font-semibold text-slate-800">Satış</h3>
+                        <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                            <LumexTextbox @bind-Value="_form.SalePriceIncludingVat" Label="Birim Fiyat (KDV Dahil)" Placeholder="0,00" FullWidth />
+                            <LumexTextbox @bind-Value="_form.SalePriceExcludingVat" Label="Birim Fiyat (KDV Hariç)" Placeholder="0,00" FullWidth />
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="mb-3 text-sm font-semibold text-slate-800">Alış</h3>
+                        <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                            <LumexTextbox @bind-Value="_form.PurchasePriceIncludingVat" Label="Birim Fiyat (KDV Dahil)" Placeholder="0,00" FullWidth />
+                            <LumexTextbox @bind-Value="_form.PurchasePriceExcludingVat" Label="Birim Fiyat (KDV Hariç)" Placeholder="0,00" FullWidth />
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                        <LumexSelect TValue="string" @bind-Value="_form.WithholdingType" Label="Tevkifat Tipi" FullWidth>
+                            @foreach (var type in WithholdingTypes)
+                            {
+                                <LumexSelectItem TValue="string" Value="@type">@type</LumexSelectItem>
+                            }
+                        </LumexSelect>
+
+                        <LumexTextbox @bind-Value="_form.WithholdingRate" Label="Tevkifat Oranı" Placeholder="Örn. 9/10" FullWidth />
+
+                        <LumexTextbox @bind-Value="_form.AdditionalTax" Label="Ek Vergi" Placeholder="Örn. ÖTV %10" FullWidth Class="sm:col-span-2" />
+                    </div>
+                </div>
+            </LumexTab>
+
+            <LumexTab Id="defense">
+                <TitleContent>
+                    <span class="inline-flex items-center gap-1.5">Savunma Sanayi Bilgileri <LumexChip Size="Size.Small" Color="ThemeColor.Primary" Variant="ChipVariant.Flat">@_defenseItems.Count</LumexChip></span>
+                </TitleContent>
+                <ChildContent>
+                <div class="space-y-6 pt-6">
+                    <div class="flex flex-wrap items-start justify-between gap-3 pr-2">
+                        <p class="text-xs text-slate-500">Savunma sanayi siparişlerine bağlı yerlilik oranı ve sipariş kalemi bilgilerini tanımlayabilirsiniz.</p>
+                        <button type="button" class="dashboard-button-primary flex-none" @onclick="AddDefenseItem">
+                            <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+                            Yeni Kayıt Ekle
+                        </button>
+                    </div>
+
+                    @if (_defenseItems.Count == 0)
+                    {
+                        <p class="rounded-xl border border-dashed border-[var(--nexora-border)] py-8 text-center text-sm text-slate-500">Henüz savunma sanayi kaydı eklenmedi.</p>
+                    }
+                    else
+                    {
+                        @for (var i = 0; i < _defenseItems.Count; i++)
+                        {
+                            var index = i;
+                            var item = _defenseItems[index];
+                            <LumexCard Shadow="Shadow.None" Class="border border-[var(--nexora-border)]">
+                                <LumexCardBody>
+                                    <div class="flex items-center justify-between">
+                                        <h3 class="text-sm font-semibold text-slate-800">Kayıt @(index + 1)@(string.IsNullOrWhiteSpace(item.OrderItemNumber) ? "" : $" · {item.OrderItemNumber}")</h3>
+                                        <LumexButton IconOnly Variant="Variant.Light" Color="ThemeColor.Danger" OnClick="@(() => _defenseItems.RemoveAt(index))" title="Sil">
+                                            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">@((MarkupString)MenuIcons.Trash)</svg>
+                                        </LumexButton>
+                                    </div>
+
+                                    <div class="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                                        <LumexTextbox @bind-Value="item.LocalizationRate" Label="Yerlilik Oranı (%)" Placeholder="Örn. 65" FullWidth />
+                                        <LumexTextbox @bind-Value="item.Party" Label="Müşteri/Tedarikçi" Placeholder="Cari hesap adı" FullWidth />
+                                        <LumexTextbox @bind-Value="item.OrderItemNumber" Label="Sipariş Kalem Numarası" Placeholder="Örn. 2025-014/3" FullWidth />
+                                        <LumexTextbox @bind-Value="item.OrderItemDescription" Label="Sipariş Kalem Açıklaması" Placeholder="Sipariş kalemi açıklaması" FullWidth />
+                                    </div>
+                                </LumexCardBody>
+                            </LumexCard>
+                        }
+                    }
+                </div>
+                </ChildContent>
+            </LumexTab>
+
+            <LumexTab Id="features">
+                <TitleContent>
+                    <span class="inline-flex items-center gap-1.5">Diğer Özellikler <LumexChip Size="Size.Small" Color="ThemeColor.Primary" Variant="ChipVariant.Flat">@_features.Count</LumexChip></span>
+                </TitleContent>
+                <ChildContent>
+                <div class="space-y-6 pt-6">
+                    <div class="flex flex-wrap items-start justify-between gap-3 pr-2">
+                        <p class="text-xs text-slate-500">Hizmete özel ek nitelikleri tanımlayabilirsiniz.</p>
+                        <button type="button" class="dashboard-button-primary flex-none" @onclick="AddFeature">
+                            <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+                            Yeni Özellik Ekle
+                        </button>
+                    </div>
+
+                    @if (_features.Count == 0)
+                    {
+                        <p class="rounded-xl border border-dashed border-[var(--nexora-border)] py-8 text-center text-sm text-slate-500">Henüz özellik eklenmedi.</p>
+                    }
+                    else
+                    {
+                        @for (var i = 0; i < _features.Count; i++)
+                        {
+                            var index = i;
+                            var feature = _features[index];
+                            <LumexCard Shadow="Shadow.None" Class="border border-[var(--nexora-border)]">
+                                <LumexCardBody>
+                                    <div class="flex items-center justify-between">
+                                        <h3 class="text-sm font-semibold text-slate-800">Özellik @(index + 1)@(string.IsNullOrWhiteSpace(feature.Name) ? "" : $" · {feature.Name}")</h3>
+                                        <LumexButton IconOnly Variant="Variant.Light" Color="ThemeColor.Danger" OnClick="@(() => _features.RemoveAt(index))" title="Sil">
+                                            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">@((MarkupString)MenuIcons.Trash)</svg>
+                                        </LumexButton>
+                                    </div>
+
+                                    <div class="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                                        <LumexTextbox @bind-Value="feature.Name" Label="Özellik Adı" Placeholder="Örn. Öncelik" FullWidth />
+
+                                        <LumexSelect TValue="string" @bind-Value="feature.Type" Label="Tipi" FullWidth>
+                                            @foreach (var type in FeatureTypes)
+                                            {
+                                                <LumexSelectItem TValue="string" Value="@type">@type</LumexSelectItem>
+                                            }
+                                        </LumexSelect>
+
+                                        <LumexTextbox @bind-Value="feature.Value" Label="Değeri" Placeholder="Örn. Yüksek" FullWidth />
+
+                                        <LumexSelect TValue="string" @bind-Value="feature.Status" Label="Statüsü" FullWidth>
+                                            @foreach (var status in FeatureStatuses)
+                                            {
+                                                <LumexSelectItem TValue="string" Value="@status">@status</LumexSelectItem>
+                                            }
+                                        </LumexSelect>
+                                    </div>
+                                </LumexCardBody>
+                            </LumexCard>
+                        }
+                    }
+                </div>
+                </ChildContent>
+            </LumexTab>
+        </LumexTabs>
+    </LumexCardBody>
+
+    <LumexCardFooter Class="flex items-center justify-between gap-3 border-t border-[var(--nexora-border)]">
+        <span class="text-xs @(_saved ? "font-semibold text-emerald-600" : "text-transparent")">Kaydedildi, listeye yönlendiriliyorsunuz...</span>
+        <div class="flex items-center gap-2">
+            <LumexButton Variant="Variant.Flat" OnClick="Cancel">Vazgeç</LumexButton>
+            <LumexButton Color="ThemeColor.Primary" Disabled="@(!_form.IsValid || _saved)" OnClick="SaveServiceAsync">
+                <StartContent>
+                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">@((MarkupString)MenuIcons.Check)</svg>
+                </StartContent>
+                <ChildContent>Kaydet</ChildContent>
+            </LumexButton>
+        </div>
+    </LumexCardFooter>
+</LumexCard>
+
+@code {
+    private static readonly string[] Units = ["Adet", "Saat", "Ay", "Yıl", "Gün", "Sefer", "Paket"];
+    private static readonly string[] Categories = ["Danışmanlık", "Teknik Servis", "Yazılım", "Lojistik", "Diğer"];
+    private static readonly string[] ServiceGroups = ["Genel", "Bakım & Destek", "Danışmanlık", "Kurulum", "Eğitim", "Lojistik"];
+    private static readonly string[] ExpenseTypes = ["Genel Gider", "Pazarlama", "Lojistik", "Personel", "Diğer"];
+    private static readonly string[] Currencies = ["TRY", "USD", "EUR", "GBP"];
+    private static readonly string[] WithholdingTypes = ["Tevkifat Yok", "9/10", "7/10", "5/10", "4/10", "3/10", "2/10", "1/10"];
+    private static readonly string[] FeatureTypes = ["Metin", "Sayı", "Liste", "Evet/Hayır"];
+    private static readonly string[] FeatureStatuses = ["Aktif", "Pasif"];
+
+    private sealed class DefenseItem
+    {
+        public string LocalizationRate { get; set; } = "";
+        public string Party { get; set; } = "";
+        public string OrderItemNumber { get; set; } = "";
+        public string OrderItemDescription { get; set; } = "";
+    }
+
+    private sealed class FeatureItem
+    {
+        public string Name { get; set; } = "";
+        public string Type { get; set; } = FeatureTypes[0];
+        public string Value { get; set; } = "";
+        public string Status { get; set; } = FeatureStatuses[0];
+    }
+
+    private sealed class ServiceForm
+    {
+        public string Code { get; set; } = "";
+        public string Name { get; set; } = "";
+        public string Description { get; set; } = "";
+        public string Unit { get; set; } = Units[0];
+        public string Category { get; set; } = Categories[0];
+        public string ServiceGroup { get; set; } = ServiceGroups[0];
+        public string ExpenseType { get; set; } = ExpenseTypes[0];
+        public bool IsActive { get; set; } = true;
+
+        public string Currency { get; set; } = Currencies[0];
+        public string SalePriceIncludingVat { get; set; } = "";
+        public string SalePriceExcludingVat { get; set; } = "";
+        public string PurchasePriceIncludingVat { get; set; } = "";
+        public string PurchasePriceExcludingVat { get; set; } = "";
+        public string WithholdingType { get; set; } = WithholdingTypes[0];
+        public string WithholdingRate { get; set; } = "";
+        public string AdditionalTax { get; set; } = "";
+
+        public bool IsValid => !string.IsNullOrWhiteSpace(Name) && !string.IsNullOrWhiteSpace(Code);
+    }
+
+    [Parameter]
+    public string? Code { get; set; }
+
+    private string _activeTabId = "general";
+    private ServiceForm _form = new();
+    private readonly List<DefenseItem> _defenseItems = [];
+    private readonly List<FeatureItem> _features = [];
+    private bool _saved;
+    private bool _isEdit;
+
+    protected override void OnInitialized()
+    {
+        _isEdit = !string.IsNullOrWhiteSpace(Code);
+
+        if (!_isEdit)
+        {
+            return;
+        }
+
+        var service = Store.FindByCode(Code!);
+        if (service is null)
+        {
+            Navigation.NavigateTo("/services");
+            return;
+        }
+
+        _form.Code = service.Code;
+        _form.Name = service.Name;
+        _form.Description = service.Description;
+        _form.Unit = service.Unit;
+        _form.Category = service.Category;
+        _form.ServiceGroup = string.IsNullOrWhiteSpace(service.ServiceGroup) ? ServiceGroups[0] : service.ServiceGroup;
+        _form.ExpenseType = string.IsNullOrWhiteSpace(service.ExpenseType) ? ExpenseTypes[0] : service.ExpenseType;
+        _form.IsActive = service.Status == "Aktif";
+        _form.Currency = string.IsNullOrWhiteSpace(service.Currency) ? Currencies[0] : service.Currency;
+        _form.SalePriceIncludingVat = service.SalePriceIncludingVat;
+        _form.SalePriceExcludingVat = service.SalePriceExcludingVat;
+        _form.PurchasePriceIncludingVat = service.PurchasePriceIncludingVat;
+        _form.PurchasePriceExcludingVat = service.PurchasePriceExcludingVat;
+        _form.WithholdingType = string.IsNullOrWhiteSpace(service.WithholdingType) ? WithholdingTypes[0] : service.WithholdingType;
+        _form.WithholdingRate = service.WithholdingRate;
+        _form.AdditionalTax = service.AdditionalTax;
+
+        if (service.DefenseIndustryItems is { Count: > 0 })
+        {
+            _defenseItems.AddRange(service.DefenseIndustryItems.Select(d => new DefenseItem
+            {
+                LocalizationRate = d.LocalizationRate,
+                Party = d.Party,
+                OrderItemNumber = d.OrderItemNumber,
+                OrderItemDescription = d.OrderItemDescription,
+            }));
+        }
+
+        if (service.Features is { Count: > 0 })
+        {
+            _features.AddRange(service.Features.Select(f => new FeatureItem { Name = f.Name, Type = f.Type, Value = f.Value, Status = f.Status }));
+        }
+    }
+
+    private void AddDefenseItem() => _defenseItems.Add(new DefenseItem());
+
+    private void AddFeature() => _features.Add(new FeatureItem());
+
+    private void Cancel() => Navigation.NavigateTo("/services");
+
+    private async Task SaveServiceAsync()
+    {
+        if (!_form.IsValid)
+        {
+            _activeTabId = "general";
+            return;
+        }
+
+        var status = _form.IsActive ? "Aktif" : "Pasif";
+        var currencySymbol = _form.Currency switch
+        {
+            "USD" => "$",
+            "EUR" => "€",
+            "GBP" => "£",
+            _ => "₺",
+        };
+        var priceLabel = string.IsNullOrWhiteSpace(_form.SalePriceIncludingVat) ? $"{currencySymbol}0,00" : $"{currencySymbol}{_form.SalePriceIncludingVat.Trim()}";
+
+        var service = new ServiceStore.Service(
+            Code: _form.Code.Trim(),
+            Name: _form.Name.Trim(),
+            Category: _form.Category,
+            Unit: _form.Unit,
+            PriceLabel: priceLabel,
+            Status: status,
+            Description: _form.Description.Trim(),
+            ServiceGroup: _form.ServiceGroup,
+            ExpenseType: _form.ExpenseType,
+            Currency: _form.Currency,
+            SalePriceIncludingVat: _form.SalePriceIncludingVat.Trim(),
+            SalePriceExcludingVat: _form.SalePriceExcludingVat.Trim(),
+            PurchasePriceIncludingVat: _form.PurchasePriceIncludingVat.Trim(),
+            PurchasePriceExcludingVat: _form.PurchasePriceExcludingVat.Trim(),
+            WithholdingType: _form.WithholdingType,
+            WithholdingRate: _form.WithholdingRate.Trim(),
+            AdditionalTax: _form.AdditionalTax.Trim(),
+            DefenseIndustryItems: _defenseItems.Select(d => new ServiceStore.DefenseIndustryItem(d.LocalizationRate.Trim(), d.Party.Trim(), d.OrderItemNumber.Trim(), d.OrderItemDescription.Trim())).ToList(),
+            Features: _features.Select(f => new ServiceStore.Feature(f.Name.Trim(), f.Type, f.Value.Trim(), f.Status)).ToList());
+
+        if (_isEdit)
+        {
+            Store.Update(Code!, service);
+        }
+        else
+        {
+            Store.Add(service);
+        }
+
+        _saved = true;
+        StateHasChanged();
+        await Task.Delay(600);
+        Navigation.NavigateTo("/services");
+    }
+}
