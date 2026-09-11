@@ -1,0 +1,559 @@
+@page "/sales/quotes/new"
+@page "/sales/quotes/edit/{QuoteNo}"
+@using System.Globalization
+@inject QuoteStore Store
+@inject CustomerSupplierStore CustomerStore
+@inject ProductStore Catalog
+@inject NavigationManager Navigation
+
+<PageTitle>@(_isEdit ? "Teklifi Düzenle" : "Yeni Teklif") - EnKolayCari</PageTitle>
+<PageHeading Title="@(_isEdit ? "Teklifi Düzenle" : "Yeni Teklif")" Subtitle="@(_isEdit ? "Teklif bilgilerini güncelleyin." : "Müşterinize göndereceğiniz teklifi oluşturun.")" />
+
+<div class="mb-4">
+    <LumexLink Href="/sales/quotes" Color="ThemeColor.Default" Underline="Underline.Hover" Class="inline-flex items-center gap-1.5 text-xs font-semibold">
+        <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg>
+        Teklif listesine dön
+    </LumexLink>
+</div>
+
+<LumexCard FullWidth Shadow="Shadow.Small">
+    <LumexCardBody>
+        <div class="grid grid-cols-1 gap-5 xl:grid-cols-5">
+            <LumexCard Shadow="Shadow.None" Class="border border-[var(--nexora-border)] xl:col-span-3">
+                <LumexCardBody Class="space-y-4">
+                    <h3 class="flex items-center gap-2 text-sm font-semibold text-slate-800">
+                        <svg class="h-4 w-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">@((MarkupString)MenuIcons.Users)</svg>
+                        Müşteri Bilgileri
+                    </h3>
+
+                    <LumexSelect TValue="string" Value="@(string.IsNullOrEmpty(_form.CustomerCode) ? null : _form.CustomerCode)" ValueChanged="OnCustomerSelected" Label="Firma Ünvanı / Adı Soyadı" Placeholder="Seçiniz" Variant="InputVariant.Outlined" LabelPlacement="LabelPlacement.Outside" Required FullWidth>
+                        <EndContent>
+                            <button type="button" class="grid h-6 w-6 flex-none place-items-center rounded-md text-slate-400 hover:bg-slate-100 hover:text-[var(--nexora-blue)]" title="Cariyi düzenle / yeni oluştur" @onclick="EditOrCreateCustomer" @onclick:stopPropagation="true">
+                                <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">@((MarkupString)MenuIcons.PencilSquare)</svg>
+                            </button>
+                        </EndContent>
+                        <ChildContent>
+                            @foreach (var account in CustomerStore.Accounts)
+                            {
+                                <LumexSelectItem TValue="string" Value="@account.Code">@account.Name</LumexSelectItem>
+                            }
+                        </ChildContent>
+                    </LumexSelect>
+
+                    <LumexRadioGroup TValue="bool" @bind-Value="_form.IsCorporate" Orientation="Orientation.Horizontal" Color="ThemeColor.Primary">
+                        <LumexRadio TValue="bool" Value="true">Kurumsal</LumexRadio>
+                        <LumexRadio TValue="bool" Value="false">Bireysel</LumexRadio>
+                    </LumexRadioGroup>
+
+                    <LumexTextarea @bind-Value="_form.Address" Label="Adres" Placeholder="Açık adres..." Variant="InputVariant.Outlined" LabelPlacement="LabelPlacement.Outside" Required MinRows="2" FullWidth />
+
+                    <div class="grid grid-cols-1 gap-3 sm:grid-cols-3">
+                        <LumexTextbox @bind-Value="_form.Country" Label="Ülke" Placeholder="Türkiye" Variant="InputVariant.Outlined" LabelPlacement="LabelPlacement.Outside" FullWidth />
+                        <LumexTextbox @bind-Value="_form.City" Label="İl" Placeholder="İl" Variant="InputVariant.Outlined" LabelPlacement="LabelPlacement.Outside" FullWidth />
+                        <LumexTextbox @bind-Value="_form.District" Label="İlçe" Placeholder="İlçe" Variant="InputVariant.Outlined" LabelPlacement="LabelPlacement.Outside" FullWidth />
+                    </div>
+
+                    <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                        <LumexTextbox @bind-Value="_form.TaxOffice" Label="Vergi Dairesi" Placeholder="Vergi Dairesi" Variant="InputVariant.Outlined" LabelPlacement="LabelPlacement.Outside" FullWidth />
+                        <LumexTextbox @bind-Value="_form.TaxNumber" Label="Vergi No/T.C. Kimlik No" Placeholder="Vergi No / T.C. Kimlik No" Variant="InputVariant.Outlined" LabelPlacement="LabelPlacement.Outside" Required FullWidth />
+                    </div>
+
+                    <div class="border-t border-[var(--nexora-border)] pt-4">
+                        <LumexCheckbox @bind-Value="_form.DifferentDeliveryAddress">Teslimat adresi farklı</LumexCheckbox>
+
+                        @if (_form.DifferentDeliveryAddress)
+                        {
+                            <LumexTextarea @bind-Value="_form.DeliveryAddress" Label="Teslimat Adresi" Placeholder="Teslimat açık adresi..." Variant="InputVariant.Outlined" LabelPlacement="LabelPlacement.Outside" MinRows="2" FullWidth Class="mt-3" />
+                        }
+                    </div>
+                </LumexCardBody>
+            </LumexCard>
+
+            <LumexCard Shadow="Shadow.None" Class="border border-[var(--nexora-border)] xl:col-span-2">
+                <LumexCardBody Class="space-y-4">
+                    <LumexTabs @bind-SelectedId="_activeTabId" Color="ThemeColor.Primary" Variant="TabVariant.Underlined" FullWidth>
+                        <LumexTab Id="general" Title="Genel">
+                            <div class="space-y-4 pt-4">
+                                <div>
+                                    <span class="form-label">Sipariş Tarihi</span>
+                                    <div class="flex items-center gap-1.5">
+                                        <input type="text" class="form-input" readonly value="@_form.OrderDate.ToString("dd.MM.yyyy HH:mm")" />
+                                        <button type="button" class="grid h-9 w-9 flex-none place-items-center rounded-lg border border-[var(--nexora-border)] text-slate-400 hover:bg-slate-100 hover:text-[var(--nexora-blue)]" title="Tarihi bugüne ayarla" @onclick="@(() => _form.OrderDate = _form.OrderDate.Date.Add(DateTime.Now.TimeOfDay))">
+                                            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">@((MarkupString)MenuIcons.Calendar)</svg>
+                                        </button>
+                                        <button type="button" class="grid h-9 w-9 flex-none place-items-center rounded-lg border border-[var(--nexora-border)] text-slate-400 hover:bg-slate-100 hover:text-[var(--nexora-blue)]" title="Saati şimdi olarak ayarla" @onclick="@(() => _form.OrderDate = DateTime.Now)">
+                                            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">@((MarkupString)MenuIcons.Clock)</svg>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <span class="form-label">Sipariş Numarası</span>
+                                    <input type="text" class="form-input" readonly value="@_quoteNo" />
+                                </div>
+
+                                <LumexSelect TValue="string" @bind-Value="_form.Currency" Label="Döviz" Variant="InputVariant.Outlined" LabelPlacement="LabelPlacement.Outside" FullWidth>
+                                    @foreach (var currency in Currencies)
+                                    {
+                                        <LumexSelectItem TValue="string" Value="@currency">@currency</LumexSelectItem>
+                                    }
+                                </LumexSelect>
+                            </div>
+                        </LumexTab>
+
+                        <LumexTab Id="other" Title="Diğer">
+                            <div class="space-y-4 pt-4">
+                                <LumexTextbox @bind-Value="_form.SalesRep" Label="Satış Temsilcisi" Placeholder="Satış temsilcisi" Variant="InputVariant.Outlined" LabelPlacement="LabelPlacement.Outside" FullWidth />
+                                <LumexTextbox @bind-Value="_form.PaymentTerm" Label="Ödeme Vadesi" Placeholder="Örn. 30 gün" Variant="InputVariant.Outlined" LabelPlacement="LabelPlacement.Outside" FullWidth />
+                            </div>
+                        </LumexTab>
+                    </LumexTabs>
+                </LumexCardBody>
+            </LumexCard>
+        </div>
+
+        <div class="mt-8">
+            <h3 class="mb-3 text-sm font-semibold text-slate-800">Kalemler</h3>
+            <div class="overflow-x-auto rounded-xl border border-[var(--nexora-border)]">
+                <table class="min-w-full text-left text-sm">
+                    <thead class="bg-slate-50 text-xs font-semibold text-slate-500">
+                        <tr>
+                            <th class="px-2 py-2.5 text-center">#</th>
+                            <th class="min-w-[200px] px-2 py-2.5">Ürün</th>
+                            <th class="min-w-[90px] px-2 py-2.5">Miktar</th>
+                            <th class="min-w-[110px] px-2 py-2.5">Birimi</th>
+                            <th class="min-w-[110px] px-2 py-2.5">Birim Fiyat</th>
+                            <th class="min-w-[80px] px-2 py-2.5">Vergi %</th>
+                            <th class="min-w-[110px] px-2 py-2.5 text-right">Vergi Tutarı</th>
+                            <th class="min-w-[90px] px-2 py-2.5">İndirim</th>
+                            <th class="min-w-[110px] px-2 py-2.5">İndirim Tipi</th>
+                            <th class="min-w-[120px] px-2 py-2.5 text-right">Toplam</th>
+                            <th class="min-w-[150px] px-2 py-2.5">Teslim Tarihi</th>
+                            <th class="min-w-[100px] px-2 py-2.5">Sevk Edilen Mik.</th>
+                            <th class="min-w-[100px] px-2 py-2.5 text-right">Bekleyen Mik.</th>
+                            <th class="w-10 px-2 py-2.5"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (_lines.Count == 0)
+                        {
+                            <tr>
+                                <td colspan="14" class="px-2 py-8 text-center text-sm text-slate-500">Henüz kalem eklenmedi.</td>
+                            </tr>
+                        }
+                        else
+                        {
+                            @for (var i = 0; i < _lines.Count; i++)
+                            {
+                                var index = i;
+                                var line = _lines[index];
+                                <tr class="border-t border-[var(--nexora-border)] align-top">
+                                    <td class="px-2 py-2.5 text-center text-slate-500">@(index + 1)</td>
+                                    <td class="px-2 py-2">
+                                        <LumexSelect TValue="string" Value="@(string.IsNullOrEmpty(line.ProductSku) ? null : line.ProductSku)" ValueChanged="@(v => OnProductSelected(line, v))" Placeholder="Ürün seçin" Variant="InputVariant.Outlined" FullWidth>
+                                            @foreach (var product in Catalog.Products)
+                                            {
+                                                <LumexSelectItem TValue="string" Value="@product.Sku">@product.Name</LumexSelectItem>
+                                            }
+                                        </LumexSelect>
+                                    </td>
+                                    <td class="px-2 py-2"><LumexNumbox TValue="int?" @bind-Value="line.Quantity" Variant="InputVariant.Outlined" FullWidth /></td>
+                                    <td class="px-2 py-2">
+                                        <LumexSelect TValue="string" @bind-Value="line.Unit" Variant="InputVariant.Outlined" FullWidth>
+                                            @foreach (var unit in Units)
+                                            {
+                                                <LumexSelectItem TValue="string" Value="@unit">@unit</LumexSelectItem>
+                                            }
+                                        </LumexSelect>
+                                    </td>
+                                    <td class="px-2 py-2"><LumexTextbox @bind-Value="line.UnitPrice" Placeholder="0,00" Variant="InputVariant.Outlined" FullWidth /></td>
+                                    <td class="px-2 py-2"><LumexNumbox TValue="int?" @bind-Value="line.TaxRate" Variant="InputVariant.Outlined" FullWidth /></td>
+                                    <td class="px-2 py-2 pt-3.5 text-right text-slate-700">@Money(LineTax(line))</td>
+                                    <td class="px-2 py-2"><LumexTextbox @bind-Value="line.DiscountValue" Placeholder="0" Variant="InputVariant.Outlined" FullWidth /></td>
+                                    <td class="px-2 py-2">
+                                        <LumexSelect TValue="string" @bind-Value="line.DiscountType" Variant="InputVariant.Outlined" FullWidth>
+                                            @foreach (var type in DiscountTypes)
+                                            {
+                                                <LumexSelectItem TValue="string" Value="@type">@type</LumexSelectItem>
+                                            }
+                                        </LumexSelect>
+                                    </td>
+                                    <td class="px-2 py-2 pt-3.5 text-right font-semibold text-slate-800">@Money(LineTotal(line))</td>
+                                    <td class="px-2 py-2"><LumexDatebox TValue="DateTime?" @bind-Value="line.DeliveryDate" Type="LumexUI.Common.InputDateType.Date" Variant="InputVariant.Outlined" FullWidth /></td>
+                                    <td class="px-2 py-2"><LumexNumbox TValue="int?" @bind-Value="line.ShippedQuantity" Variant="InputVariant.Outlined" FullWidth /></td>
+                                    <td class="px-2 py-2 pt-3.5 text-right text-slate-500">@line.PendingQuantity</td>
+                                    <td class="px-2 py-2 pt-3 text-center">
+                                        <LumexButton IconOnly Variant="Variant.Light" Color="ThemeColor.Danger" OnClick="@(() => _lines.RemoveAt(index))" title="Satırı sil">
+                                            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">@((MarkupString)MenuIcons.Trash)</svg>
+                                        </LumexButton>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="mt-3 flex flex-wrap items-center justify-between gap-3">
+                <button type="button" class="dashboard-button-primary" @onclick="AddLine">
+                    <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+                    Ekle
+                </button>
+                <LumexSwitch @bind-Value="_form.PricesIncludeTax" Color="ThemeColor.Primary">@(_form.PricesIncludeTax ? "Fiyatlara KDV Dahil" : "Fiyatlara KDV Dahil Değil")</LumexSwitch>
+            </div>
+        </div>
+
+        <div class="mt-8 grid grid-cols-1 gap-6 xl:grid-cols-3">
+            <div class="space-y-5 xl:col-span-2">
+                <LumexSelect TValue="string" Value="@(string.IsNullOrEmpty(_form.Category) ? null : _form.Category)" ValueChanged="@(v => _form.Category = v ?? "")" Label="Kategori" Placeholder="Anahtar kelime ekleyin..." Variant="InputVariant.Outlined" LabelPlacement="LabelPlacement.Outside" FullWidth>
+                    <EndContent>
+                        <button type="button" class="grid h-6 w-6 flex-none place-items-center rounded-md text-slate-400 hover:bg-slate-100 hover:text-[var(--nexora-blue)]" title="Kategori yönetimi" @onclick:stopPropagation="true">
+                            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">@((MarkupString)MenuIcons.PencilSquare)</svg>
+                        </button>
+                    </EndContent>
+                    <ChildContent>
+                        @foreach (var category in Categories)
+                        {
+                            <LumexSelectItem TValue="string" Value="@category">@category</LumexSelectItem>
+                        }
+                    </ChildContent>
+                </LumexSelect>
+
+                <LumexTextarea @bind-Value="_form.Description" Label="Açıklama" Placeholder="Teklifle ilgili notunuz..." Variant="InputVariant.Outlined" LabelPlacement="LabelPlacement.Outside" MinRows="4" FullWidth />
+            </div>
+
+            <LumexCard Shadow="Shadow.None" Class="border border-[var(--nexora-border)]">
+                <LumexCardBody Class="space-y-3">
+                    <div class="flex items-center justify-between text-sm">
+                        <span class="text-slate-500">Ara Toplam</span>
+                        <span class="font-medium text-slate-800">@Money(AraToplam)</span>
+                    </div>
+
+                    <div class="flex items-center justify-between gap-2 text-sm">
+                        <span class="text-slate-500">İndirim</span>
+                        <div class="flex items-center gap-1.5">
+                            <LumexTextbox @bind-Value="_form.HeaderDiscountValue" Placeholder="0,00" Variant="InputVariant.Outlined" Class="w-24" />
+                            <LumexSelect TValue="string" @bind-Value="_form.HeaderDiscountType" Variant="InputVariant.Outlined" Class="w-24">
+                                @foreach (var type in DiscountTypes)
+                                {
+                                    <LumexSelectItem TValue="string" Value="@type">@type</LumexSelectItem>
+                                }
+                            </LumexSelect>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between text-sm">
+                        <span class="text-slate-500">Toplam İndirim</span>
+                        <span class="font-medium text-slate-800">@Money(ToplamIndirim)</span>
+                    </div>
+
+                    <div class="flex items-center justify-between border-t border-[var(--nexora-border)] pt-3 text-sm">
+                        <span class="text-slate-500">Toplam</span>
+                        <span class="font-medium text-slate-800">@Money(NetToplam)</span>
+                    </div>
+
+                    <div class="flex items-center justify-between text-sm">
+                        <span class="text-slate-500">Toplam KDV Tutarı</span>
+                        <span class="font-medium text-slate-800">@Money(ToplamKdv)</span>
+                    </div>
+
+                    <div class="flex items-center justify-between border-t border-[var(--nexora-border)] pt-3 text-base">
+                        <span class="font-semibold text-slate-900">Genel Toplam</span>
+                        <span class="font-bold text-[var(--nexora-blue)]">@Money(GenelToplam)</span>
+                    </div>
+                </LumexCardBody>
+            </LumexCard>
+        </div>
+    </LumexCardBody>
+
+    <LumexCardFooter Class="flex items-center justify-between gap-3 border-t border-[var(--nexora-border)]">
+        <span class="text-xs @(_saved ? "font-semibold text-emerald-600" : "text-transparent")">Kaydedildi, listeye yönlendiriliyorsunuz...</span>
+        <div class="flex items-center gap-2">
+            <LumexButton Variant="Variant.Flat" OnClick="Cancel">Vazgeç</LumexButton>
+            <LumexButton Color="ThemeColor.Primary" Disabled="@(!_form.IsValid || _saved)" OnClick="SaveQuoteAsync">
+                <StartContent>
+                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">@((MarkupString)MenuIcons.Check)</svg>
+                </StartContent>
+                <ChildContent>Kaydet</ChildContent>
+            </LumexButton>
+        </div>
+    </LumexCardFooter>
+</LumexCard>
+
+@code {
+    private static readonly string[] Currencies = ["TL", "USD", "EUR", "GBP"];
+    private static readonly string[] Units = ["Adet", "Kutu", "Koli", "Set", "Kg", "Lt", "M", "Paket"];
+    private static readonly string[] DiscountTypes = ["Oran", "Tutar"];
+    private static readonly string[] Categories = ["Genel", "Kurumsal Satış", "Perakende", "Proje", "İhracat"];
+    private static readonly CultureInfo TurkishCulture = CultureInfo.GetCultureInfo("tr-TR");
+
+    private sealed class QuoteLineItem
+    {
+        public string ProductSku { get; set; } = "";
+        public string ProductName { get; set; } = "";
+        public int? Quantity { get; set; } = 1;
+        public string Unit { get; set; } = Units[0];
+        public string UnitPrice { get; set; } = "";
+        public int? TaxRate { get; set; } = 20;
+        public string DiscountValue { get; set; } = "";
+        public string DiscountType { get; set; } = DiscountTypes[0];
+        public DateTime? DeliveryDate { get; set; }
+        public int? ShippedQuantity { get; set; }
+
+        public int PendingQuantity => Math.Max(0, (Quantity ?? 0) - (ShippedQuantity ?? 0));
+    }
+
+    private sealed class QuoteForm
+    {
+        public string CustomerCode { get; set; } = "";
+        public bool IsCorporate { get; set; } = true;
+        public string Address { get; set; } = "";
+        public string Country { get; set; } = "Türkiye";
+        public string City { get; set; } = "";
+        public string District { get; set; } = "";
+        public string TaxOffice { get; set; } = "";
+        public string TaxNumber { get; set; } = "";
+        public bool DifferentDeliveryAddress { get; set; }
+        public string DeliveryAddress { get; set; } = "";
+
+        public DateTime OrderDate { get; set; } = DateTime.Now;
+        public string Currency { get; set; } = Currencies[0];
+
+        public string SalesRep { get; set; } = "";
+        public string PaymentTerm { get; set; } = "";
+        public bool PricesIncludeTax { get; set; }
+
+        public string Category { get; set; } = "";
+        public string Description { get; set; } = "";
+
+        public string HeaderDiscountValue { get; set; } = "";
+        public string HeaderDiscountType { get; set; } = DiscountTypes[0];
+
+        public bool IsValid =>
+            !string.IsNullOrWhiteSpace(CustomerCode) &&
+            !string.IsNullOrWhiteSpace(Address) &&
+            !string.IsNullOrWhiteSpace(TaxNumber);
+    }
+
+    [Parameter]
+    public string? QuoteNo { get; set; }
+
+    private string _activeTabId = "general";
+    private QuoteForm _form = new();
+    private readonly List<QuoteLineItem> _lines = [];
+    private string _quoteNo = "";
+    private string _status = "Beklemede";
+    private bool _saved;
+    private bool _isEdit;
+
+    protected override void OnInitialized()
+    {
+        _isEdit = !string.IsNullOrWhiteSpace(QuoteNo);
+
+        if (_isEdit)
+        {
+            var quote = Store.FindByQuoteNo(QuoteNo!);
+            if (quote is null)
+            {
+                Navigation.NavigateTo("/sales/quotes");
+                return;
+            }
+
+            _quoteNo = quote.QuoteNo;
+            _status = quote.Status;
+            _form.CustomerCode = quote.CustomerCode;
+            _form.IsCorporate = quote.IsCorporate;
+            _form.Address = quote.Address;
+            _form.Country = string.IsNullOrWhiteSpace(quote.Country) ? "Türkiye" : quote.Country;
+            _form.City = quote.City;
+            _form.District = quote.District;
+            _form.TaxOffice = quote.TaxOffice;
+            _form.TaxNumber = quote.TaxNumber;
+            _form.DifferentDeliveryAddress = quote.DifferentDeliveryAddress;
+            _form.DeliveryAddress = quote.DeliveryAddress;
+            _form.Currency = string.IsNullOrWhiteSpace(quote.Currency) ? Currencies[0] : quote.Currency;
+            _form.SalesRep = quote.SalesRep;
+            _form.PaymentTerm = quote.PaymentTerm;
+            _form.Category = quote.Category;
+            _form.Description = quote.Description;
+            _form.PricesIncludeTax = quote.PricesIncludeTax;
+            _form.HeaderDiscountValue = quote.HeaderDiscountValue == 0 ? "" : quote.HeaderDiscountValue.ToString("0.##", TurkishCulture);
+            _form.HeaderDiscountType = string.IsNullOrWhiteSpace(quote.HeaderDiscountType) ? DiscountTypes[0] : quote.HeaderDiscountType;
+
+            if (quote.Lines is { Count: > 0 })
+            {
+                _lines.AddRange(quote.Lines.Select(l => new QuoteLineItem
+                {
+                    ProductSku = l.ProductSku,
+                    ProductName = l.ProductName,
+                    Quantity = (int)l.Quantity,
+                    Unit = l.Unit,
+                    UnitPrice = l.UnitPrice == 0 ? "" : l.UnitPrice.ToString("0.##", TurkishCulture),
+                    TaxRate = (int)l.TaxRate,
+                    DiscountValue = l.DiscountValue == 0 ? "" : l.DiscountValue.ToString("0.##", TurkishCulture),
+                    DiscountType = l.DiscountType,
+                    DeliveryDate = l.DeliveryDate,
+                    ShippedQuantity = (int)l.ShippedQuantity,
+                }));
+            }
+        }
+        else
+        {
+            _quoteNo = Store.PreviewNextQuoteNo();
+        }
+    }
+
+    private void OnCustomerSelected(string code)
+    {
+        _form.CustomerCode = code;
+        var account = CustomerStore.FindByCode(code);
+        if (account is null)
+        {
+            return;
+        }
+
+        _form.IsCorporate = !string.IsNullOrWhiteSpace(account.TaxNumber);
+        _form.TaxNumber = _form.IsCorporate ? account.TaxNumber : account.NationalId;
+        _form.TaxOffice = account.TaxOffice;
+        _form.City = account.City == "-" ? "" : account.City;
+    }
+
+    private void EditOrCreateCustomer()
+    {
+        Navigation.NavigateTo(string.IsNullOrWhiteSpace(_form.CustomerCode)
+            ? "/customer/new"
+            : $"/customer/edit/{Uri.EscapeDataString(_form.CustomerCode)}");
+    }
+
+    private void OnProductSelected(QuoteLineItem line, string sku)
+    {
+        line.ProductSku = sku;
+        var product = Catalog.FindBySku(sku);
+        if (product is null)
+        {
+            return;
+        }
+
+        line.ProductName = product.Name;
+        line.Unit = product.Unit;
+        if (!string.IsNullOrWhiteSpace(product.SalePriceIncludingVat))
+        {
+            line.UnitPrice = product.SalePriceIncludingVat;
+        }
+    }
+
+    private void AddLine() => _lines.Add(new QuoteLineItem());
+
+    private static decimal ParseDecimal(string? value) =>
+        decimal.TryParse(value, NumberStyles.Number, TurkishCulture, out var result) ? result : 0m;
+
+    private decimal LineGross(QuoteLineItem line) => (line.Quantity ?? 0) * ParseDecimal(line.UnitPrice);
+
+    private decimal LineNetBeforeDiscount(QuoteLineItem line)
+    {
+        var gross = LineGross(line);
+        var taxRate = line.TaxRate ?? 0;
+        return _form.PricesIncludeTax && taxRate > 0 ? gross / (1 + taxRate / 100m) : gross;
+    }
+
+    private decimal LineDiscountNet(QuoteLineItem line)
+    {
+        var net = LineNetBeforeDiscount(line);
+        var discountValue = ParseDecimal(line.DiscountValue);
+        return line.DiscountType == "Oran" ? net * discountValue / 100m : Math.Min(discountValue, net);
+    }
+
+    private decimal LineNet(QuoteLineItem line) => Math.Max(0, LineNetBeforeDiscount(line) - LineDiscountNet(line));
+
+    private decimal LineTax(QuoteLineItem line) => LineNet(line) * (line.TaxRate ?? 0) / 100m;
+
+    private decimal LineTotal(QuoteLineItem line) => LineNet(line) + LineTax(line);
+
+    private decimal AraToplam => _lines.Sum(LineNetBeforeDiscount);
+
+    private decimal LineDiscountTotal => _lines.Sum(LineDiscountNet);
+
+    private decimal HeaderDiscountAmount
+    {
+        get
+        {
+            var basis = Math.Max(0, AraToplam - LineDiscountTotal);
+            var discountValue = ParseDecimal(_form.HeaderDiscountValue);
+            return _form.HeaderDiscountType == "Oran" ? basis * discountValue / 100m : Math.Min(discountValue, basis);
+        }
+    }
+
+    private decimal ToplamIndirim => LineDiscountTotal + HeaderDiscountAmount;
+
+    private decimal NetToplam => Math.Max(0, AraToplam - ToplamIndirim);
+
+    private decimal ToplamKdv => _lines.Sum(LineTax);
+
+    private decimal GenelToplam => NetToplam + ToplamKdv;
+
+    private static string Money(decimal value) => $"{value.ToString("N2", TurkishCulture)} ₺";
+
+    private void Cancel() => Navigation.NavigateTo("/sales/quotes");
+
+    private async Task SaveQuoteAsync()
+    {
+        if (!_form.IsValid)
+        {
+            return;
+        }
+
+        var customerName = CustomerStore.FindByCode(_form.CustomerCode)?.Name ?? _form.CustomerCode;
+
+        var quote = new QuoteStore.Quote(
+            QuoteNo: _quoteNo,
+            Customer: customerName,
+            Date: _form.OrderDate.ToString("dd MMM yyyy", TurkishCulture),
+            ValidUntil: _form.OrderDate.AddDays(15).ToString("dd MMM yyyy", TurkishCulture),
+            AmountLabel: Money(GenelToplam),
+            Status: _status,
+            CustomerCode: _form.CustomerCode,
+            IsCorporate: _form.IsCorporate,
+            Address: _form.Address.Trim(),
+            Country: _form.Country.Trim(),
+            City: _form.City.Trim(),
+            District: _form.District.Trim(),
+            TaxOffice: _form.TaxOffice.Trim(),
+            TaxNumber: _form.TaxNumber.Trim(),
+            DifferentDeliveryAddress: _form.DifferentDeliveryAddress,
+            DeliveryAddress: _form.DeliveryAddress.Trim(),
+            Currency: _form.Currency,
+            SalesRep: _form.SalesRep.Trim(),
+            PaymentTerm: _form.PaymentTerm.Trim(),
+            Category: _form.Category,
+            Description: _form.Description.Trim(),
+            PricesIncludeTax: _form.PricesIncludeTax,
+            HeaderDiscountValue: ParseDecimal(_form.HeaderDiscountValue),
+            HeaderDiscountType: _form.HeaderDiscountType,
+            Lines: _lines.Select(l => new QuoteStore.QuoteLine(
+                l.ProductSku,
+                l.ProductName,
+                l.Quantity ?? 0,
+                l.Unit,
+                ParseDecimal(l.UnitPrice),
+                l.TaxRate ?? 0,
+                ParseDecimal(l.DiscountValue),
+                l.DiscountType,
+                l.DeliveryDate,
+                l.ShippedQuantity ?? 0)).ToList());
+
+        if (_isEdit)
+        {
+            Store.Update(_quoteNo, quote);
+        }
+        else
+        {
+            var saved = Store.Add(quote);
+            _quoteNo = saved.QuoteNo;
+        }
+
+        _saved = true;
+        StateHasChanged();
+        await Task.Delay(600);
+        Navigation.NavigateTo("/sales/quotes");
+    }
+}

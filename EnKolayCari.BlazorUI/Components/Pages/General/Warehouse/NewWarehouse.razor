@@ -1,0 +1,204 @@
+@page "/warehouse/new"
+@page "/warehouse/edit/{Code}"
+@inject WarehouseStore Store
+@inject NavigationManager Navigation
+
+<PageTitle>@(_isEdit ? "Depoyu Düzenle" : "Yeni Depo") - EnKolayCari</PageTitle>
+<PageHeading Title="@(_isEdit ? "Depoyu Düzenle" : "Yeni Depo")" Subtitle="@(_isEdit ? "Depo tanımını sekmeler halinde güncelleyin." : "Depo tanımını sekmeler halinde oluşturun.")" />
+
+<div class="mb-4">
+    <LumexLink Href="/warehouses" Color="ThemeColor.Default" Underline="Underline.Hover" Class="inline-flex items-center gap-1.5 text-xs font-semibold">
+        <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg>
+        Depo listesine dön
+    </LumexLink>
+</div>
+
+<LumexCard FullWidth Shadow="Shadow.Small">
+    <LumexCardBody>
+        <LumexTabs @bind-SelectedId="_activeTabId" Color="ThemeColor.Primary" Variant="TabVariant.Underlined" FullWidth>
+            <LumexTab Id="general" Title="Genel Bilgiler">
+                <div class="space-y-5 pt-4">
+                    <div class="grid grid-cols-1 gap-3 sm:grid-cols-3">
+                        <LumexTextbox @bind-Value="_form.Code" Label="Depo Kodu" Placeholder="DPO-06" FullWidth />
+                        <LumexTextbox @bind-Value="_form.Name" Label="Depo Adı" Placeholder="Depo adı" Required FullWidth Class="sm:col-span-2" />
+                    </div>
+
+                    <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                        <LumexSelect TValue="string" @bind-Value="_form.Type" Label="Depo Tipi" FullWidth>
+                            @foreach (var type in Types)
+                            {
+                                <LumexSelectItem TValue="string" Value="@type">@type</LumexSelectItem>
+                            }
+                        </LumexSelect>
+
+                        <LumexTextbox @bind-Value="_form.Responsible" Label="Sorumlu Kişi" Placeholder="Ad Soyad" FullWidth />
+                        <LumexTextbox @bind-Value="_form.Phone" Label="Telefon" Placeholder="05xx xxx xx xx" FullWidth />
+                        <LumexTextbox @bind-Value="_form.Email" Label="E-posta" Placeholder="depo@firma.com" FullWidth />
+                    </div>
+
+                    <div class="flex flex-wrap items-center gap-6">
+                        <LumexSwitch @bind-Value="_form.IsDefault" Color="ThemeColor.Primary">Varsayılan Depo</LumexSwitch>
+                        <LumexSwitch @bind-Value="_form.IsActive" Color="ThemeColor.Success">@(_form.IsActive ? "Aktif" : "Pasif")</LumexSwitch>
+                    </div>
+                </div>
+            </LumexTab>
+
+            <LumexTab Id="address" Title="Adres Bilgileri">
+                <div class="space-y-5 pt-4">
+                    <LumexTextarea @bind-Value="_form.Address" Label="Adres" Placeholder="Açık adres..." MinRows="3" FullWidth />
+
+                    <div class="grid grid-cols-1 gap-3 sm:grid-cols-3">
+                        <LumexTextbox @bind-Value="_form.City" Label="Şehir" Placeholder="İstanbul" Required FullWidth />
+                        <LumexTextbox @bind-Value="_form.District" Label="İlçe" Placeholder="Kadıköy" FullWidth />
+                        <LumexTextbox @bind-Value="_form.PostalCode" Label="Posta Kodu" Placeholder="34000" FullWidth />
+                    </div>
+                </div>
+            </LumexTab>
+
+            <LumexTab Id="capacity" Title="Kapasite & Notlar">
+                <div class="space-y-5 pt-4">
+                    <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                        <LumexTextbox @bind-Value="_form.Capacity" Label="Kapasite" Placeholder="Örn. 5.000 m² / 1.200 Palet" FullWidth />
+                        <LumexNumbox TValue="int?" @bind-Value="_form.OccupancyPercent" Label="Doluluk Oranı (%)" Placeholder="0" FullWidth />
+                    </div>
+
+                    <LumexTextarea @bind-Value="_form.Notes" Label="Notlar" Placeholder="Depoyla ilgili notunuz..." MinRows="3" FullWidth />
+                </div>
+            </LumexTab>
+        </LumexTabs>
+    </LumexCardBody>
+
+    <LumexCardFooter Class="flex items-center justify-between gap-3 border-t border-[var(--nexora-border)]">
+        <span class="text-xs @(_saved ? "font-semibold text-emerald-600" : "text-transparent")">Kaydedildi, listeye yönlendiriliyorsunuz...</span>
+        <div class="flex items-center gap-2">
+            <LumexButton Variant="Variant.Flat" OnClick="Cancel">Vazgeç</LumexButton>
+            <LumexButton Color="ThemeColor.Primary" Disabled="@(!_form.IsValid || _saved)" OnClick="SaveWarehouseAsync">
+                <StartContent>
+                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">@((MarkupString)MenuIcons.Check)</svg>
+                </StartContent>
+                <ChildContent>Kaydet</ChildContent>
+            </LumexButton>
+        </div>
+    </LumexCardFooter>
+</LumexCard>
+
+@code {
+    private static readonly string[] Types = ["Merkez Depo", "Şube Deposu", "Sanal Depo", "Konsinye Depo", "Fire Deposu", "Transit Depo"];
+
+    private sealed class WarehouseForm
+    {
+        public string Code { get; set; } = "";
+        public string Name { get; set; } = "";
+        public string Type { get; set; } = Types[0];
+        public string Responsible { get; set; } = "";
+        public string Phone { get; set; } = "";
+        public string Email { get; set; } = "";
+        public bool IsDefault { get; set; }
+        public bool IsActive { get; set; } = true;
+
+        public string Address { get; set; } = "";
+        public string City { get; set; } = "";
+        public string District { get; set; } = "";
+        public string PostalCode { get; set; } = "";
+
+        public string Capacity { get; set; } = "";
+        public int? OccupancyPercent { get; set; }
+        public string Notes { get; set; } = "";
+
+        public bool IsValid => !string.IsNullOrWhiteSpace(Name) && !string.IsNullOrWhiteSpace(City);
+    }
+
+    [Parameter]
+    public string? Code { get; set; }
+
+    private string _activeTabId = "general";
+    private WarehouseForm _form = new();
+    private bool _saved;
+    private bool _isEdit;
+
+    protected override void OnInitialized()
+    {
+        _isEdit = !string.IsNullOrWhiteSpace(Code);
+
+        if (!_isEdit)
+        {
+            return;
+        }
+
+        var warehouse = Store.FindByCode(Code!);
+        if (warehouse is null)
+        {
+            Navigation.NavigateTo("/warehouses");
+            return;
+        }
+
+        _form.Code = warehouse.Code;
+        _form.Name = warehouse.Name;
+        _form.Type = string.IsNullOrWhiteSpace(warehouse.Type) ? Types[0] : warehouse.Type;
+        _form.Responsible = warehouse.Responsible;
+        _form.Phone = warehouse.Phone;
+        _form.Email = warehouse.Email;
+        _form.IsDefault = warehouse.IsDefault;
+        _form.IsActive = warehouse.Status == "Aktif";
+
+        _form.Address = warehouse.Address;
+        _form.City = warehouse.City;
+        _form.District = warehouse.District;
+        _form.PostalCode = warehouse.PostalCode;
+
+        _form.Capacity = warehouse.Capacity;
+        _form.OccupancyPercent = ParseOccupancy(warehouse.OccupancyLabel);
+        _form.Notes = warehouse.Notes;
+    }
+
+    private static int? ParseOccupancy(string occupancyLabel)
+    {
+        var digits = new string(occupancyLabel.Where(char.IsDigit).ToArray());
+        return int.TryParse(digits, out var value) ? value : null;
+    }
+
+    private void Cancel() => Navigation.NavigateTo("/warehouses");
+
+    private async Task SaveWarehouseAsync()
+    {
+        if (!_form.IsValid)
+        {
+            _activeTabId = "general";
+            return;
+        }
+
+        var status = _form.IsActive ? "Aktif" : "Pasif";
+        var occupancyLabel = $"%{_form.OccupancyPercent ?? 0}";
+
+        var warehouse = new WarehouseStore.Warehouse(
+            Code: _form.Code.Trim(),
+            Name: _form.Name.Trim(),
+            City: _form.City.Trim(),
+            Responsible: _form.Responsible.Trim(),
+            OccupancyLabel: occupancyLabel,
+            Status: status,
+            Type: _form.Type,
+            District: _form.District.Trim(),
+            Address: _form.Address.Trim(),
+            PostalCode: _form.PostalCode.Trim(),
+            Phone: _form.Phone.Trim(),
+            Email: _form.Email.Trim(),
+            IsDefault: _form.IsDefault,
+            Capacity: _form.Capacity.Trim(),
+            Notes: _form.Notes.Trim());
+
+        if (_isEdit)
+        {
+            Store.Update(Code!, warehouse);
+        }
+        else
+        {
+            Store.Add(warehouse);
+        }
+
+        _saved = true;
+        StateHasChanged();
+        await Task.Delay(600);
+        Navigation.NavigateTo("/warehouses");
+    }
+}

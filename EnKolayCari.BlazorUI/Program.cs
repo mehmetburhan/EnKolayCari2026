@@ -15,6 +15,8 @@ builder.Services.AddScoped<SessionState>();
 builder.Services.AddScoped<CustomerSupplierStore>();
 builder.Services.AddScoped<ProductStore>();
 builder.Services.AddScoped<ServiceStore>();
+builder.Services.AddScoped<WarehouseStore>();
+builder.Services.AddScoped<QuoteStore>();
 builder.Services.AddSingleton<ExcelExportService>();
 
 var app = builder.Build();

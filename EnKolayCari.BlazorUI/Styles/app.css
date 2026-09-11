@@ -237,7 +237,7 @@
   Unlayered on purpose so these beat Tailwind's own utility layer regardless
   of specificity ties (see BlazorUI/README.md).
 */
-.app-shell.dark { background: #0a0f1c; }
+.app-shell.dark { background: #0a0f1c; color: #e2e8f0; }
 
 .dark .card,
 .dark .currency-card { background: #101828; border-color: #1e293b; box-shadow: 0 5px 18px rgba(0, 0, 0, .35); }
@@ -261,6 +261,7 @@
 .dark .kpi-icon--blue { background: rgba(37, 99, 235, .22); }
 
 .dark .text-slate-900 { color: #f1f5f9; }
+.dark .text-slate-800 { color: #eef2f7; }
 .dark .text-slate-700 { color: #e2e8f0; }
 .dark .text-slate-600 { color: #cbd5e1; }
 .dark .text-slate-500 { color: #94a3b8; }
